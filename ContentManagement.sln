@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdk.Tags", "03. Tags\Sdk.Ta
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sdk.Integrations", "04. Integrations\Sdk.Integrations\Sdk.Integrations.csproj", "{4F99D533-4B11-4A50-80B2-83989475D840}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "contentmanagement-frontend", "contentmanagement-frontend\contentmanagement-frontend.csproj", "{55B7FF17-4F82-42CB-AF7B-6819F0545079}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -272,6 +274,18 @@ Global
 		{4F99D533-4B11-4A50-80B2-83989475D840}.Release|x64.Build.0 = Release|Any CPU
 		{4F99D533-4B11-4A50-80B2-83989475D840}.Release|x86.ActiveCfg = Release|Any CPU
 		{4F99D533-4B11-4A50-80B2-83989475D840}.Release|x86.Build.0 = Release|Any CPU
+		{55B7FF17-4F82-42CB-AF7B-6819F0545079}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55B7FF17-4F82-42CB-AF7B-6819F0545079}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55B7FF17-4F82-42CB-AF7B-6819F0545079}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{55B7FF17-4F82-42CB-AF7B-6819F0545079}.Debug|x64.Build.0 = Debug|Any CPU
+		{55B7FF17-4F82-42CB-AF7B-6819F0545079}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{55B7FF17-4F82-42CB-AF7B-6819F0545079}.Debug|x86.Build.0 = Debug|Any CPU
+		{55B7FF17-4F82-42CB-AF7B-6819F0545079}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55B7FF17-4F82-42CB-AF7B-6819F0545079}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55B7FF17-4F82-42CB-AF7B-6819F0545079}.Release|x64.ActiveCfg = Release|Any CPU
+		{55B7FF17-4F82-42CB-AF7B-6819F0545079}.Release|x64.Build.0 = Release|Any CPU
+		{55B7FF17-4F82-42CB-AF7B-6819F0545079}.Release|x86.ActiveCfg = Release|Any CPU
+		{55B7FF17-4F82-42CB-AF7B-6819F0545079}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A394559B-B3F8-478C-81EB-2B1DC4CF0F2F} = {1DE13FB1-575A-4C73-A724-FE2ABDF6B413}

@@ -1,0 +1,11 @@
+C:\Users\jemar\source\repos\TFG\ContentManagement\04. Integration\Sdk.Integration\bin\Debug\net5.0\Sdk.Integration.deps.json
+C:\Users\jemar\source\repos\TFG\ContentManagement\04. Integration\Sdk.Integration\bin\Debug\net5.0\Sdk.Integration.dll
+C:\Users\jemar\source\repos\TFG\ContentManagement\04. Integration\Sdk.Integration\bin\Debug\net5.0\ref\Sdk.Integration.dll
+C:\Users\jemar\source\repos\TFG\ContentManagement\04. Integration\Sdk.Integration\bin\Debug\net5.0\Sdk.Integration.pdb
+C:\Users\jemar\source\repos\TFG\ContentManagement\04. Integration\Sdk.Integration\obj\Debug\net5.0\Sdk.Integration.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jemar\source\repos\TFG\ContentManagement\04. Integration\Sdk.Integration\obj\Debug\net5.0\Sdk.Integration.AssemblyInfoInputs.cache
+C:\Users\jemar\source\repos\TFG\ContentManagement\04. Integration\Sdk.Integration\obj\Debug\net5.0\Sdk.Integration.AssemblyInfo.cs
+C:\Users\jemar\source\repos\TFG\ContentManagement\04. Integration\Sdk.Integration\obj\Debug\net5.0\Sdk.Integration.csproj.CoreCompileInputs.cache
+C:\Users\jemar\source\repos\TFG\ContentManagement\04. Integration\Sdk.Integration\obj\Debug\net5.0\Sdk.Integration.dll
+C:\Users\jemar\source\repos\TFG\ContentManagement\04. Integration\Sdk.Integration\obj\Debug\net5.0\ref\Sdk.Integration.dll
+C:\Users\jemar\source\repos\TFG\ContentManagement\04. Integration\Sdk.Integration\obj\Debug\net5.0\Sdk.Integration.pdb

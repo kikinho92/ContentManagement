@@ -1,0 +1,11 @@
+C:\Users\jemar\source\repos\TFG\ContentManagement\03. Content\Api.Content\bin\Debug\net5.0\Api.Content.deps.json
+C:\Users\jemar\source\repos\TFG\ContentManagement\03. Content\Api.Content\bin\Debug\net5.0\Api.Content.dll
+C:\Users\jemar\source\repos\TFG\ContentManagement\03. Content\Api.Content\bin\Debug\net5.0\ref\Api.Content.dll
+C:\Users\jemar\source\repos\TFG\ContentManagement\03. Content\Api.Content\bin\Debug\net5.0\Api.Content.pdb
+C:\Users\jemar\source\repos\TFG\ContentManagement\03. Content\Api.Content\obj\Debug\net5.0\Api.Content.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jemar\source\repos\TFG\ContentManagement\03. Content\Api.Content\obj\Debug\net5.0\Api.Content.AssemblyInfoInputs.cache
+C:\Users\jemar\source\repos\TFG\ContentManagement\03. Content\Api.Content\obj\Debug\net5.0\Api.Content.AssemblyInfo.cs
+C:\Users\jemar\source\repos\TFG\ContentManagement\03. Content\Api.Content\obj\Debug\net5.0\Api.Content.csproj.CoreCompileInputs.cache
+C:\Users\jemar\source\repos\TFG\ContentManagement\03. Content\Api.Content\obj\Debug\net5.0\Api.Content.dll
+C:\Users\jemar\source\repos\TFG\ContentManagement\03. Content\Api.Content\obj\Debug\net5.0\ref\Api.Content.dll
+C:\Users\jemar\source\repos\TFG\ContentManagement\03. Content\Api.Content\obj\Debug\net5.0\Api.Content.pdb

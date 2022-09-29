@@ -4,4 +4,13 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Api.Content\Api.Content.csproj" />
+    <ProjectReference Include="..\..\01. Auth\Api.Auth\Api.Auth.csproj" />
+  </ItemGroup>
+
 </Project>

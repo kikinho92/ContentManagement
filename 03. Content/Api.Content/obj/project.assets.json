@@ -1,11 +1,30 @@
 {
   "version": 3,
   "targets": {
-    "net5.0": {}
+    "net5.0": {
+      "Api.User/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "compile": {
+          "bin/placeholder/Api.User.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Api.User.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Api.User/1.0.0": {
+      "type": "project",
+      "path": "../../02. User/Api.User/Api.User.csproj",
+      "msbuildProject": "../../02. User/Api.User/Api.User.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net5.0": []
+    "net5.0": [
+      "Api.User >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\jemar\\.nuget\\packages\\": {}
@@ -13,11 +32,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\03. Content\\Api.Content\\Api.Content.csproj",
+      "projectUniqueName": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\03. Content\\Api.Content\\Api.Content.csproj",
       "projectName": "Api.Content",
-      "projectPath": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\03. Content\\Api.Content\\Api.Content.csproj",
+      "projectPath": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\03. Content\\Api.Content\\Api.Content.csproj",
       "packagesPath": "C:\\Users\\jemar\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\03. Content\\Api.Content\\obj\\",
+      "outputPath": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\03. Content\\Api.Content\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\jemar\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -33,7 +52,11 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Api.User\\Api.User.csproj": {
+              "projectPath": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Api.User\\Api.User.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

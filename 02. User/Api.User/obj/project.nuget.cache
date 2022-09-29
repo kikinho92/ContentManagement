@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "WzSGkd1r9mpfYkAx0D5UFVJdyswjftVJCqIpeD93Y5+gi/TuGMIYid64Oe79Gknfu/RzlrV2IjQF3rY7pJVElQ==",
+  "dgSpecHash": "R5+ZZ6V+6x0OHilWTHqEaVN66OJIPcvGIGMor3RazN/vokpAUjDCgsFrG789HsdxrJnt4VOiKTxSSZS3wE/P8A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Api.User\\Api.User.csproj",
+  "projectFilePath": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Api.User\\Api.User.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

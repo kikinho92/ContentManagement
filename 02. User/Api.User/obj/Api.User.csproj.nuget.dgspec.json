@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Api.User\\Api.User.csproj": {}
+    "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Api.User\\Api.User.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Api.User\\Api.User.csproj": {
+    "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Api.User\\Api.User.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Api.User\\Api.User.csproj",
+        "projectUniqueName": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Api.User\\Api.User.csproj",
         "projectName": "Api.User",
-        "projectPath": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Api.User\\Api.User.csproj",
+        "projectPath": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Api.User\\Api.User.csproj",
         "packagesPath": "C:\\Users\\jemar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Api.User\\obj\\",
+        "outputPath": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Api.User\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\jemar\\AppData\\Roaming\\NuGet\\NuGet.Config",

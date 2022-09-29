@@ -7,4 +7,4 @@ build_property.PublishSingleFile =
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
 build_property.RootNamespace = Test.Service.User
-build_property.ProjectDir = C:\Users\jemar\source\repos\TFG\ContentManagement\02. User\Test.Service.User\
+build_property.ProjectDir = c:\Users\jemar\source\repos\TFG\ContentManagement\02. User\Test.Service.User\

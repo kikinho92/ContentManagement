@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\01. Auth\\Api.Auth\\Api.Auth.csproj": {}
+    "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\01. Auth\\Api.Auth\\Api.Auth.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\01. Auth\\Api.Auth\\Api.Auth.csproj": {
+    "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\01. Auth\\Api.Auth\\Api.Auth.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\01. Auth\\Api.Auth\\Api.Auth.csproj",
+        "projectUniqueName": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\01. Auth\\Api.Auth\\Api.Auth.csproj",
         "projectName": "Api.Auth",
-        "projectPath": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\01. Auth\\Api.Auth\\Api.Auth.csproj",
+        "projectPath": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\01. Auth\\Api.Auth\\Api.Auth.csproj",
         "packagesPath": "C:\\Users\\jemar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\01. Auth\\Api.Auth\\obj\\",
+        "outputPath": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\01. Auth\\Api.Auth\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\jemar\\AppData\\Roaming\\NuGet\\NuGet.Config",

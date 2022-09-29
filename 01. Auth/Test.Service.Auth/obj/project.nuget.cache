@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "joMPTkTlE8+6rciLmsUvdFx0tPhq0OSWUzmSvwldZCeTLNBO72Q6Zkp4CfOKsDXr/n13dvjuz6TiSBNDisDZnA==",
+  "dgSpecHash": "3UrTXQPdSNyql75ozHtbhJSXkhI2mkW8PMit7WqsfJ0t668ADNvmvbK121+lY8Kvrp1KOa85Bjk6+4+lf9o/WA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\01. Auth\\Test.Service.Auth\\Test.Service.Auth.csproj",
+  "projectFilePath": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\01. Auth\\Test.Service.Auth\\Test.Service.Auth.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jemar\\.nuget\\packages\\coverlet.collector\\3.0.2\\coverlet.collector.3.0.2.nupkg.sha512",
     "C:\\Users\\jemar\\.nuget\\packages\\microsoft.codecoverage\\16.9.4\\microsoft.codecoverage.16.9.4.nupkg.sha512",

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\04. Integration\\Test.Service.Integration\\Test.Service.Integration.csproj": {}
+    "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\04. Integration\\Test.Service.Integration\\Test.Service.Integration.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\04. Integration\\Test.Service.Integration\\Test.Service.Integration.csproj": {
+    "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\04. Integration\\Test.Service.Integration\\Test.Service.Integration.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\04. Integration\\Test.Service.Integration\\Test.Service.Integration.csproj",
+        "projectUniqueName": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\04. Integration\\Test.Service.Integration\\Test.Service.Integration.csproj",
         "projectName": "Test.Service.Integration",
-        "projectPath": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\04. Integration\\Test.Service.Integration\\Test.Service.Integration.csproj",
+        "projectPath": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\04. Integration\\Test.Service.Integration\\Test.Service.Integration.csproj",
         "packagesPath": "C:\\Users\\jemar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\04. Integration\\Test.Service.Integration\\obj\\",
+        "outputPath": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\04. Integration\\Test.Service.Integration\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\jemar\\AppData\\Roaming\\NuGet\\NuGet.Config",

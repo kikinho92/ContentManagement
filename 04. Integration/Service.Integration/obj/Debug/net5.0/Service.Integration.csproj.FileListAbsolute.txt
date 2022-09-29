@@ -21,7 +21,6 @@ C:\Users\jemar\source\repos\TFG\ContentManagement\04. Integration\Service.Integr
 C:\Users\jemar\source\repos\TFG\ContentManagement\04. Integration\Service.Integration\obj\Debug\net5.0\staticwebassets\Service.Integration.StaticWebAssets.xml
 C:\Users\jemar\source\repos\TFG\ContentManagement\04. Integration\Service.Integration\obj\Debug\net5.0\scopedcss\bundle\Service.Integration.styles.css
 C:\Users\jemar\source\repos\TFG\ContentManagement\04. Integration\Service.Integration\obj\Debug\net5.0\Service.Integration.RazorTargetAssemblyInfo.cache
-C:\Users\jemar\source\repos\TFG\ContentManagement\04. Integration\Service.Integration\obj\Debug\net5.0\Service.Integration.csproj.CopyComplete
 C:\Users\jemar\source\repos\TFG\ContentManagement\04. Integration\Service.Integration\obj\Debug\net5.0\Service.Integration.dll
 C:\Users\jemar\source\repos\TFG\ContentManagement\04. Integration\Service.Integration\obj\Debug\net5.0\ref\Service.Integration.dll
 C:\Users\jemar\source\repos\TFG\ContentManagement\04. Integration\Service.Integration\obj\Debug\net5.0\Service.Integration.pdb

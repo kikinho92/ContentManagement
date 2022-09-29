@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Test.Service.User\\Test.Service.User.csproj": {}
+    "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Test.Service.User\\Test.Service.User.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Test.Service.User\\Test.Service.User.csproj": {
+    "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Test.Service.User\\Test.Service.User.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Test.Service.User\\Test.Service.User.csproj",
+        "projectUniqueName": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Test.Service.User\\Test.Service.User.csproj",
         "projectName": "Test.Service.User",
-        "projectPath": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Test.Service.User\\Test.Service.User.csproj",
+        "projectPath": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Test.Service.User\\Test.Service.User.csproj",
         "packagesPath": "C:\\Users\\jemar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Test.Service.User\\obj\\",
+        "outputPath": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\02. User\\Test.Service.User\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\jemar\\AppData\\Roaming\\NuGet\\NuGet.Config",

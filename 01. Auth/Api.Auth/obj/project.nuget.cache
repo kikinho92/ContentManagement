@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "g+02n1gjoeWYJjD1DNgQnDCprfjLFO7wFqrkS3AREP+YjiiLjqieEMrW2zb3OesC2FRJbmakxB+iyl/oIsvaEg==",
+  "dgSpecHash": "DqeO+0BDGzjYzfzQCe3tVFDULyyuKoMnlcbskTxBNkzE35Nu2CIDwnYYOBXArjtHDivRsKveCKMrI/qYTmEaYg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\01. Auth\\Api.Auth\\Api.Auth.csproj",
+  "projectFilePath": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\01. Auth\\Api.Auth\\Api.Auth.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

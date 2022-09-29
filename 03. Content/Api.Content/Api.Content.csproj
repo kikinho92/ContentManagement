@@ -4,4 +4,8 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\02. User\Api.User\Api.User.csproj" />
+  </ItemGroup>
+
 </Project>

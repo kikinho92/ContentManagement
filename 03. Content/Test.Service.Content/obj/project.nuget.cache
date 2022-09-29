@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DQkNzNvIShnOpm6MN9VUdAhARCv2J1iF4eNfQha2rf7HnEMl3hj4YWVDRL5mLqWkdZ6TEJS6mybB/I0pKRenvg==",
+  "dgSpecHash": "LT3pR91tFPNG0oo5Dwtjiak5vYf9VWy7coJKJyGqfoGeyX3856X4Tdue3wD/LSzwAGt2o0k/owY5Km7fVlBiTg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\03. Content\\Test.Service.Content\\Test.Service.Content.csproj",
+  "projectFilePath": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\03. Content\\Test.Service.Content\\Test.Service.Content.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jemar\\.nuget\\packages\\coverlet.collector\\3.0.2\\coverlet.collector.3.0.2.nupkg.sha512",
     "C:\\Users\\jemar\\.nuget\\packages\\microsoft.codecoverage\\16.9.4\\microsoft.codecoverage.16.9.4.nupkg.sha512",

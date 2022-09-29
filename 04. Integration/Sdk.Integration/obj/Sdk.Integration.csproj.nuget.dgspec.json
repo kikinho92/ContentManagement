@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\04. Integration\\Sdk.Integration\\Sdk.Integration.csproj": {}
+    "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\04. Integration\\Sdk.Integration\\Sdk.Integration.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\04. Integration\\Sdk.Integration\\Sdk.Integration.csproj": {
+    "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\04. Integration\\Sdk.Integration\\Sdk.Integration.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\04. Integration\\Sdk.Integration\\Sdk.Integration.csproj",
+        "projectUniqueName": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\04. Integration\\Sdk.Integration\\Sdk.Integration.csproj",
         "projectName": "Sdk.Integration",
-        "projectPath": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\04. Integration\\Sdk.Integration\\Sdk.Integration.csproj",
+        "projectPath": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\04. Integration\\Sdk.Integration\\Sdk.Integration.csproj",
         "packagesPath": "C:\\Users\\jemar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\04. Integration\\Sdk.Integration\\obj\\",
+        "outputPath": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\04. Integration\\Sdk.Integration\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\jemar\\AppData\\Roaming\\NuGet\\NuGet.Config",

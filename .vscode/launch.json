@@ -30,6 +30,26 @@
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach"
-        }
+        },
+        {
+            "name": "Service-Auth",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-service-auth",
+            "program": "${workspaceFolder}/01. Auth/Service.Auth/bin/Debug/net5.0/Service.Auth.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/01. Auth/Service.Auth",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
     ]
 }

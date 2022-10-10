@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
+using static Api.Auth.IAuthApi;
 
 namespace Service.Auth
 {
@@ -39,6 +43,79 @@ namespace Service.Auth
             SecurityToken token = jwtTokenHandler.CreateToken(tokenDescriptor);
             string jwtToken = jwtTokenHandler.WriteToken(token);
             return jwtToken;
+        }
+
+        public static SessionInfo ValidateAndExtractJwtTokenInfo(HttpContext httpContext)
+        {
+            httpContext.Request.Headers.TryGetValue("Authorization", out StringValues token);
+
+            // Decrypt the token.
+            ClaimsPrincipal principal = ValidateAndExtractJwtTokenPrinciapal(token);
+
+            // Check of invalid or missing token.
+            if (principal == null) return null;
+
+            // Provide claims as session information
+            string userId = principal.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value;
+            string userEmail = principal.Claims.FirstOrDefault(claim => claim.Type == "Custom.Email")?.Value;
+            string userRole = principal.Claims.FirstOrDefault(claim => claim.Type == "Custom.Role")?.Value;
+
+            return new SessionInfo(userId, userEmail, userRole);
+        }
+
+        /// <summary>
+        /// Decrypts a session JWT token and provides the refresh token inside
+        /// </summary>
+        public static string ValidateAndExtractJwtTokenRefreshToken(HttpContext httpContext)
+        {
+            httpContext.Request.Headers.TryGetValue("Authorization", out StringValues token);
+
+            // Decrypt the token.
+            ClaimsPrincipal principal = ValidateAndExtractJwtTokenPrinciapal(token);
+
+            // Check of invalid or missing token.
+            if (principal == null) return null;
+            
+            // Take the refresh token from the claim
+            string refreshToken = principal.Claims.FirstOrDefault(claim => claim.Type == JwtRegisteredClaimNames.Jti)?.Value;
+            return refreshToken;
+        }
+
+        /// <summary>
+        /// Decrypts a session JWT token and provides the claims information it contains
+        /// </summary>
+        private static ClaimsPrincipal ValidateAndExtractJwtTokenPrinciapal(string jwtToken)
+        {
+            try
+            {
+                if (jwtToken == null) return null;
+                if (jwtToken.StartsWith("Bearer ")) jwtToken = jwtToken.Substring(7);
+
+                string secretKey = SecretKeyProvider();
+                SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(secretKey));
+
+                // Arrange validation options.
+                JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+                TokenValidationParameters validationParameters = new TokenValidationParameters()
+                {
+                    ValidateLifetime = true,
+                    ValidateAudience = false,
+                    ValidateIssuer = false,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = securityKey,
+                    ClockSkew = TimeSpan.FromMinutes(5),
+                };
+
+                //Validate token
+                ClaimsPrincipal principal = tokenHandler.ValidateToken(jwtToken, validationParameters, out SecurityToken securityToken);
+                return principal;
+            }
+            catch (Exception e)
+            {
+                // Invalid token
+                Console.WriteLine(e.Message);
+                return null;
+            }
         }
 
         /// <summary>

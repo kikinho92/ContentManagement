@@ -9,7 +9,7 @@ namespace Service.Auth.Data
             : base(options)
         {
         }
-
-        public DbSet<Users> Users { get; set; }
+        
+        public DbSet<UserSession> UserSession { get; set; }
     }
 }

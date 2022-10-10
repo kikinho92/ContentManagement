@@ -36,6 +36,21 @@
                 "${workspaceFolder}/01. Auth/Service.Auth/Service.Auth.csproj"
             ],
             "problemMatcher": "$msCompile"
-        }
+        },
+
+        ///////////////////////////////////////////////////////////////////////
+
+        {
+            "label": "build-service-auth",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/01. Auth/Service.Auth/Service.Auth.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
     ]
 }

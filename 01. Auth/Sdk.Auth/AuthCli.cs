@@ -36,14 +36,14 @@ namespace Sdk.Auth
             _client = testClient;
         }
 
-        public async Task<string> SignInAsync(SignInCredentials credentials)
+        public async Task<string> SignUpAsync(SignUpCredentials credentials)
         {
             // Send request.
             ArrangeAuthenticatedRequest();
-            StringContent data = new StringContent(JsonSerializer.Serialize<SignInCredentials>(credentials), Encoding.UTF8, "application/json");
+            StringContent data = new StringContent(JsonSerializer.Serialize<SignUpCredentials>(credentials), Encoding.UTF8, "application/json");
             HttpResponseMessage response = await _client.PostAsync($"{_base}/" +
                     $"{IAuthApi.SERVICE_ROUTE}/" +
-                    $"{SIGNIN_PATH}/", data);
+                    $"{SIGNUP_PATH}/", data);
 
             // Provide success.
             if (response.IsSuccessStatusCode)
@@ -71,7 +71,7 @@ namespace Sdk.Auth
                 Session newSession = await response.Content.ReadAsAsync<Session>();
 
                 // Keep session information in this object to use in following authenticated calls.
-                _currentSession = new Session(newSession.jwtToken);
+                _currentSession = new Session(newSession.jwtToken, newSession.refreshToken);
                 return newSession;
             }
             // Error.
@@ -132,7 +132,7 @@ namespace Sdk.Auth
                 Session refreshedSession = await response.Content.ReadAsAsync<Session>();
 
                 // Keep session information in this object to use in following authenticated calls.
-                _currentSession = new Session(refreshedSession.jwtToken);
+                _currentSession = new Session(refreshedSession.jwtToken, refreshedSession.refreshToken);
                 return refreshedSession;
             }
             // Error.

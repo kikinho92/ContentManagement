@@ -171,7 +171,6 @@ namespace Sdk.Content
             throw new Exception(await response.Content.ReadAsStringAsync());
         }
 
-
         /// <summary>
         /// Overrides the session token as provided by the auth client by using the passed one.
         /// This is used by calls from service to service transferring the session from call to call.

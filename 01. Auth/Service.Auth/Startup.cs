@@ -18,6 +18,9 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.HttpOverrides;
+using Api.User;
+using Sdk.User;
+using Library.Common;
 
 namespace Service.Auth
 {
@@ -33,14 +36,20 @@ namespace Service.Auth
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            string connectionString = Configuration.GetConnectionString("ContentManagementDatabase");
+            //Database connection inizialization.
+            string connectionString = Configuration.GetConnectionString("AuthDatabase");
             services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(connectionString));
+
             // Database auto-migration
             DbContextOptionsBuilder<AuthDbContext> optionsBuilder = new DbContextOptionsBuilder<AuthDbContext>();
             optionsBuilder.UseSqlServer(connectionString);
             AuthDbContext dbContext = new AuthDbContext(optionsBuilder.Options);
             dbContext.Database.Migrate();
+
+            //User client library. To make external call authenticated with internal-inter-service token
+            UserCli user = new UserCli(CommonConstants.SERVICE_LOCAL_URL_USER, null);
+            user.UseSession(JwtHelper.GenerateJwtToken(Program.SERVICE_TAG, Program.SERVICE_TAG, Program.SERVICE_TAG));
+            services.AddSingleton<IUserApi>(user);
 
             services.AddIdentity<IdentityUser, IdentityRole>(options => {
                 //Password settings

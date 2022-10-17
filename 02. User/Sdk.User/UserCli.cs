@@ -81,6 +81,114 @@ namespace Sdk.User
             throw new Exception(await response.Content.ReadAsStringAsync());
         }
 
+        public async Task<GroupInfo> GetGroup(string groupId)
+        {
+            // Send request.
+            ArrangeAuthenticatedRequest();
+            HttpResponseMessage response = await _client.GetAsync($"{_base}/" +
+                    $"{IUserApi.SERVICE_ROUTE}/" +
+                    $"{GROUP_PATH}/" +
+                    $"{GROUP_ID_PATH}");
+
+            // Provide success.
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == HttpStatusCode.NoContent) return null;
+                return await response.Content.ReadAsAsync<GroupInfo>();
+            }
+            // Error.
+            throw new Exception(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task<GroupInfo> GetGroupByName(string groupId)
+        {
+            // Send request.
+            ArrangeAuthenticatedRequest();
+            HttpResponseMessage response = await _client.GetAsync($"{_base}/" +
+                    $"{IUserApi.SERVICE_ROUTE}/" +
+                    $"{GROUP_PATH}/" +
+                    $"{GROUP_NAME}");
+
+            // Provide success.
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == HttpStatusCode.NoContent) return null;
+                return await response.Content.ReadAsAsync<GroupInfo>();
+            }
+            // Error.
+            throw new Exception(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task<GroupInfo> PostGroup(GroupInfo group)
+        {
+           // Send request.
+            ArrangeAuthenticatedRequest();
+            StringContent data = new StringContent(JsonSerializer.Serialize<GroupInfo>(group), Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _client.PostAsync($"{_base}/" +
+                    $"{IUserApi.SERVICE_ROUTE}/" +
+                    $"{GROUP_PATH}", data);
+
+            // Provide success.
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == HttpStatusCode.NoContent) return null;
+                return await response.Content.ReadAsAsync<GroupInfo>();
+            }
+            // Error.
+            throw new Exception(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task AddToGroup(string userId, GroupInfo group)
+        {
+           // Send request.
+            ArrangeAuthenticatedRequest();
+            StringContent data = new StringContent(JsonSerializer.Serialize<GroupInfo>(group), Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _client.PutAsync($"{_base}/" +
+                    $"{IUserApi.SERVICE_ROUTE}/" +
+                    $"{GROUP_ADD}/" +
+                    $"{USER_ID_PATH}", data);
+
+            // Provide success.
+            if (response.IsSuccessStatusCode){ return; }
+            // Error.
+            throw new Exception(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task<RoleInfo> PostRole(RoleInfo role)
+        {
+           // Send request.
+            ArrangeAuthenticatedRequest();
+            StringContent data = new StringContent(JsonSerializer.Serialize<RoleInfo>(role), Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _client.PostAsync($"{_base}/" +
+                    $"{IUserApi.SERVICE_ROUTE}/" +
+                    $"{ROLE_PATH}", data);
+
+            // Provide success.
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == HttpStatusCode.NoContent) return null;
+                return await response.Content.ReadAsAsync<RoleInfo>();
+            }
+            // Error.
+            throw new Exception(await response.Content.ReadAsStringAsync());
+        }
+
+         public async Task AddToRole(string userId, RoleInfo role)
+        {
+           // Send request.
+            ArrangeAuthenticatedRequest();
+            StringContent data = new StringContent(JsonSerializer.Serialize<RoleInfo>(role), Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _client.PutAsync($"{_base}/" +
+                    $"{IUserApi.SERVICE_ROUTE}/" +
+                    $"{ROLE_ADD}/" +
+                    $"{USER_ID_PATH}", data);
+
+            // Provide success.
+            if (response.IsSuccessStatusCode){ return; }
+            // Error.
+            throw new Exception(await response.Content.ReadAsStringAsync());
+        }
+
         public async Task<UserInfo> PostUser(UserInfo user)
         {
            // Send request.

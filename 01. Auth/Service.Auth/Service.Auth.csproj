@@ -23,7 +23,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Library.Common\Library.Common.csproj" />
     <ProjectReference Include="..\Api.Auth\Api.Auth.csproj" />
+    <ProjectReference Include="..\..\02. User\Api.User\Api.User.csproj" />
+    <ProjectReference Include="..\..\02. User\Sdk.User\Sdk.User.csproj" />
+    <ProjectReference Include="..\..\02. User\Service.User\Service.User.csproj" />
   </ItemGroup>
 
 </Project>

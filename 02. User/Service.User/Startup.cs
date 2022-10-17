@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Service.User.Data;
 
 namespace Service.User
 {
@@ -31,6 +33,22 @@ namespace Service.User
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Service.User", Version = "v1" });
+            });
+
+            //Database connection inizialization.
+            string connectionString = Configuration.GetConnectionString("UserDatabase");
+            services.AddDbContext<UserDbContext>(options => options.UseSqlServer(connectionString));
+            
+            // Database auto-migration
+            DbContextOptionsBuilder<UserDbContext> optionsBuilder = new DbContextOptionsBuilder<UserDbContext>();
+            optionsBuilder.UseSqlServer(connectionString);
+            UserDbContext dbContext = new UserDbContext(optionsBuilder.Options);
+            dbContext.Database.Migrate();
+
+            //Allow requests from any base URL for debuf purposes.
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder => { builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod(); });
             });
         }
 

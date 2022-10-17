@@ -32,6 +32,12 @@ namespace Service.Integration
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Service.Integration", Version = "v1" });
             });
+
+            //Allow requests from any base URL for debuf purposes.
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder => { builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod(); });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

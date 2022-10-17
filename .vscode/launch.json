@@ -51,5 +51,45 @@
                 "/Views": "${workspaceFolder}/Views"
             }
         },
+        {
+            "name": "Service-User",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-service-user",
+            "program": "${workspaceFolder}/02. User/Service.User/bin/Debug/net5.0/Service.User.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/02. User/Service.User",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": "Service-Content",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-service-content",
+            "program": "${workspaceFolder}/03. Content/Service.Content/bin/Debug/net5.0/Service.Content.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/03. Content/Service.Content",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
     ]
 }

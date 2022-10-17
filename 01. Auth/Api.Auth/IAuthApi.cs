@@ -29,7 +29,8 @@ namespace Api.Auth
         /// <param name="password">Initial password to log in this user</param>
         /// <param name="passwordConfirmed">Password to confirm that it meets the requirements</param>
         /// <param name="role">Role assigment by admin. This determinate what the user can see</param>
-        public record SignUpCredentials(string userEmail, string password, string passwordConfirmed, string role);
+        /// <param name="group">Group which user belong. Usually this represent an university</param>
+        public record SignUpCredentials(string userEmail, string password, string passwordConfirmed, string role, string group);
 
         /// <summary>
         /// Information about the user the current session is open for

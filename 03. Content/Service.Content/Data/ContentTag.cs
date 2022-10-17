@@ -4,20 +4,20 @@ using System.ComponentModel.DataAnnotations;
 namespace Service.Content.Data
 {
     /// <summary>
-    /// Data entity: information about Tags.
+    /// Data entity: information about relation between tags and contents.
     /// </summary>
-    public class Tags
+    public class ContentTag
     {
     /// <summary>
-        /// Internal identifier of the tag.
+        /// Internal identifier of content.
         /// </summary>
         [StringLength(100), Key]
-        public string Id { get; set; }
+        public string IdContent { get; set; }
 
         /// <summary>
         /// Visible name of the tag.
         /// </summary>
         [StringLength(100), Required]
-        public string Name { get; set; }
+        public string IdTag { get; set; }
     }
 }

@@ -5,8 +5,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.5">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Library.Common\Library.Common.csproj" />
+    <ProjectReference Include="..\Api.Content\Api.Content.csproj" />
+    <ProjectReference Include="..\..\01. Auth\Api.Auth\Api.Auth.csproj" />
+    <ProjectReference Include="..\..\01. Auth\Sdk.Auth\Sdk.Auth.csproj" />
+    <ProjectReference Include="..\..\01. Auth\Service.Auth\Service.Auth.csproj" />
+    <ProjectReference Include="..\..\02. User\Api.User\Api.User.csproj" />
+    <ProjectReference Include="..\..\02. User\Sdk.User\Sdk.User.csproj" />
+    <ProjectReference Include="..\..\02. User\Service.User\Service.User.csproj" />
   </ItemGroup>
 
 </Project>

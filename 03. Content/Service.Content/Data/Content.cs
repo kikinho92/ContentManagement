@@ -6,7 +6,7 @@ namespace Service.Content.Data
     /// <summary>
     /// Data entity: information about the user.
     /// </summary>
-    public class Contents
+    public class Content
     {
         /// <summary>
         /// Internal identifier of the content.

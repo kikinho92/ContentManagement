@@ -11,6 +11,11 @@ namespace Service.Integration
 {
     public class Program
     {
+        /// <summary>
+        /// Used as group identifier for logging and configuration
+        /// </summary>
+        public static readonly string SERVICE_TAG = "Integration";
+
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();

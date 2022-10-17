@@ -6,16 +6,16 @@ namespace Service.User.Data
     /// <summary>
     /// Data entity: information about roles.
     /// </summary>
-    public class Roles
+    public class Group
     {
     /// <summary>
-        /// Internal identifier of the role.
+        /// Internal identifier of the group.
         /// </summary>
         [StringLength(100), Key]
         public string Id { get; set; }
 
         /// <summary>
-        /// Visible name of the role.
+        /// Visible name of the group.
         /// </summary>
         [StringLength(100), Required]
         public string Name { get; set; }

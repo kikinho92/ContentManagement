@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Api.Auth;
+using Api.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -13,7 +14,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Service.Auth.Data;
+using Service.User.Data;
 using static Api.Auth.IAuthApi;
+using static Api.User.IUserApi;
 
 namespace Service.Auth.Controllers
 {
@@ -25,7 +28,7 @@ namespace Service.Auth.Controllers
     /// </summary>
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Route(SERVICE_ROUTE)]
+    [Route(IAuthApi.SERVICE_ROUTE)]
     public class AuthController : ControllerBase
     {
 
@@ -36,18 +39,21 @@ namespace Service.Auth.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly AuthDbContext _dbContext;
+        private readonly IUserApi _user;
         private readonly ILogger<AuthController> _logger;
 
         public AuthController(UserManager<IdentityUser> userManager,
                                 SignInManager<IdentityUser> signInManager,
                                 RoleManager<IdentityRole> roleManager,
                                 AuthDbContext dbContext,
+                                IUserApi user,
                                 ILogger<AuthController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _dbContext = dbContext;
+            _user = user;
             _logger = logger;
         }
 
@@ -91,6 +97,14 @@ namespace Service.Auth.Controllers
 
             IdentityUser user = (await _userManager.FindByEmailAsync(credentials.userEmail));
             result = await _userManager.AddToRoleAsync(user, credentials.role);
+
+            GroupInfo group = await _user.GetGroupByName(credentials.group);
+            if (group == null)
+            {
+                group = new GroupInfo(Guid.NewGuid().ToString(), credentials.group);
+                await _user.PostGroup(group);
+            }
+            await _user.AddToGroup(user.Id, group);
 
             if(!result.Succeeded) return BadRequest("Invalid role: role could not be assigned to user");
 

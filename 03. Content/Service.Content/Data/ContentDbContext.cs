@@ -12,13 +12,13 @@ namespace Service.Content.Data
 		
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ContentTags>()
+            modelBuilder.Entity<ContentTag>()
                 .HasKey(c => new { c.IdContent, c.IdTag });
         }
 
 
-        public DbSet<Contents> Contents { get; set; }
-        public DbSet<Tags> Tags { get; set; }
-        public DbSet<ContentTags> ContentTags { get; set; }
+        public DbSet<Content> Content { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<ContentTag> ContentTag { get; set; }
     }
 }

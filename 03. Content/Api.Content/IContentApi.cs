@@ -9,8 +9,8 @@ namespace Api.Content
     {
         const string SERVICE_ROUTE = "content";
 
-        public record ContentInfo(string id, string title, string link, UserInfo user, DateTime uploadDate );
-        public record TagInfo(string id, string name);
+        public record ContentInfo(string id, string title, string link, string userid, DateTime uploadDate );
+        public record TagInfo(string id, string name, string userid, DateTime uploadDate);
         /// <summary>
         /// Provides detailed information about all the content. In case of tagId and group is not null, it will be provide the content that belong to the tag and group.
         /// </summary>
@@ -40,6 +40,7 @@ namespace Api.Content
         /// <param name="content">Content entity that contains the new information</param>
         /// <param name="contentId">Unique internal identifier of the content which is going to be replaced</param>
         Task<ContentInfo> PutContent(ContentInfo content, string contentId);
+
         /// <summary>
         /// Removes from the system the information about content.
         /// </summary>

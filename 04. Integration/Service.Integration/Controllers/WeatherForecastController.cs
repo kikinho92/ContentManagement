@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -11,6 +12,7 @@ namespace Service.Integration.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -21,6 +23,14 @@ namespace Service.Integration.Controllers
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
+        }
+
+        [HttpGet]
+        [Route("ping")]
+        [AllowAnonymous]
+        public ActionResult<string> Ping()
+        {
+            return Ok("Pinged successful!");
         }
 
         [HttpGet]

@@ -8,6 +8,7 @@ namespace Api.Content
     public interface IContentApi
     {
         const string SERVICE_ROUTE = "content";
+        const string PING = "ping";
 
         public record ContentInfo(string id, string title, string link, string userid, DateTime uploadDate );
         public record TagInfo(string id, string name, string userid, DateTime uploadDate);

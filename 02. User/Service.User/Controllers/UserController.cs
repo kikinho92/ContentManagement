@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,14 @@ namespace Service.User.Controllers
             _dbContext = dbContext;
             _userManager = userManager;
             _roleManager = roleManager;
+        }
+
+        [HttpGet]
+        [Route(PING)]
+        [AllowAnonymous]
+        public ActionResult<string> Ping()
+        {
+            return Ok("Pinged successful!");
         }
 
         

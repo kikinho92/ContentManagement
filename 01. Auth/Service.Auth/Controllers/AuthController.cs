@@ -57,6 +57,14 @@ namespace Service.Auth.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
+        [Route(IAuthApi.PING)]
+        [AllowAnonymous]
+        public ActionResult<string> Ping()
+        {
+            return Ok("Pinged successful!");
+        }
+
         [HttpPost]
         [Route(SIGNUP_PATH)]
         [AllowAnonymous]

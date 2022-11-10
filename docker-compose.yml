@@ -1,0 +1,75 @@
+version: '3.4'
+
+services: 
+
+  frontend:
+    image: contentmanagement/react
+    build:
+      context: ContentManagement-Frontend
+      dockerfile: Dockerfile
+    environment: 
+      - AuthUrl=http://auth-api
+      - UserUrl=http://user-api
+      - ContentUrl=http://content-api
+      - IntegrationUrl=http://integration-api
+    ports:
+      - "8005:80"
+    depends_on: 
+      - auth-api
+      - user-api
+      - content-api
+      - integration-api
+  auth-api:
+    image: contentmanagement/auth-api
+    build:
+      context: .
+      dockerfile: 01. Auth/Service.Auth/Dockerfile
+    environment:
+      - ConnectionString=Data Source=192.168.1.8,58868\\SQLEXPRESS;Initial Catalog=CONTENT_MANAGEMENT;User=kikinho92;Password=Kikinho92#sqlserver;MultipleActiveResultSets=True;Application Name=EntityFramework
+    ports:
+      - "8001:80"
+    depends_on:
+      - user-api
+      - content-api
+      - integration-api
+  user-api:
+    image: contentmanagement/user-api
+    build:
+      context: .
+      dockerfile: 02. User/Service.User/Dockerfile
+    environment:
+      - ConnectionString=Data Source=192.168.1.8,58868\\SQLEXPRESS;Initial Catalog=CONTENT_MANAGEMENT;User=kikinho92;Password=Kikinho92#sqlserver;MultipleActiveResultSets=True;Application Name=EntityFramework
+    ports:
+      - "8002:80"
+    depends_on:
+      - auth-api
+      - content-api
+      - integration-api
+  content-api:
+    image: contentmanagement/content-api
+    build:
+      context: .
+      dockerfile: 03. Content/Service.Content/Dockerfile
+    environment:
+      - ConnectionString=Data Source=192.168.1.8,58868\\SQLEXPRESS;Initial Catalog=CONTENT_MANAGEMENT;User=kikinho92;Password=Kikinho92#sqlserver;MultipleActiveResultSets=True;Application Name=EntityFramework
+    ports:
+      - "8003:80"
+    depends_on:
+      - auth-api
+      - user-api
+      - integration-api
+  integration-api:
+    image: contentmanagement/integration-api
+    build:
+      context: .
+      dockerfile: 04. Integration/Service.Integration/Dockerfile
+    environment:
+      - ConnectionString=Data Source=192.168.1.8,58868\\SQLEXPRESS;Initial Catalog=CONTENT_MANAGEMENT;User=kikinho92;Password=Kikinho92#sqlserver;MultipleActiveResultSets=True;Application Name=EntityFramework
+    ports:
+      - "8004:80"
+    depends_on:
+      - auth-api
+      - user-api
+      - content-api
+
+    

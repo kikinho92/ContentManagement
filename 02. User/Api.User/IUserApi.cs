@@ -7,6 +7,7 @@ namespace Api.User
     public interface IUserApi
     {
         const string SERVICE_ROUTE = "user";
+        const string PING = "ping";
 
         public record UserInfo(string id, string username, string email, RoleInfo role, GroupInfo group, DateTime creationDate);
         public record RoleInfo(string id, string name);

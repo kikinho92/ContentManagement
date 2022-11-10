@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Api.Content;
 using Api.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,14 @@ namespace Service.Content.Controllers
             _logger = logger;
             _dbContext = dbContext;
              _user = user;
+        }
+
+        [HttpGet]
+        [Route(IContentApi.PING)]
+        [AllowAnonymous]
+        public ActionResult<string> Ping()
+        {
+            return Ok("Pinged successful!");
         }
 
         [HttpGet]

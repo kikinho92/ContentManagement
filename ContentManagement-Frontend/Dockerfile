@@ -3,6 +3,6 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-COPY ["ContentManagement-Frontend/bin/Debug/net5.0/publish/", "/app"]  
+COPY ["./ContentManagement-Frontend/bin/Debug/net5.0/publish/", "/app"]  
 
 ENTRYPOINT ["dotnet", "ContentManagement-Frontend.dll"]

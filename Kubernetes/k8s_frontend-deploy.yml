@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: contentmanangement-react
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: contentmanangement-react
+    spec:
+      containers:
+      - name: contentmanangement-react
+        image: kikinho92/contentmanangement-react:latest
+        ports:
+        - containerPort: 8005
+        env:
+        - name: ASPNETCORE_URLS
+          value: http://*:8005
+        - name: AuthUrl
+          value: http://auth-api
+        - name: UserUrl
+          value: http://user-api
+        - name: ContentUrl
+          value: http://content-api
+        - name: IntegrationUrl
+          value: http://integration-api
+  selector:
+    matchLabels:
+      app: contentmanangement-react
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: contentmanangement-react
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8005
+  selector:
+    app: contentmanangement-react

@@ -1,0 +1,34 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: content-api
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: contentmanangement-content-api
+    spec:
+      containers:
+      - name: contentmanangement-content-api
+        image: kikinho92/contentmanangement-content-api:latest
+        ports:
+        - containerPort: 8003
+        env:
+        - name: ASPNETCORE_URLS
+          value: http://*:8003
+  selector:
+    matchLabels:
+      app: contentmanangement-content-api
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: contentmanangement-content-api
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8003
+  selector:
+    app: contentmanangement-content-api

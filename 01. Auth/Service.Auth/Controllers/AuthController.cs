@@ -37,21 +37,18 @@ namespace Service.Auth.Controllers
 
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly AuthDbContext _dbContext;
         private readonly IUserApi _user;
         private readonly ILogger<AuthController> _logger;
 
         public AuthController(UserManager<IdentityUser> userManager,
                                 SignInManager<IdentityUser> signInManager,
-                                RoleManager<IdentityRole> roleManager,
                                 AuthDbContext dbContext,
                                 IUserApi user,
                                 ILogger<AuthController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
             _dbContext = dbContext;
             _user = user;
             _logger = logger;
@@ -95,26 +92,33 @@ namespace Service.Auth.Controllers
                 return BadRequest(errorMessage);
             }
 
-            if (!await _roleManager.RoleExistsAsync(credentials.role))
-            {
-                await _roleManager.CreateAsync(new IdentityRole()
-                {
-                    Name = credentials.role
-                });
-            }
-
             IdentityUser user = (await _userManager.FindByEmailAsync(credentials.userEmail));
-            result = await _userManager.AddToRoleAsync(user, credentials.role);
 
+            UserInfo userToCreate = new UserInfo(
+                                            Guid.NewGuid().ToString(),
+                                            user.Id,
+                                            user.NormalizedUserName,
+                                            user.NormalizedEmail,
+                                            null,
+                                            null,
+                                            DateTime.Now);
+            await _user.PostUser(userToCreate);
+
+            RoleInfo role = await _user.GetRoleByName(credentials.role);
+            if (role == null)
+            {
+                role = new RoleInfo(Guid.NewGuid().ToString(), credentials.group);
+                await _user.PostRole(role);
+            }
             GroupInfo group = await _user.GetGroupByName(credentials.group);
             if (group == null)
             {
                 group = new GroupInfo(Guid.NewGuid().ToString(), credentials.group);
                 await _user.PostGroup(group);
             }
-            await _user.AddToGroup(user.Id, group);
 
-            if(!result.Succeeded) return BadRequest("Invalid role: role could not be assigned to user");
+            await _user.AddToRole(role, userToCreate.id);
+            await _user.AddToGroup(group, userToCreate.id);
 
             return Ok(null);
         }
@@ -124,9 +128,9 @@ namespace Service.Auth.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<Session>> LogInAsync(LoginCredentials credentials)
         {
-            if (credentials == null) return BadRequest("Invalid credentials: credentials were not found");
-            if (string.IsNullOrEmpty(credentials.userEmail)) return BadRequest("Invalid credentials: missing user email address");
-            if (string.IsNullOrEmpty(credentials.password)) return BadRequest("Invalid credentials: missing user password");
+            if (credentials == null) return BadRequest("ERROR - Invalid credentials: credentials were not found");
+            if (string.IsNullOrEmpty(credentials.userEmail)) return BadRequest("ERROR - Invalid credentials: missing user email address");
+            if (string.IsNullOrEmpty(credentials.password)) return BadRequest("ERROR - Invalid credentials: missing user password");
 
             //Check if already logged in
             string currentUserId = this.HttpContext.User?.Claims?.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -145,7 +149,7 @@ namespace Service.Auth.Controllers
 
             if (!result.Succeeded)
             {
-                _logger.LogWarning($"Attempt to lig in with invalid password by '{credentials.userEmail}' {(result.IsLockedOut ? "LOCKEDOUT" : "")}");
+                _logger.LogWarning($"Attempt to log in with invalid password by '{credentials.userEmail}' {(result.IsLockedOut ? "LOCKEDOUT" : "")}");
 
                 if (result.IsLockedOut)
                 {
@@ -157,12 +161,14 @@ namespace Service.Auth.Controllers
                 }
             }
 
+            UserInfo userInfo = await _user.GetUser(user.Id);
+
             UserSession userSession = new UserSession()
             {
                 Id = Guid.NewGuid().ToString(),
                 UserId = user.Id,
                 UserEmail = user.Email,
-                UserRole = new List<string>(await _userManager.GetRolesAsync(user)).FirstOrDefault(),
+                UserRole = userInfo.role.name,
                 RefreshToken = Guid.NewGuid().ToString(),
                 OpenTime = DateTime.Now,
             };
@@ -209,6 +215,7 @@ namespace Service.Auth.Controllers
 
         [HttpGet]
         [Route(SESSION_PATH)]
+        [AllowAnonymous]
         public ActionResult<SessionInfo> GetSessionInfoAsync()
         {
             // Get current logged in user
@@ -228,7 +235,7 @@ namespace Service.Auth.Controllers
 
             // The old JWT token is expected to still be present in request header
             HttpContext.Request.Headers.TryGetValue("Authorization", out StringValues token);
-            if (token.FirstOrDefault() == null) return BadRequest("Unable to refresh session token. Missing expired JWT token.");
+            if (token.FirstOrDefault() == null) return BadRequest("Unable to ref resh session token. Missing expired JWT token.");
 
             // Take stored session. The session is allowed to be refreshed if last refresh was not too long ago
             DateTime now = DateTime.Now;

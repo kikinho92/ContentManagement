@@ -21,15 +21,33 @@ namespace Service.Content.Data
         public string Title { get; set; }
 
         /// <summary>
+        /// Large description of the content
+        /// </summary>
+        [StringLength(500)]
+        public string Description { get; set; }
+
+        /// <summary>
         /// Link to conect with the aplication which bring up the content
         /// </summary>
-        [StringLength(200)]
+        [StringLength(200), Required]
         public string Link { get; set; }
+
+        /// <summary>
+        /// Author the content belong to. It can be more than one. It is gonna be separate by commas (,)
+        /// </summary>
+        [StringLength(200)]
+        public string Authors { get; set; }
+
+        /// <summary>
+        /// Content´s license types. It can be more than one. It is gonna be separate by commas (,)
+        /// </summary>
+        [StringLength(200)]
+        public string LicenseTypes { get; set; }
 		
 		/// <summary>
         /// Owner user of the content
         /// </summary>
-        [StringLength(100), Key]
+        [StringLength(100)]
         public string UserId { get; set; }
 
         /// <summary>

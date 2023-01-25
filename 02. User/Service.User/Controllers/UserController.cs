@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Api.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.User.Data;
@@ -20,18 +18,12 @@ namespace Service.User.Controllers
 
         private readonly ILogger<UserController> _logger;
         private readonly UserDbContext _dbContext;
-        private readonly UserManager<IdentityUser> _userManager;
-         private readonly RoleManager<IdentityRole> _roleManager;
 
         public UserController(ILogger<UserController> logger,
-                                UserDbContext dbContext,
-                                UserManager<IdentityUser> userManager,
-                                RoleManager<IdentityRole> roleManager)
+                                UserDbContext dbContext)
         {
             _logger = logger;
             _dbContext = dbContext;
-            _userManager = userManager;
-            _roleManager = roleManager;
         }
 
         [HttpGet]
@@ -44,8 +36,8 @@ namespace Service.User.Controllers
 
         
         [HttpGet]
-        [Route(USERS_PATH + "/{" + GROUP_ID_PATH + "}")]
-        public async Task<ActionResult<List<UserInfo>>> GetUsers(string groupId = null)
+        [Route(USERS_PATH)]
+        public ActionResult<List<UserInfo>> GetUsers(string groupId = null)
         {
             try
             {
@@ -55,8 +47,9 @@ namespace Service.User.Controllers
                 foreach (Data.User user in users)
                 {
                     Group group = _dbContext.Groups.Where(group => group.Id == user.GroupId).FirstOrDefault();
-                    IdentityRole role = await _roleManager.FindByIdAsync(user.RoleId);
+                    Role role = _dbContext.Roles.Where(role => role.Id == user.RoleId).FirstOrDefault();
                     usersInfo.Add(new UserInfo( user.Id,
+                                                user.IdentityId,
                                                 user.Username,
                                                 user.Email,
                                                 new RoleInfo(role.Id, role.Name), 
@@ -68,27 +61,33 @@ namespace Service.User.Controllers
             }
             catch (Exception e)
             {
-                 _logger.LogError($"Internal error. {e.Message}");
+                 _logger.LogError($"ERROR - Internal error. {e.Message}");
 
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Internal error. {e.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"ERROR - Internal error. {e.Message}");
             }
         }
 
         [HttpGet]
-        [Route(USERS_PATH + "/{" + USER_ID_PATH + "}")]
-        public async Task<ActionResult<UserInfo>> GetUser(string userId)
+        [Route(USER_PATH)]
+        public ActionResult<UserInfo> GetUser(string userId)
         {
             try
             {
-                if (string.IsNullOrEmpty(userId)) { return BadRequest("Invalid user. User was not found"); }
+                if (string.IsNullOrEmpty(userId)) { return BadRequest("ERROR - Invalid user. User was not found"); }
 
                 Data.User user = _dbContext.Users.Where(user => user.Id == userId).FirstOrDefault();
 
-                if (user == null) { return BadRequest("Invalid user. User was not found"); }
+                if (user == null)
+                {
+                    user = _dbContext.Users.Where(user => user.IdentityId == userId).FirstOrDefault();
+
+                    if (user == null) { return BadRequest("ERROR - Invalid user. User was not found"); }
+                }
 
                 Group group = _dbContext.Groups.Where(group => group.Id == user.GroupId).FirstOrDefault();
-                IdentityRole role = await _roleManager.FindByIdAsync(user.RoleId);
+                Role role = _dbContext.Roles.Where(role => role.Id == user.RoleId).FirstOrDefault();
                 UserInfo userInfo = new UserInfo(user.Id,
+                                                user.IdentityId,
                                                 user.Username,
                                                 user.Email,
                                                 new RoleInfo(role.Id, role.Name),
@@ -99,23 +98,49 @@ namespace Service.User.Controllers
             }
             catch (Exception e)
             {
-                 _logger.LogError($"Internal error. {e.Message}");
+                _logger.LogError($"ERROR - Internal error. {e.Message}");
 
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Internal error. {e.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"ERROR - Internal error. {e.Message}");
             }
         }
 
         [HttpGet]
-        [Route(GROUP_PATH + "/{" + GROUP_ID_PATH + "}")]
+        [Route(GROUPS_PATH)]
+        public ActionResult<List<GroupInfo>> GetGroups()
+        {
+            try
+            {
+                List<Data.Group> groups = _dbContext.Groups.ToList();
+
+                if (groups == null) { return BadRequest("ERROR - Invalid group. Group was not found"); }
+
+                List<GroupInfo> groupsInfo = new List<GroupInfo>();
+                foreach (Data.Group group in groups)
+                {
+                    groupsInfo.Add(new GroupInfo(group.Id, group.Name));
+                }
+
+                return Ok(groupsInfo);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"ERROR - Internal error. {e.Message}");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, $"ERROR - Internal error. {e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route(GROUP_PATH)]
         public ActionResult<GroupInfo> GetGroup(string groupId)
         {
             try
             {
-                if (string.IsNullOrEmpty(groupId)) { return BadRequest("Invalid group. Group was not found"); }
+                if (string.IsNullOrEmpty(groupId)) { return BadRequest("ERROR - Invalid group. Group was not found"); }
 
                 Data.Group group = _dbContext.Groups.Where(group => group.Id == groupId).FirstOrDefault();
 
-                if (group == null) { return BadRequest("Invalid group. Group was not found"); }
+                if (group == null) { return BadRequest("ERROR - Invalid group. Group was not found"); }
 
                 GroupInfo groupInfo = new GroupInfo(group.Id, group.Name);
 
@@ -123,23 +148,23 @@ namespace Service.User.Controllers
             }
             catch (Exception e)
             {
-                 _logger.LogError($"Internal error. {e.Message}");
+                 _logger.LogError($"ERROR - Internal error. {e.Message}");
 
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Internal error. {e.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"ERROR - Internal error. {e.Message}");
             }
         }
 
         [HttpGet]
-        [Route(GROUP_NAME + "/{" + GROUP_ID_PATH + "}")]
+        [Route(GROUP_NAME)]
         public ActionResult<GroupInfo> GetGroupByName(string groupName)
         {
             try
             {
-                if (string.IsNullOrEmpty(groupName)) { return BadRequest("Invalid group. Group was not found"); }
+                if (string.IsNullOrEmpty(groupName)) { return BadRequest("ERROR - Invalid group. Group was not found"); }
 
                 Data.Group group = _dbContext.Groups.Where(group => group.Name == groupName).FirstOrDefault();
 
-                if (group == null) { return BadRequest("Invalid group. Group was not found"); }
+                if (group == null) { return BadRequest("ERROR - Invalid group. Group was not found"); }
 
                 GroupInfo groupInfo = new GroupInfo(group.Id, group.Name);
 
@@ -147,9 +172,9 @@ namespace Service.User.Controllers
             }
             catch (Exception e)
             {
-                 _logger.LogError($"Internal error. {e.Message}");
+                 _logger.LogError($"ERROR - Internal error. {e.Message}");
 
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Internal error. {e.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"ERROR - Internal error. {e.Message}");
             }
         }
 
@@ -159,7 +184,7 @@ namespace Service.User.Controllers
         {
             try
             {
-                if (group == null) { return BadRequest("Invalid group. Group is empty"); }
+                if (group == null) { return BadRequest("ERROR - Invalid group. Group is empty"); }
                 if (string.IsNullOrEmpty(group.name)) { return BadRequest("Invalid group. Name of group is empty"); }
 
                 Group groupData = new Group() { Id = Guid.NewGuid().ToString(), Name = group.name };
@@ -170,25 +195,25 @@ namespace Service.User.Controllers
             }
             catch (Exception e)
             {
-                 _logger.LogError($"Internal error. {e.Message}");
+                 _logger.LogError($"ERROR - Internal error. {e.Message}");
 
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Internal error. {e.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"ERROR - Internal error. {e.Message}");
             }
         }
 
         [HttpPut]
-        [Route(GROUP_ADD + "/{" + USER_ID_PATH + "}")]
-        public ActionResult AddToGroup(string userId, GroupInfo group)
+        [Route(GROUP_ADD)]
+        public ActionResult AddToGroup(string userId, [FromBody]GroupInfo group)
         {
             try
             {
-                if (group == null) { return BadRequest("Invalid group. Group is empty"); }
-                if (string.IsNullOrEmpty(group.name)) { return BadRequest("Invalid group. Name of group is empty"); }
-                if (string.IsNullOrEmpty(userId)) { return BadRequest("Invalid user. User was not found"); }
+                if (group == null) { return BadRequest("ERROR - Invalid group. Group is empty"); }
+                if (string.IsNullOrEmpty(group.name)) { return BadRequest("ERROR - Invalid group. Name of group is empty"); }
+                if (string.IsNullOrEmpty(userId)) { return BadRequest("ERROR - Invalid user. User was not found"); }
 
                 Data.User user = _dbContext.Users.Where(user => user.Id == userId).FirstOrDefault();
 
-                if (user == null) { return BadRequest("Invalid user. User was not found"); }
+                if (user == null) { return BadRequest("ERROR - Invalid user. User was not found"); }
 
                 user.GroupId = group.id;
                 _dbContext.SaveChanges();
@@ -197,62 +222,134 @@ namespace Service.User.Controllers
             }
             catch (Exception e)
             {
-                 _logger.LogError($"Internal error. {e.Message}");
+                 _logger.LogError($"ERROR - Internal error. {e.Message}");
 
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Internal error. {e.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"ERROR - Internal error. {e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route(ROLES_PATH)]
+        public ActionResult<GroupInfo> GetRoles(string roleId)
+        {
+            try
+            {
+                List<Data.Role> roles = _dbContext.Roles.ToList();
+
+                if (roles == null) { return BadRequest("ERROR - Invalid role. Role was not found"); }
+
+                List<RoleInfo> rolesInfo = new List<RoleInfo>();
+                foreach (Data.Role role in roles)
+                {
+                    rolesInfo.Add(new RoleInfo(role.Id, role.Name));
+                }
+
+                return Ok(rolesInfo);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"ERROR - Internal error. {e.Message}");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, $"ERROR - Internal error. {e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route(ROLE_PATH)]
+        public ActionResult<GroupInfo> GetRole(string roleId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(roleId)) { return BadRequest("ERROR - Invalid role. Role was not found"); }
+
+                Data.Role role = _dbContext.Roles.Where(role => role.Id == roleId).FirstOrDefault();
+
+                if (role == null) { return BadRequest("ERROR - Invalid role. Role was not found"); }
+
+                RoleInfo roleInfo = new RoleInfo(role.Id, role.Name);
+
+                return Ok(roleInfo);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"ERROR - Internal error. {e.Message}");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, $"ERROR - Internal error. {e.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route(ROLE_NAME)]
+        public ActionResult<GroupInfo> GetRoleByName(string roleName)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(roleName)) { return BadRequest("ERROR - Invalid role. Role was not found"); }
+
+                Data.Role role = _dbContext.Roles.Where(role => role.Name == roleName).FirstOrDefault();
+
+                if (role == null) { return BadRequest("ERROR - Invalid role. Role was not found"); }
+
+                RoleInfo roleInfo = new RoleInfo(role.Id, role.Name);
+
+                return Ok(roleInfo);
+            }
+            catch (Exception e)
+            {
+                 _logger.LogError($"ERROR - Internal error. {e.Message}");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, $"ERROR - Internal error. {e.Message}");
             }
         }
 
         [HttpPost]
         [Route(ROLE_PATH)]
-        public async Task<ActionResult<RoleInfo>> PostRole(RoleInfo role)
+        public ActionResult<RoleInfo> PostRole(RoleInfo role)
         {
             try
             {
-                if (role == null) { return BadRequest("Invalid role. Role is empty"); }
-                if (string.IsNullOrEmpty(role.name)) { return BadRequest("Invalid role. Name of role is empty"); }
+                if (role == null) { return BadRequest("ERROR - Invalid role. Role is empty"); }
+                if (string.IsNullOrEmpty(role.name)) { return BadRequest("ERROR - Invalid role. Name of role is empty"); }
 
-                IdentityRole identityRole = new IdentityRole() { Id = Guid.NewGuid().ToString(), Name = role.name };
-                IdentityResult result = await _roleManager.CreateAsync(identityRole);
+                Role newRole = new Role() { Id = Guid.NewGuid().ToString(), Name = role.name };
 
-                if (!result.Succeeded) { return BadRequest("Invalid role. Role can not be stored"); }
+                _dbContext.Roles.Add(newRole);
+                _dbContext.SaveChanges();
 
-                return Ok(role);
+                return Ok(newRole);
             }
             catch (Exception e)
             {
-                 _logger.LogError($"Internal error. {e.Message}");
+                _logger.LogError($"ERROR - Internal error. {e.Message}");
 
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Internal error. {e.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"ERROR - Internal error. {e.Message}");
             }
         }
 
         [HttpPut]
-        [Route(ROLE_ADD + "/{" + USER_ID_PATH + "}")]
-        public async Task<ActionResult> AddToRole(string userId, RoleInfo role)
+        [Route(ROLE_ADD)]
+        public ActionResult AddToRole([FromBody] RoleInfo role, string userId)
         {
             try
             {
-                if (role == null) { return BadRequest("Invalid role. Role is empty"); }
-                if (string.IsNullOrEmpty(role.name)) { return BadRequest("Invalid role. Name of role is empty"); }
-                if (string.IsNullOrEmpty(userId)) { return BadRequest("Invalid user. User was not found"); }
+                if (role == null) { return BadRequest("ERROR - Invalid role. Role is empty"); }
+                if (string.IsNullOrEmpty(role.name)) { return BadRequest("ERROR - Invalid role. Name of role is empty"); }
+                if (string.IsNullOrEmpty(userId)) { return BadRequest("ERROR - Invalid user. User was not found"); }
 
                 Data.User user = _dbContext.Users.Where(user => user.Id == userId).FirstOrDefault();
 
-                if (user == null) { return BadRequest("Invalid user. User was not found"); }
+                if (user == null) { return BadRequest("ERROR - Invalid user. User was not found"); }
+                user.RoleId = role.id;
 
-                IdentityUser identityUser = await _userManager.FindByEmailAsync(user.Email);
-                IdentityResult result = await _userManager.AddToRoleAsync(identityUser, role.name);
-
-                if (!result.Succeeded) { return BadRequest("Invalid role. User can not be assign to the role"); }
+                _dbContext.SaveChanges();
 
                 return Ok();
             }
             catch (Exception e)
             {
-                 _logger.LogError($"Internal error. {e.Message}");
+                 _logger.LogError($"ERROR - Internal error. {e.Message}");
 
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Internal error. {e.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"ERROR - Internal error. {e.Message}");
             }
         }
 
@@ -262,13 +359,14 @@ namespace Service.User.Controllers
         {
             try
             {
-                if (user == null) { return BadRequest("Invalid user. User is empty"); }
-                if (string.IsNullOrEmpty(user.username)) { return BadRequest("Invalid user. Username of user is empty"); }
-                if (string.IsNullOrEmpty(user.email)) { return BadRequest("Invalid user. Email of user is empty"); }
+                if (user == null) { return BadRequest("ERROR - Invalid user. User is empty"); }
+                if (string.IsNullOrEmpty(user.username)) { return BadRequest("ERROR - Invalid user. Username of user is empty"); }
+                if (string.IsNullOrEmpty(user.email)) { return BadRequest("ERROR - Invalid user. Email of user is empty"); }
 
                 Data.User userData = new Data.User()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = user.id,
+                    IdentityId = user.identityId,
                     Username = user.username,
                     Email = user.email,
                     RoleId = null,
@@ -282,62 +380,51 @@ namespace Service.User.Controllers
             }
             catch (Exception e)
             {
-                 _logger.LogError($"Internal error. {e.Message}");
+                 _logger.LogError($"ERROR - Internal error. {e.Message}");
 
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Internal error. {e.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"ERROR - Internal error. {e.Message}");
             }
         }
 
         [HttpPut]
-        [Route(USER_PATH + "/{" + USER_ID_PATH + "}")]
-        public async Task<ActionResult<UserInfo>> PutUser(UserInfo user, string userId)
+        [Route(USER_PATH)]
+        public ActionResult<UserInfo> PutUser(UserInfo user, string userId)
         {
             try
             {
-                if (user == null) { return BadRequest("Invalid user. User is empty"); }
-                if (string.IsNullOrEmpty(user.username)) { return BadRequest("Invalid user. Name of user is empty"); }
-                if (string.IsNullOrEmpty(user.email)) { return BadRequest("Invalid user. Email is empty"); }
-                if (string.IsNullOrEmpty(userId)) { return BadRequest("Invalid user. User was not found"); }
+                if (user == null) { return BadRequest("ERROR - Invalid user. User is empty"); }
+                if (string.IsNullOrEmpty(user.username)) { return BadRequest("ERROR - Invalid user. Name of user is empty"); }
+                if (string.IsNullOrEmpty(user.email)) { return BadRequest("ERROR - Invalid user. Email is empty"); }
+                if (string.IsNullOrEmpty(userId)) { return BadRequest("ERROR - Invalid user. User was not found"); }
 
-                Data.User userData = _dbContext.Users.Where(user => user.Id == userId).FirstOrDefault();
+                Data.User userToUpdate = _dbContext.Users.Where(user => user.Id == userId).FirstOrDefault();
 
-                if (userData == null) { return BadRequest("Invalid user. User was not found"); }
+                if (userToUpdate == null) { return BadRequest("ERROR - Invalid user. User was not found"); }
 
-                IdentityUser identityUser = await _userManager.FindByEmailAsync(userData.Email);
-                identityUser.UserName = user.username;
-                identityUser.Email = user.email;
-                IdentityResult result = await _userManager.UpdateAsync(identityUser);
+                userToUpdate.Username = user.username;
+                userToUpdate.Email = user.email;
 
-                if (!result.Succeeded) { return BadRequest("User can not be delete"); }
-
-                userData.Username = user.username;
-                userData.Email = user.email;
                 _dbContext.SaveChanges();
 
                 return Ok(user);
             }
             catch (Exception e)
             {
-                 _logger.LogError($"Internal error. {e.Message}");
+                 _logger.LogError($"ERROR - Internal error. {e.Message}");
 
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Internal error. {e.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"ERROR - Internal error. {e.Message}");
             }
         }
         
         [HttpDelete]
-        [Route(USER_PATH + "/{" + USER_ID_PATH + "}")]
-        public async Task<ActionResult<bool>> DeleteUser(string userId)
+        [Route(USER_PATH)]
+        public ActionResult<bool> DeleteUser(string userId)
         {
             try
             {
                 Data.User user = _dbContext.Users.Where(user => user.Id == userId).FirstOrDefault();
 
-                if (user == null) { return BadRequest("Invalid user. User was not found"); }
-
-                IdentityUser identityUser = await _userManager.FindByEmailAsync(user.Email);
-                IdentityResult result = await _userManager.DeleteAsync(identityUser);
-
-                if (!result.Succeeded) { return BadRequest("User can not be delete"); }
+                if (user == null) { return BadRequest("ERROR - Invalid user. User was not found"); }
 
                 _dbContext.Users.Remove(user);
                 _dbContext.SaveChanges();
@@ -346,9 +433,9 @@ namespace Service.User.Controllers
             }
             catch (Exception e)
             {
-                 _logger.LogError($"Internal error. {e.Message}");
+                 _logger.LogError($"ERROR - Internal error. {e.Message}");
 
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Internal error. {e.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"ERROR - Internal error. {e.Message}");
             }
         }
     }

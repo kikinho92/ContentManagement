@@ -23,7 +23,7 @@ namespace Service.Content.Data
         /// <summary>
         /// Owner user of the content
         /// </summary>
-        [StringLength(100), Key]
+        [StringLength(100)]
         public string UserId { get; set; }
 
         /// <summary>

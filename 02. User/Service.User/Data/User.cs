@@ -15,6 +15,12 @@ namespace Service.User.Data
         public string Id { get; set; }
 
         /// <summary>
+        /// Internal identifier of the identity user.
+        /// </summary>
+        [StringLength(100)]
+        public string IdentityId { get; set; }
+
+        /// <summary>
         /// Visible name of the user within the web app
         /// </summary>
         [StringLength(50), Required]

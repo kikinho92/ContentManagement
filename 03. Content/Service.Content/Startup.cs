@@ -6,6 +6,7 @@ using Api.User;
 using Library.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,14 +33,7 @@ namespace Service.Content
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Service.Content", Version = "v1" });
-            });
-
-            //Database connection inizialization.
+             //Database connection inizialization.
             string connectionString = Configuration.GetConnectionString("ContentDatabase");
             services.AddDbContext<ContentDbContext>(options => options.UseSqlServer(connectionString));
             
@@ -54,10 +48,21 @@ namespace Service.Content
             user.UseSession(JwtHelper.GenerateJwtToken(Program.SERVICE_TAG, Program.SERVICE_TAG, Program.SERVICE_TAG));
             services.AddSingleton<IUserApi>(user);
 
+            services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Service.Content", Version = "v1" });
+            });
+
             //Allow requests from any base URL for debuf purposes.
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder => { builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod(); });
+            });
+
+            //Lets the controller know the external URL used to reach it
+            services.Configure<ForwardedHeadersOptions>(options => {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
             });
         }
 
@@ -69,6 +74,9 @@ namespace Service.Content
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Service.Content v1"));
+
+                 //Allow requests from any base URL for debug purposes
+                app.UseCors();
             }
 
             app.UseHttpsRedirection();

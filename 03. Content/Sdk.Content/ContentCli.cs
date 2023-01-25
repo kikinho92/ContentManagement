@@ -42,15 +42,17 @@ namespace Sdk.Content
             _authCli = authCli;
         }
 
-        public async Task<List<ContentInfo>> GetContents(string tagId = null, string groupId = null)
+        public async Task<List<ContentInfo>> GetContents(int pageSize, int page, string tagId = null, string groupId = null)
         {
             // Send request.
             ArrangeAuthenticatedRequest();
             HttpResponseMessage response = await _client.GetAsync($"{_base}/" +
                     $"{IContentApi.SERVICE_ROUTE}/" +
-                    $"{CONTENT_PATH}/"+
-                    $"{tagId}/" +
-                    $"{groupId}");
+                    $"{CONTENT_LIST_PATH}"+
+                    $"?{PAGE_SIZE}={pageSize}/" +
+                    $"&{PAGE}={page}" +
+                    $"&{TAG_ID_PATH}={tagId}/" +
+                    $"&{GROUP_ID_PATH}={groupId}");
 
             // Provide success.
             if (response.IsSuccessStatusCode)
@@ -68,8 +70,8 @@ namespace Sdk.Content
             ArrangeAuthenticatedRequest();
             HttpResponseMessage response = await _client.GetAsync($"{_base}/" +
                     $"{IContentApi.SERVICE_ROUTE}/" +
-                    $"{CONTENT_PATH}/" +
-                    $"{contentId}");
+                    $"{CONTENT_PATH}" +
+                    $"?{CONTENT_ID_PATH}={contentId}");
 
             // Provide success.
             if (response.IsSuccessStatusCode)
@@ -106,8 +108,8 @@ namespace Sdk.Content
             StringContent data = new StringContent(JsonSerializer.Serialize<ContentInfo>(content), Encoding.UTF8, "application/json");
             HttpResponseMessage response = await _client.PutAsync($"{_base}/" +
                     $"{IContentApi.SERVICE_ROUTE}/" +
-                    $"{CONTENT_PATH}/" +
-                    $"{contentId}", data);
+                    $"{CONTENT_PATH}" +
+                    $"?{CONTENT_ID_PATH}={contentId}", data);
 
             // Provide success.
             if (response.IsSuccessStatusCode)
@@ -124,8 +126,8 @@ namespace Sdk.Content
             ArrangeAuthenticatedRequest();
             HttpResponseMessage response = await _client.DeleteAsync($"{_base}/" +
                     $"{IContentApi.SERVICE_ROUTE}/" +
-                    $"{CONTENT_PATH}/" +
-                    $"{contentId}");
+                    $"{CONTENT_PATH}" +
+                    $"?{CONTENT_ID_PATH}={contentId}");
 
             // Provide success.
             if (response.IsSuccessStatusCode){ return true; }
@@ -139,8 +141,8 @@ namespace Sdk.Content
             ArrangeAuthenticatedRequest();
             HttpResponseMessage response = await _client.GetAsync($"{_base}/" +
                     $"{IContentApi.SERVICE_ROUTE}/" +
-                    $"{TAG_PATH}/"+
-                    $"{groupId}");
+                    $"{TAG_PATH}"+
+                    $"?{GROUP_ID_PATH}={groupId}");
 
             // Provide success.
             if (response.IsSuccessStatusCode)

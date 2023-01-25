@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\Library.Common\\Library.Common.csproj": {}
+    "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\Library.Common\\Library.Common.csproj": {}
   },
   "projects": {
-    "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\Library.Common\\Library.Common.csproj": {
+    "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\Library.Common\\Library.Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\Library.Common\\Library.Common.csproj",
+        "projectUniqueName": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\Library.Common\\Library.Common.csproj",
         "projectName": "Library.Common",
-        "projectPath": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\Library.Common\\Library.Common.csproj",
+        "projectPath": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\Library.Common\\Library.Common.csproj",
         "packagesPath": "C:\\Users\\jemar\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\Library.Common\\obj\\",
+        "outputPath": "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\Library.Common\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "c:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\NuGet.Config",
+          "C:\\Users\\jemar\\source\\repos\\TFG\\ContentManagement\\NuGet.Config",
           "C:\\Users\\jemar\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

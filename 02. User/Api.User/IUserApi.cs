@@ -9,7 +9,7 @@ namespace Api.User
         const string SERVICE_ROUTE = "user";
         const string PING = "ping";
 
-        public record UserInfo(string id, string username, string email, RoleInfo role, GroupInfo group, DateTime creationDate);
+        public record UserInfo(string id, string identityId, string username, string email, RoleInfo role, GroupInfo group, DateTime creationDate);
         public record RoleInfo(string id, string name);
         public record GroupInfo(string id, string name);
         
@@ -30,6 +30,12 @@ namespace Api.User
 		const string USER_ID_PATH = "userId";
 
         /// <summary>
+        /// Provides detailed information about the groups in the system
+        /// </summary>
+        Task<List<GroupInfo>> GetGroups();
+        const string GROUPS_PATH = "groups";
+
+        /// <summary>
         /// Provides detailed information about the user group requested
         /// </summary>
         /// <param name="groupId">Unique internal identifier of the group</param>
@@ -39,7 +45,7 @@ namespace Api.User
         /// <summary>
         /// Provides detailed information about the user group requested
         /// </summary>
-        /// <param name="groupName">Unique internal identifier of the group</param>
+        /// <param name="groupName">Unique internal identifier name of the group</param>
         Task<GroupInfo> GetGroupByName(string groupName);
         const string GROUP_NAME = "groupName";
 
@@ -54,22 +60,45 @@ namespace Api.User
         /// </summary>
         /// <param name="userId">Unique internal identifier of the user</param>
         /// <param name="group">Group entity that contains the information</param>
-        Task AddToGroup(string userId, GroupInfo group);
+        Task AddToGroup(GroupInfo group, string userId);
         const string GROUP_ADD = "addToGroup";
+
+        /// <summary>
+        /// Provides the detailed information about the roles in the system
+        /// </summary>
+        /// <returns></returns>
+        Task<List<RoleInfo>> GetRoles();
+        const string ROLES_PATH = "roles";
+
+        /// <summary>
+        /// Provides the detailed information about the role requested
+        /// </summary>
+        /// <param name="roleId">Unique internal identifier of the role</param>
+        /// <returns></returns>
+        Task<RoleInfo> GetRole(string roleId);
+        const string ROLE_PATH = "role";
+        const string ROLE_ID_PATH = "roleId";
+
+        /// <summary>
+        /// Provides the detailed information about the role requested
+        /// </summary>
+        /// <param name="roleName">Unique internal name identifier of the role</param>
+        /// <returns></returns>
+        Task<RoleInfo> GetRoleByName(string roleName);
+        const string ROLE_NAME = "roleName";
 
         /// <summary>
         /// Save detailed information about role
         /// </summary>
         /// <param name="role">Role entity that contains the information</param>
         Task<RoleInfo> PostRole(RoleInfo role);
-         const string ROLE_PATH = "role";
-
+         
         /// <summary>
         /// Assign user to a given role
         /// </summary>
         /// <param name="userId">Unique internal identifier of the user</param>
         /// <param name="role">Role entity that contains the information</param>
-        Task AddToRole(string userId, RoleInfo role);
+        Task AddToRole(RoleInfo role, string userId);
         const string ROLE_ADD = "addToRole";
         
         /// <summary>

@@ -10,24 +10,26 @@ namespace Api.Content
         const string SERVICE_ROUTE = "content";
         const string PING = "ping";
 
-        public record ContentInfo(string id, string title, string link, string userid, DateTime uploadDate );
-        public record TagInfo(string id, string name, string userid, DateTime uploadDate);
+        public record ContentInfo(string id, string title, string description, string link, string[] authors, string[] licenseTypes, List<TagInfo> tags, string userid, DateTime? uploadDate );
+        public record TagInfo(string id, string name, string userid, DateTime? uploadDate);
         /// <summary>
         /// Provides detailed information about all the content. In case of tagId and group is not null, it will be provide the content that belong to the tag and group.
         /// </summary>
         /// <param name="tagId">Unique internal identifier of the tag</param>
 		/// <param name="groupId">Unique internal identifier of the group</param>
-        Task<List<ContentInfo>> GetContents(string tagId = null, string groupId = null);
-        const string CONTENT_PATH = "contents";
+        Task<List<ContentInfo>> GetContents(int pageSize, int page, string tagId = null, string groupId = null);
+        const string CONTENT_LIST_PATH = "contentsList";
         const string TAG_ID_PATH = "tagId";
 		const string GROUP_ID_PATH = "groupId";
+        const string PAGE_SIZE = "pageSize";
+        const string PAGE = "page";
         /// <summary>
         /// Provides detailed information about the content requested
         /// </summary>
         /// <param name="contentId">Unique internal identifier of the content</param>
         Task<ContentInfo> GetContent(string contentId);
-        const string USER_PATH = "content";
-		const string USER_ID_PATH = "contentId";
+        const string CONTENT_PATH = "contents";
+        const string CONTENT_ID_PATH = "contentId";
 
         /// <summary>
         /// Save detailed information about content

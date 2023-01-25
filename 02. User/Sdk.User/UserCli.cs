@@ -48,8 +48,8 @@ namespace Sdk.User
             ArrangeAuthenticatedRequest();
             HttpResponseMessage response = await _client.GetAsync($"{_base}/" +
                     $"{IUserApi.SERVICE_ROUTE}/" +
-                    $"{USERS_PATH}/"+
-                    $"{groupId}/");
+                    $"{USERS_PATH}" +
+                    $"?{GROUP_ID_PATH}={groupId}");
 
             // Provide success.
             if (response.IsSuccessStatusCode)
@@ -68,8 +68,8 @@ namespace Sdk.User
             ArrangeAuthenticatedRequest();
             HttpResponseMessage response = await _client.GetAsync($"{_base}/" +
                     $"{IUserApi.SERVICE_ROUTE}/" +
-                    $"{USER_PATH}/" +
-                    $"{userId}");
+                    $"{USER_PATH}" +
+                    $"?{USER_ID_PATH}={userId}");
 
             // Provide success.
             if (response.IsSuccessStatusCode)
@@ -81,14 +81,32 @@ namespace Sdk.User
             throw new Exception(await response.Content.ReadAsStringAsync());
         }
 
+        public async Task<List<GroupInfo>> GetGroups()
+        {
+            // Send request.
+            ArrangeAuthenticatedRequest();
+            HttpResponseMessage response = await _client.GetAsync($"{_base}/" +
+                    $"{IUserApi.SERVICE_ROUTE}/" +
+                    $"{GROUPS_PATH}");
+
+            // Provide success.
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == HttpStatusCode.NoContent) return null;
+                return await response.Content.ReadAsAsync<List<GroupInfo>>();
+            }
+            // Error.
+            throw new Exception(await response.Content.ReadAsStringAsync());
+        }
+
         public async Task<GroupInfo> GetGroup(string groupId)
         {
             // Send request.
             ArrangeAuthenticatedRequest();
             HttpResponseMessage response = await _client.GetAsync($"{_base}/" +
                     $"{IUserApi.SERVICE_ROUTE}/" +
-                    $"{GROUP_PATH}/" +
-                    $"{GROUP_ID_PATH}");
+                    $"{GROUP_PATH}" +
+                    $"?{GROUP_ID_PATH}={groupId}");
 
             // Provide success.
             if (response.IsSuccessStatusCode)
@@ -100,14 +118,14 @@ namespace Sdk.User
             throw new Exception(await response.Content.ReadAsStringAsync());
         }
 
-        public async Task<GroupInfo> GetGroupByName(string groupId)
+        public async Task<GroupInfo> GetGroupByName(string groupName)
         {
             // Send request.
             ArrangeAuthenticatedRequest();
             HttpResponseMessage response = await _client.GetAsync($"{_base}/" +
                     $"{IUserApi.SERVICE_ROUTE}/" +
-                    $"{GROUP_PATH}/" +
-                    $"{GROUP_NAME}");
+                    $"{GROUP_NAME}" +
+                    $"?{GROUP_NAME}={groupName}");
 
             // Provide success.
             if (response.IsSuccessStatusCode)
@@ -138,21 +156,78 @@ namespace Sdk.User
             throw new Exception(await response.Content.ReadAsStringAsync());
         }
 
-        public async Task AddToGroup(string userId, GroupInfo group)
+        public async Task AddToGroup( GroupInfo group, string userId)
         {
            // Send request.
             ArrangeAuthenticatedRequest();
             StringContent data = new StringContent(JsonSerializer.Serialize<GroupInfo>(group), Encoding.UTF8, "application/json");
             HttpResponseMessage response = await _client.PutAsync($"{_base}/" +
                     $"{IUserApi.SERVICE_ROUTE}/" +
-                    $"{GROUP_ADD}/" +
-                    $"{USER_ID_PATH}", data);
+                    $"{GROUP_ADD}" +
+                    $"?{USER_ID_PATH}={userId}", data);
 
             // Provide success.
             if (response.IsSuccessStatusCode){ return; }
             // Error.
             throw new Exception(await response.Content.ReadAsStringAsync());
         }
+        
+        public async Task<List<RoleInfo>> GetRoles()
+        {
+            // Send request.
+            ArrangeAuthenticatedRequest();
+            HttpResponseMessage response = await _client.GetAsync($"{_base}/" +
+                    $"{IUserApi.SERVICE_ROUTE}/" +
+                    $"{ROLES_PATH}");
+
+            // Provide success.
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == HttpStatusCode.NoContent) return null;
+                return await response.Content.ReadAsAsync<List<RoleInfo>>();
+            }
+            // Error.
+            throw new Exception(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task<RoleInfo> GetRole(string roleId)
+        {
+            // Send request.
+            ArrangeAuthenticatedRequest();
+            HttpResponseMessage response = await _client.GetAsync($"{_base}/" +
+                    $"{IUserApi.SERVICE_ROUTE}/" +
+                    $"{ROLE_PATH}" +
+                    $"?{ROLE_ID_PATH}={roleId}");
+
+            // Provide success.
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == HttpStatusCode.NoContent) return null;
+                return await response.Content.ReadAsAsync<RoleInfo>();
+            }
+            // Error.
+            throw new Exception(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task<RoleInfo> GetRoleByName(string roleName)
+        {
+            // Send request.
+            ArrangeAuthenticatedRequest();
+            HttpResponseMessage response = await _client.GetAsync($"{_base}/" +
+                    $"{IUserApi.SERVICE_ROUTE}/" +
+                    $"{ROLE_NAME}" +
+                    $"?{ROLE_NAME}={roleName}");
+
+            // Provide success.
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == HttpStatusCode.NoContent) return null;
+                return await response.Content.ReadAsAsync<RoleInfo>();
+            }
+            // Error.
+            throw new Exception(await response.Content.ReadAsStringAsync());
+        }
+
 
         public async Task<RoleInfo> PostRole(RoleInfo role)
         {
@@ -173,15 +248,15 @@ namespace Sdk.User
             throw new Exception(await response.Content.ReadAsStringAsync());
         }
 
-         public async Task AddToRole(string userId, RoleInfo role)
+         public async Task AddToRole(RoleInfo role, string userId)
         {
            // Send request.
             ArrangeAuthenticatedRequest();
             StringContent data = new StringContent(JsonSerializer.Serialize<RoleInfo>(role), Encoding.UTF8, "application/json");
             HttpResponseMessage response = await _client.PutAsync($"{_base}/" +
                     $"{IUserApi.SERVICE_ROUTE}/" +
-                    $"{ROLE_ADD}/" +
-                    $"{USER_ID_PATH}", data);
+                    $"{ROLE_ADD}" +
+                    $"?{USER_ID_PATH}={userId}", data);
 
             // Provide success.
             if (response.IsSuccessStatusCode){ return; }
@@ -214,8 +289,8 @@ namespace Sdk.User
             StringContent data = new StringContent(JsonSerializer.Serialize<UserInfo>(user), Encoding.UTF8, "application/json");
             HttpResponseMessage response = await _client.PutAsync($"{_base}/" +
                     $"{IUserApi.SERVICE_ROUTE}/" +
-                    $"{USER_PATH}/" +
-                    $"{userId}", data);
+                    $"{USER_PATH}" +
+                    $"?{USER_ID_PATH}={userId}", data);
 
             // Provide success.
             if (response.IsSuccessStatusCode)
@@ -232,8 +307,8 @@ namespace Sdk.User
             ArrangeAuthenticatedRequest();
             HttpResponseMessage response = await _client.DeleteAsync($"{_base}/" +
                     $"{IUserApi.SERVICE_ROUTE}/" +
-                    $"{USER_PATH}/" +
-                    $"{userId}");
+                    $"{USER_PATH}" +
+                    $"?{USER_ID_PATH}={userId}");
 
             // Provide success.
             if (response.IsSuccessStatusCode){ return true; }

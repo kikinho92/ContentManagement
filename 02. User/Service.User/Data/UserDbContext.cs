@@ -11,5 +11,6 @@ namespace Service.User.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Group> Groups { get; set; }
+        public DbSet<Role> Roles { get; set; }
     }
 }

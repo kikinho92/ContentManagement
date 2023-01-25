@@ -42,8 +42,8 @@ namespace Service.Content.Controllers
         }
 
         [HttpGet]
-        [Route(CONTENT_PATH + "/{" + TAG_ID_PATH + "}/{" + IContentApi.GROUP_ID_PATH + "}")]
-        public async Task<ActionResult<List<ContentInfo>>> GetContents(string tagId = null, string groupId = null)
+        [Route(CONTENT_LIST_PATH)]
+        public async Task<ActionResult<List<ContentInfo>>> GetContents(int pageSize, int page, string tagId = null, string groupId = null)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace Service.Content.Controllers
                                                                   on con.Id equals contag.IdContent
                                                               where (!string.IsNullOrEmpty(tagId) && contag.IdTag == tagId) ||
                                                                     1 == 1
-                                                              select con).ToList();
+                                                              select con).Distinct().ToList();
                 
                 if (!string.IsNullOrEmpty(groupId))
                 {
@@ -64,7 +64,27 @@ namespace Service.Content.Controllers
                 List<ContentInfo> contentsInfo = new List<ContentInfo>();
                 foreach (Data.Content content in contents)
                 {
-                    contentsInfo.Add(new ContentInfo(content.Id, content.Title, content.Link, content.UserId, content.UploadDate));
+                    List<Tag> tags = (from contag in _dbContext.ContentTag
+                                      join tag in _dbContext.Tags
+                                          on contag.IdTag equals tag.Id
+                                      where contag.IdContent == content.Id
+                                      select tag).ToList();
+
+                    List<TagInfo> tagsInfo = new List<TagInfo>();
+                    foreach (Tag tag in tags)
+                    {
+                        tagsInfo.Add(new TagInfo(tag.Id, tag.Name, tag.UserId, tag.UploadDate));
+                    }
+
+                    contentsInfo.Add(new ContentInfo(content.Id, 
+                                                        content.Title, 
+                                                        content.Description, 
+                                                        content.Link, 
+                                                        content.Authors.Split(','),
+                                                        content.LicenseTypes.Split(','),
+                                                        tagsInfo,
+                                                        content.UserId, 
+                                                        content.UploadDate));
                 }
 
                 return Ok(contentsInfo);
@@ -74,26 +94,42 @@ namespace Service.Content.Controllers
             {
                 _logger.LogError($"Internal error. {e.Message}");
 
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Internal error. {e.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"ERROR - Internal error. {e.Message}");
             }
         }
 
         [HttpGet]
-        [Route(IContentApi.CONTENT_PATH + "/{" + IContentApi.USER_ID_PATH + "}")]
+        [Route(IContentApi.CONTENT_PATH)]
         public ActionResult<ContentInfo> GetContent(string contentId)
         {
             try
             {
-                if (string.IsNullOrEmpty(contentId)) { return BadRequest("Invalid content id. Content not found"); }
+                if (string.IsNullOrEmpty(contentId)) { return BadRequest("ERROR - Invalid content id. Content not found"); }
 
                 Data.Content content = _dbContext.Content.Where(c => c.Id == contentId).FirstOrDefault();
-                if (content == null) { return BadRequest("Content not found"); }
+                if (content == null) { return BadRequest("ERROR - Content not found"); }
+
+                List<Tag> tags = (from contag in _dbContext.ContentTag
+                                  join tag in _dbContext.Tags
+                                      on contag.IdTag equals tag.Id
+                                  where contag.IdContent == content.Id
+                                  select tag).ToList();
+
+                List<TagInfo> tagsInfo = new List<TagInfo>();
+                foreach (Tag tag in tags)
+                {
+                    tagsInfo.Add(new TagInfo(tag.Id, tag.Name, tag.UserId, tag.UploadDate));
+                }
 
                 ContentInfo contentInfo = new ContentInfo(content.Id,
-                                                            content.Title,
-                                                            content.Link,
-                                                            content.UserId,
-                                                            content.UploadDate);
+                                                        content.Title,
+                                                        content.Description,
+                                                        content.Link,
+                                                        content.Authors.Split(','),
+                                                        content.LicenseTypes.Split(','),
+                                                        tagsInfo,
+                                                        content.UserId,
+                                                        content.UploadDate);
                 return Ok(contentInfo);
             }
             catch (Exception e)
@@ -116,10 +152,32 @@ namespace Service.Content.Controllers
                 {
                     Id = Guid.NewGuid().ToString(),
                     Title = content.title,
+                    Description = content.description,
                     Link = content.link,
+                    Authors = string.Join(",", content.authors),
+                    LicenseTypes = string.Join(",", content.licenseTypes),
                     UserId = content.userid,
                     UploadDate = DateTime.Now
                 };
+
+                foreach (TagInfo tagInfo in content.tags)
+                {
+                    Tag newTag = new Tag()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Name = tagInfo.name,
+                        UserId = tagInfo.userid,
+                        UploadDate = DateTime.Now
+                    };
+
+                    ContentTag newContentTag = new ContentTag()
+                    {
+                        IdContent = newContent.Id,
+                        IdTag = newTag.Id
+                    };
+                    _dbContext.Tags.Add(newTag);
+                    _dbContext.ContentTag.Add(newContentTag);
+                }
 
                 _dbContext.Content.Add(newContent);
                 _dbContext.SaveChanges();
@@ -133,6 +191,59 @@ namespace Service.Content.Controllers
                 _logger.LogError($"Internal error. {e.Message}");
 
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Internal error. {e.Message}");
+            }
+        }
+
+        [HttpPut]
+        [Route(CONTENT_PATH)]
+        public ActionResult<ContentInfo> PutContent(ContentInfo content, string contentId)
+        {
+            try
+            {
+                if (content == null) { return BadRequest("ERROR - Invalid content. Content can not be empty."); }
+
+                Data.Content contentData = _dbContext.Content.Where(c => c.Id == contentId).FirstOrDefault();
+                if (contentData == null) { return BadRequest("ERROR - Content not found."); }
+
+                contentData.Title = content.title;
+                contentData.Description = content.description;
+                contentData.Link = content.link;
+                contentData.Authors = string.Join(',', content.authors);
+                contentData.LicenseTypes = string.Join(',', content.licenseTypes);
+
+                List<ContentTag> contentTags = _dbContext.ContentTag.Where(ct => ct.IdContent == contentData.Id).ToList();
+                _dbContext.ContentTag.RemoveRange(contentTags);
+
+                foreach (TagInfo tagInfo in content.tags)
+                {
+                    Tag tag = _dbContext.Tags.Where(t => t.Id == tagInfo.id).FirstOrDefault();
+                    if (tag == null)
+                    {
+                        tag = new Tag()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Name = tagInfo.name
+                        };
+                        _dbContext.Tags.Add(tag);
+                    }
+
+                    ContentTag contentTag = new ContentTag()
+                    {
+                        IdContent = contentData.Id,
+                        IdTag = tag.Id
+                    };
+                    _dbContext.ContentTag.Add(contentTag);
+                }
+
+                _dbContext.SaveChanges();
+
+                return Ok(content);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"ERROR - Internal error. {e.Message}");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, $"ERROR - Internal error. {e.Message}");
             }
         }
 
@@ -164,7 +275,7 @@ namespace Service.Content.Controllers
         }
 
         [HttpGet]
-        [Route(TAG_PATH + "/{" + IContentApi.GROUP_ID_PATH + "}")]
+        [Route(TAG_PATH)]
         public async Task<ActionResult<List<TagInfo>>> GetTags(string groupId = null)
         {
             try

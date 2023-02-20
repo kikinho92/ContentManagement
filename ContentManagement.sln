@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentManagement-Frontend"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Common", "Library.Common\Library.Common.csproj", "{395565DD-6879-4D78-BCB0-27F6F0CECEEC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrapy.uc3m", "Scrapy.uc3m\Scrapy.uc3m.csproj", "{5CCD3FD4-F9A4-486C-A33A-5E3716C4F2A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -276,6 +278,18 @@ Global
 		{395565DD-6879-4D78-BCB0-27F6F0CECEEC}.Release|x64.Build.0 = Release|Any CPU
 		{395565DD-6879-4D78-BCB0-27F6F0CECEEC}.Release|x86.ActiveCfg = Release|Any CPU
 		{395565DD-6879-4D78-BCB0-27F6F0CECEEC}.Release|x86.Build.0 = Release|Any CPU
+		{5CCD3FD4-F9A4-486C-A33A-5E3716C4F2A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CCD3FD4-F9A4-486C-A33A-5E3716C4F2A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CCD3FD4-F9A4-486C-A33A-5E3716C4F2A3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5CCD3FD4-F9A4-486C-A33A-5E3716C4F2A3}.Debug|x64.Build.0 = Debug|Any CPU
+		{5CCD3FD4-F9A4-486C-A33A-5E3716C4F2A3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5CCD3FD4-F9A4-486C-A33A-5E3716C4F2A3}.Debug|x86.Build.0 = Debug|Any CPU
+		{5CCD3FD4-F9A4-486C-A33A-5E3716C4F2A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CCD3FD4-F9A4-486C-A33A-5E3716C4F2A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CCD3FD4-F9A4-486C-A33A-5E3716C4F2A3}.Release|x64.ActiveCfg = Release|Any CPU
+		{5CCD3FD4-F9A4-486C-A33A-5E3716C4F2A3}.Release|x64.Build.0 = Release|Any CPU
+		{5CCD3FD4-F9A4-486C-A33A-5E3716C4F2A3}.Release|x86.ActiveCfg = Release|Any CPU
+		{5CCD3FD4-F9A4-486C-A33A-5E3716C4F2A3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{09947F01-13E2-4C88-A82D-8F293663B835} = {94F1B772-2E19-4533-AA0D-C3D4538F7ACF}

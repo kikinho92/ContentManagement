@@ -39,7 +39,18 @@
         },
 
         ///////////////////////////////////////////////////////////////////////
-
+        {
+            "label": "build-app-scrapy.uc3m",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Scrapy.uc3m/Scrapy.uc3m.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
         {
             "label": "build-service-auth",
             "command": "dotnet",

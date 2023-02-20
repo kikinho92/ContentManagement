@@ -79,7 +79,9 @@ namespace Service.Content.Controllers
                     contentsInfo.Add(new ContentInfo(content.Id, 
                                                         content.Title, 
                                                         content.Description, 
-                                                        content.Link, 
+                                                        content.Link,
+                                                        content.Department,
+                                                        content.Grades.Split(','),
                                                         content.Authors.Split(','),
                                                         content.LicenseTypes.Split(','),
                                                         tagsInfo,
@@ -125,6 +127,8 @@ namespace Service.Content.Controllers
                                                         content.Title,
                                                         content.Description,
                                                         content.Link,
+                                                        content.Department,
+                                                        content.Grades.Split(','),
                                                         content.Authors.Split(','),
                                                         content.LicenseTypes.Split(','),
                                                         tagsInfo,
@@ -154,6 +158,8 @@ namespace Service.Content.Controllers
                     Title = content.title,
                     Description = content.description,
                     Link = content.link,
+                    Department = content.department,
+                    Grades = string.Join(",", content.grades),
                     Authors = string.Join(",", content.authors),
                     LicenseTypes = string.Join(",", content.licenseTypes),
                     UserId = content.userid,
@@ -208,6 +214,8 @@ namespace Service.Content.Controllers
                 contentData.Title = content.title;
                 contentData.Description = content.description;
                 contentData.Link = content.link;
+                contentData.Department = content.department;
+                contentData.Grades = string.Join(',', content.grades);
                 contentData.Authors = string.Join(',', content.authors);
                 contentData.LicenseTypes = string.Join(',', content.licenseTypes);
 

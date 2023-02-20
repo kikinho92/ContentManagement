@@ -10,7 +10,7 @@ namespace Api.Content
         const string SERVICE_ROUTE = "content";
         const string PING = "ping";
 
-        public record ContentInfo(string id, string title, string description, string link, string[] authors, string[] licenseTypes, List<TagInfo> tags, string userid, DateTime? uploadDate );
+        public record ContentInfo(string id, string title, string description, string link, string department, string[] grades, string[] authors, string[] licenseTypes, List<TagInfo> tags, string userid, DateTime? uploadDate);
         public record TagInfo(string id, string name, string userid, DateTime? uploadDate);
         /// <summary>
         /// Provides detailed information about all the content. In case of tagId and group is not null, it will be provide the content that belong to the tag and group.

@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Service.Content.Data
+namespace Scrapy.uc3m.Data
 {
     /// <summary>
     /// Data entity: information about the user.
@@ -17,7 +17,7 @@ namespace Service.Content.Data
         /// <summary>
         /// Short description of the content
         /// </summary>
-        [StringLength(200), Required]
+        [StringLength(50), Required]
         public string Title { get; set; }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Service.Content.Data
         /// <summary>
         /// Author the content belong to. It can be more than one. It is gonna be separate by commas (,)
         /// </summary>
-        [StringLength(500)]
+        [StringLength(200)]
         public string Authors { get; set; }
 
         /// <summary>

@@ -6,6 +6,7 @@ import './custom.css'
 import { LoginLayout } from './components/login/LoginLayout';
 import { SignupLayout } from './components/signup/SignupLayout';
 import { ContentLayout } from './components/contents/ContentLayout';
+import { SekeerLayout } from './components/sekeer/SekeerLayout';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -20,7 +21,8 @@ export default class App extends Component {
   render () {
     return (
       <Layout>
-        <Route exact path='/' component={LoginLayout} />
+        <Route exact path='/' component={SekeerLayout} />
+        <Route exact path='/home' component={SekeerLayout} />
         <Route exact path='/login' component={LoginLayout} />
         <Route exact path='/signup' component={SignupLayout}></Route>
         <Route exact path='/contents' component={ContentLayout} />

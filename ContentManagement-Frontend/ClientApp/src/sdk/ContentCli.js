@@ -17,6 +17,8 @@ export default class ContentCli {
   static get GROUP_ID_PATH() { return "groupId" }
   static get CONTENT_ID_PATH() { return "contentId" }
   static get TAG_PATH() { return "tag" }
+  static get SEARCH_PATH() { return "search" }
+  static get SEARCH_PARAM_PATH() { return "search" }
 
 
   static get prefix() { return (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') ? 'https://localhost:9003/' : window.location.protocol + '//' + window.location.host + '/api/' }
@@ -116,6 +118,22 @@ export default class ContentCli {
     var verb = "POST"
     var path = this.SERVICE_ROUTE + "/" + this.TAG_PATH
     var body = tag
+  
+    return AuthCli.Fetch(this.prefix + path, verb, body)
+  }
+
+  /**
+   * Get contents filtered by a search.
+   * @param {*} search partial or complete string to search in content info
+   * @returns 
+   */
+  static async SearchContents(pageSize, page, search) {
+    var verb = "GET"
+    var path = this.SERVICE_ROUTE + "/" + this.SEARCH_PATH +
+      "?" + this.PAGE_SIZE + "=" + pageSize +
+      "&" + this.PAGE + "=" + page +
+      "&" + this.SEARCH_PARAM_PATH + "=" + search
+    var body = null
   
     return AuthCli.Fetch(this.prefix + path, verb, body)
   }

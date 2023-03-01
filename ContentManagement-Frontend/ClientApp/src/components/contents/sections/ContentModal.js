@@ -8,16 +8,20 @@ const initialState = {
     description: "",
     link: "",
     authors: [],
-    licenseTypes: [],
+    grades: [],
     tags: [],
+    licenseTypes: [],
     userid: "",
     uploadDate: null
   },
   user: null,
+  tags: [],
 
   currentAuthor: "",
-  currentLicense: "",
-  currentTag: ""
+  currentGrade: "",
+  currentTag: "",
+
+  response: null
 }
 
 export class ContentModal extends React.Component {
@@ -39,8 +43,17 @@ export class ContentModal extends React.Component {
               userid: this.state.user.id
             }
           }))
+
+          ContentCli.GetTags(this.state.user.group.id).then(response => {
+            if (response !== null && response.toString().startsWith("[ERROR")) {
+              this.setState({ tagsErrorMessage: response.substring(session.indexOf(' ')) })
+            } else {
+              this.setState({ tags: response })
+            }
+          });
         })
     }
+    
   }
 
   componentDidUpdate(prevProps) {
@@ -66,7 +79,7 @@ export class ContentModal extends React.Component {
     var name = event.target.name
     var value = event.target.value
 
-    if (name !== "currentAuthor" && name !== "currentLicense" && name !== "currentTag") {
+    if (name !== "currentAuthor" && name !== "currentGrade" && name !== "currentTag") {
       this.setState(prevState => ({
         content: {
           ...prevState.content,
@@ -90,19 +103,23 @@ export class ContentModal extends React.Component {
           }
         }), () => this.setState({ currentAuthor: "" }))
         break;
-      case "LICENSE":
+      case "GRADE":
         this.setState(prevState => ({
           content: {
             ...prevState.content,
-            licenseTypes: [...this.state.content.licenseTypes, this.state.currentLicense]
+            grades: [...this.state.content.grades, this.state.currentGrade]
           }
-        }), () => this.setState({ currentLicense: "" }))
+        }), () => this.setState({ currentGrade: "" }))
         break;
       case "TAG":
+        var tag = this.state.tags.find(t => t.name === this.state.currentTag)
+        if (!tag) {
+          tag = { id: "", name: this.state.currentTag, userid: this.state.user.id, uploadDate: null }
+        }
         this.setState(prevState => ({
           content: {
             ...prevState.content,
-            tags: [...this.state.content.tags, { id: "", name: this.state.currentTag, userid: this.state.user.id, uploadDate: null }]
+            tags: [...this.state.content.tags, tag]
           }
         }), () => this.setState({ currentTag: "" }))
         break;
@@ -110,16 +127,15 @@ export class ContentModal extends React.Component {
       default:
         break;
     }
-
-    
   }
 
   removeItemList = (event) => {
-    var name = event.target.name
+    var name = event.target.dataset.name
+    var value = event.target.parentElement.textContent
 
     switch (name.toUpperCase()) {
       case "AUTHOR":
-        const authors = this.state.authors.filter(author => author !== this.state.currentAuthor)
+        const authors = this.state.content.authors.filter(author => author !== value)
         this.setState(prevState => ({
           content: {
             ...prevState.content,
@@ -127,17 +143,17 @@ export class ContentModal extends React.Component {
           }
         }))
         break;
-      case "LICENSE":
-        const licenses = this.state.licenseTypes.filter(license => license !== this.state.currentLicense)
+      case "GRADE":
+        const grades = this.state.content.grades.filter(grade => grade !== value)
         this.setState(prevState => ({
           content: {
             ...prevState.content,
-            licenseTypes: licenses
+            grades: grades
           }
         }))
         break;
       case "TAG":
-        const tags = this.state.tags.filter(tag => tag.name !== this.state.currentTag)
+        const tags = this.state.content.tags.filter(tag => tag.name !== value)
         this.setState(prevState => ({
           content: {
             ...prevState.content,
@@ -145,7 +161,6 @@ export class ContentModal extends React.Component {
           }
         }))
         break;
-    
       default:
         break;
     }
@@ -153,7 +168,7 @@ export class ContentModal extends React.Component {
 
   handleSaveContent = () => {
 
-    const { handleContent } = this.props
+    console.log("contentToSave", this.state.content)
 
     if (this.state.content.id === null) {
       ContentCli.PostContent(this.state.content).then(response => {
@@ -162,7 +177,7 @@ export class ContentModal extends React.Component {
         } else {
           this.setState(initialState, () => {
             this.setState({ contentSuccessMessage: "¡Contenido guardado correctamente!" })
-            handleContent(response, "POST")
+            this.props.handleContent(response, "POST")
           })
         }
       })
@@ -173,7 +188,7 @@ export class ContentModal extends React.Component {
         } else {
           this.setState(initialState, () => {
             this.setState({ contentSuccessMessage: "¡Contenido modificado correctamente!" })
-            handleContent(response, "PUT")
+            this.props.handleContent(response, "PUT")
           })
         }
       })
@@ -185,7 +200,7 @@ export class ContentModal extends React.Component {
       <React.Fragment>
 
         <div className="modal fade" id={"content-modal-" + (this.state.content ? this.state.content.id : "")} tabIndex={-1} aria-labelledby="content-modal-label" aria-hidden="true">
-          <div className="modal-dialog modal-lg">
+          <div className="modal-dialog modal-xl">
             <div className="modal-content">
               <div className="modal-header">
                 <h1 className="modal-title fs-5" id="content-modal-label">Contenido</h1>
@@ -217,7 +232,7 @@ export class ContentModal extends React.Component {
                           return (
                             <li key={author} className="list-group-item">
                               {author}
-                              <i className="bi bi-trash-fill float-end" name="author" style={{ cursor: 'pointer' }} onClick={this.removeItemList}></i>
+                              <i className="bi bi-trash-fill float-end" data-name="author" style={{ cursor: 'pointer' }} onClick={this.removeItemList}></i>
                             </li>
                           )
                         })}
@@ -225,15 +240,15 @@ export class ContentModal extends React.Component {
                     </div>
                     <div className='col-xs-12 col-md-4'>
                       <div className="input-group mb-3">
-                        <input className="form-control" type="text" placeholder="Tipos de licencia" name="currentLicense" aria-label="input-license" value={this.state.currentLicense} onChange={this.handleOnInputChange} />
-                        <button className="btn btn-primary" type="button" id="button-license" name="license" onClick={this.addItemList}>Añadir</button>
+                        <input className="form-control" type="text" placeholder="Titulación" name="currentGrade" aria-label="input-grades" value={this.state.currentGrade} onChange={this.handleOnInputChange} />
+                        <button className="btn btn-primary" type="button" id="button-grade" name="grade" onClick={this.addItemList}>Añadir</button>
                       </div>
                       <ul className="list-group">
-                        {this.state.content && this.state.content.licenseTypes && this.state.content.licenseTypes.map(license => {
+                        {this.state.content && this.state.content.grades && this.state.content.grades.map(grade => {
                           return (
-                            <li key={license} className="list-group-item">
-                              {license}
-                              <i className="bi bi-trash-fill float-end" name="license" style={{ cursor: 'pointer' }} onClick={this.removeItemList}></i>
+                            <li key={grade} className="list-group-item">
+                              {grade}
+                              <i className="bi bi-trash-fill float-end" data-name="grade" style={{ cursor: 'pointer' }} onClick={this.removeItemList}></i>
                             </li>
                           )
                         })}
@@ -241,15 +256,21 @@ export class ContentModal extends React.Component {
                     </div>
                     <div className='col-xs-12 col-md-4'>
                       <div className="input-group mb-3">
-                        <input className="form-control" type="text" placeholder="Etiquetas" name="currentTag" aria-label="input-tag" value={this.state.currentTag} onChange={this.handleOnInputChange} />
+                        <input className="form-control" list="datalistTags" id={"datalist-" + this.state.content.id} name="currentTag" placeholder="Etiquetas..." value={this.state.currentTag} onChange={this.handleOnInputChange} />
                         <button className="btn btn-primary" type="button" id="button-tag" name="tag" onClick={this.addItemList}>Añadir</button>
+                        <datalist id="datalistTags">
+                          {this.state.tags && this.state.tags.map(tag => {
+                            return (<option key={tag.id} value={tag.name}/>)
+                          })}
+                        </datalist>
+
                       </div>
                       <ul className="list-group">
                         {this.state.content && this.state.content.tags && this.state.content.tags.map(tag => {
                           return (
                             <li key={tag.name} className="list-group-item">
                               {tag.name}
-                              <i className="bi bi-trash-fill float-end" name="tag" style={{ cursor: 'pointer' }} onClick={this.removeItemList}></i>
+                              <i className="bi bi-trash-fill float-end" data-name="tag" style={{ cursor: 'pointer' }} onClick={this.removeItemList}></i>
                             </li>
                           )
                         })}

@@ -62,5 +62,13 @@ namespace Api.Content
         /// </summary>
         /// <param name="tag">Tag entity that contains the information</param>
         Task<TagInfo> PostTag(TagInfo tag);
+
+        /// <summary>
+        /// Get contents filtered by a search
+        /// </summary>
+        /// <param name="search">partial or complete string to search in content info</param>
+        Task<List<ContentInfo>>SearchContents(int pageSize, int page, string search);
+        const string SEARCH_PATH = "search";
+        const string SEARCH_PARAM_PATH = "search";
     }
 }

@@ -5,6 +5,7 @@ import UserCli from '../../sdk/UserCli'
 
 import { ContentSingle } from './sections/ContentSingle'
 import { ContentModal } from './sections/ContentModal'
+import { ContentList } from './sections/ContentList'
 
 const CONTENTS_PAGE_SIZE = 10
 
@@ -99,23 +100,16 @@ export class ContentLayout extends React.Component {
             <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#content-modal-null">Añadir contenido</button>
           </div>
         </div>
-        <hr />
-        <div className="row">
-          <div className="col-xs-12 col-md-12">
-            {this.state.contents && this.state.contents.map(content => {
-              return ( <ContentSingle key={content.id} content={content} user={this.state.user} handleContent={this.handleContent}></ContentSingle>)
-            })}
-          </div>
-        </div>
 
-        <ContentModal content={null} user={this.state.user} handleContent={this.handleContent}></ContentModal>
+        <ContentList contents={this.state.contents} user={this.state.user} handleContent={this.handleContent}></ContentList>
 
         <div className="row mt-3">
-          <div className="col-xs-12 col-md-2">
-            <button type="button" className="btn btn-primary" onClick={this.loadNextPage} disabled={this.state.endOfContents}>Cargar más</button>
+          <div className="col-xs-12 col-md-12">
+            <button type="button" className="btn btn-primary float-end" onClick={this.loadNextPage} disabled={this.state.endOfContents}>Cargar más</button>
           </div>
         </div>
-
+        
+        <ContentModal content={null} user={this.state.user} handleContent={this.handleContent}></ContentModal>
       </React.Fragment>
     )
   }

@@ -45,21 +45,30 @@ export class Login extends React.Component {
       <React.Fragment>
         <div className="container">
           <div className="row">
-            <label htmlFor="userEmail" className="form-label">Email</label>
-            <input id="userEmail" type="email" className="form-control" placeholder="email@email.com" onChange={this.onInputChange} value={this.state.userEmail}></input>
-          </div>
-          <div className="row">
-            <label htmlFor="userPassword" className="form-label">Password</label>
-            <input id="userPassword" type="password" className="form-control" onChange={this.onInputChange} value={this.state.userPassword}></input>
-          </div>
-          <div className="row">
-            <button type="button" className="btn btn-primary" onClick={this.doLogIn}>LogIn</button>
+            <div className="col-md-4 offset-md-4">
+              <div className="card">
+                <h5 className="card-header"></h5>
+                <div className="card-body">
+                  <div className="mb-3">
+                    <label htmlFor="userEmail" className="form-label">Email</label>
+                    <input id="userEmail" type="email" className="form-control" placeholder="email@urjc.com" onChange={this.onInputChange} value={this.state.userEmail}></input>
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="userPassword" className="form-label">Password</label>
+                    <input id="userPassword" type="password" className="form-control" placeholder="password" onChange={this.onInputChange} value={this.state.userPassword}></input>
+                  </div>
+                  <div className="mb-3">
+                    <button type="button" className="btn btn-primary" onClick={this.doLogIn}>LogIn</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         {this.state.loginErrorMessage !== null &&
           <div className="alert alert-danger" role="alert">
-            {this.state.loginErrorMessage}  
+            {this.state.loginErrorMessage}
           </div>
         }
 

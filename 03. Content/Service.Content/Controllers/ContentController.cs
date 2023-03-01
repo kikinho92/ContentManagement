@@ -30,7 +30,7 @@ namespace Service.Content.Controllers
         {
             _logger = logger;
             _dbContext = dbContext;
-             _user = user;
+            _user = user;
         }
 
         [HttpGet]
@@ -47,19 +47,26 @@ namespace Service.Content.Controllers
         {
             try
             {
-                List<Service.Content.Data.Content> contents = (from con in _dbContext.Content
-                                                              join contag in _dbContext.ContentTag
-                                                                  on con.Id equals contag.IdContent
-                                                              where (!string.IsNullOrEmpty(tagId) && contag.IdTag == tagId) ||
-                                                                    1 == 1
-                                                              select con).Distinct().ToList();
-                
+                List<string> usersId = new List<string>();
                 if (!string.IsNullOrEmpty(groupId))
                 {
                     List<UserInfo> users = await _user.GetUsers(groupId);
-
-                    contents = contents.Where(con => users.Select(u => u.id).ToList().Contains(con.UserId)).ToList();
+                    usersId = users.Select(u => u.id).ToList();
                 }
+
+                List<Service.Content.Data.Content> contents = (from con in _dbContext.Content
+                                                               join contag in _dbContext.ContentTag
+                                                                   on con.Id equals contag.IdContent
+                                                               where ((!string.IsNullOrEmpty(tagId) && contag.IdTag == tagId) || 1 == 1) &&
+                                                                     (!string.IsNullOrEmpty(groupId) && usersId.Contains(con.UserId))
+                                                               select con)
+                                                              .Distinct()
+                                                              .OrderBy(c => c.Title)
+                                                              .Skip(pageSize * page)
+                                                              .Take(pageSize)
+                                                              .ToList();
+
+
 
                 List<ContentInfo> contentsInfo = new List<ContentInfo>();
                 foreach (Data.Content content in contents)
@@ -76,16 +83,16 @@ namespace Service.Content.Controllers
                         tagsInfo.Add(new TagInfo(tag.Id, tag.Name, tag.UserId, tag.UploadDate));
                     }
 
-                    contentsInfo.Add(new ContentInfo(content.Id, 
-                                                        content.Title, 
-                                                        content.Description, 
+                    contentsInfo.Add(new ContentInfo(content.Id,
+                                                        content.Title,
+                                                        content.Description,
                                                         content.Link,
                                                         content.Department,
-                                                        content.Grades.Split(','),
-                                                        content.Authors.Split(','),
-                                                        content.LicenseTypes.Split(','),
+                                                        content.Grades != null ? content.Grades.Split(',') : new string[] { },
+                                                        content.Authors != null ? content.Authors.Split(',') : new string[] { },
+                                                        content.LicenseTypes != null ? content.LicenseTypes.Split(',') : new string[] { },
                                                         tagsInfo,
-                                                        content.UserId, 
+                                                        content.UserId,
                                                         content.UploadDate));
                 }
 
@@ -128,9 +135,9 @@ namespace Service.Content.Controllers
                                                         content.Description,
                                                         content.Link,
                                                         content.Department,
-                                                        content.Grades.Split(','),
-                                                        content.Authors.Split(','),
-                                                        content.LicenseTypes.Split(','),
+                                                        content.Grades != null ? content.Grades.Split(',') : new string[] { },
+                                                        content.Authors != null ? content.Authors.Split(',') : new string[] { },
+                                                        content.LicenseTypes != null ? content.LicenseTypes.Split(',') : new string[] { },
                                                         tagsInfo,
                                                         content.UserId,
                                                         content.UploadDate);
@@ -168,21 +175,26 @@ namespace Service.Content.Controllers
 
                 foreach (TagInfo tagInfo in content.tags)
                 {
-                    Tag newTag = new Tag()
+                    Tag tag = _dbContext.Tags.Where(t => t.Id == tagInfo.id && t.UserId == tagInfo.userid).FirstOrDefault();
+                    if (tag == null)
                     {
-                        Id = Guid.NewGuid().ToString(),
-                        Name = tagInfo.name,
-                        UserId = tagInfo.userid,
-                        UploadDate = DateTime.Now
-                    };
-
-                    ContentTag newContentTag = new ContentTag()
+                        tag = new Tag()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Name = tagInfo.name
+                        };
+                        _dbContext.Tags.Add(tag);
+                    }
+                    ContentTag contentTag = _dbContext.ContentTag.Where(ct => ct.IdContent == newContent.Id && ct.IdTag == tag.Id).FirstOrDefault();
+                    if (contentTag == null)
                     {
-                        IdContent = newContent.Id,
-                        IdTag = newTag.Id
-                    };
-                    _dbContext.Tags.Add(newTag);
-                    _dbContext.ContentTag.Add(newContentTag);
+                        contentTag = new ContentTag()
+                        {
+                            IdContent = newContent.Id,
+                            IdTag = tag.Id
+                        };
+                        _dbContext.ContentTag.Add(contentTag);
+                    }
                 }
 
                 _dbContext.Content.Add(newContent);
@@ -224,7 +236,7 @@ namespace Service.Content.Controllers
 
                 foreach (TagInfo tagInfo in content.tags)
                 {
-                    Tag tag = _dbContext.Tags.Where(t => t.Id == tagInfo.id).FirstOrDefault();
+                    Tag tag = _dbContext.Tags.Where(t => t.Id == tagInfo.id && t.UserId == tagInfo.userid).FirstOrDefault();
                     if (tag == null)
                     {
                         tag = new Tag()
@@ -234,13 +246,16 @@ namespace Service.Content.Controllers
                         };
                         _dbContext.Tags.Add(tag);
                     }
-
-                    ContentTag contentTag = new ContentTag()
+                    ContentTag contentTag = _dbContext.ContentTag.Where(ct => ct.IdContent == contentData.Id && ct.IdTag == tag.Id).FirstOrDefault();
+                    if (contentTag == null)
                     {
-                        IdContent = contentData.Id,
-                        IdTag = tag.Id
-                    };
-                    _dbContext.ContentTag.Add(contentTag);
+                        contentTag = new ContentTag()
+                        {
+                            IdContent = contentData.Id,
+                            IdTag = tag.Id
+                        };
+                        _dbContext.ContentTag.Add(contentTag);
+                    }
                 }
 
                 _dbContext.SaveChanges();
@@ -271,7 +286,7 @@ namespace Service.Content.Controllers
 
                 _logger.LogInformation($"CONTENT {content.Id} removed succesfully.");
 
-                 return Ok(true);
+                return Ok(true);
 
             }
             catch (Exception e)
@@ -335,6 +350,75 @@ namespace Service.Content.Controllers
                 _logger.LogInformation($"TAG {newTag.Id} stored succesfully.");
 
                 return Ok(tag);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Internal error. {e.Message}");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Internal error. {e.Message}");
+            }
+        }
+
+
+        [HttpGet]
+        [Route(SEARCH_PATH)]
+        public ActionResult<List<ContentInfo>> SearchContents(int pageSize, int page, string search)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(search)) { return BadRequest("Invalid search. Search can not be empty"); }
+
+                List<Data.Content> contents = _dbContext.Content.Where(c => c.Title.Contains(search) ||
+                                                    c.Description.Contains(search) ||
+                                                    c.Authors.Contains(search) ||
+                                                    c.Grades.Contains(search) ||
+                                                    c.Department.Contains(search))
+                                                    .ToList();
+
+                List<Tag> searchIntags = _dbContext.Tags.Where(t => t.Name.Contains(search))
+                                                    .ToList();
+                foreach (Tag tag in searchIntags)
+                {
+                    List<Data.Content> contentsByTag = (from con in _dbContext.Content
+                                                   join contag in _dbContext.ContentTag
+                                                     on tag.Id equals contag.IdTag
+                                                   select con)
+                                                    .Distinct()
+                                                    .ToList();
+                    contents.AddRange(contentsByTag);
+                }
+                contents = contents.Distinct().Skip(pageSize * page).Take(pageSize).OrderBy(c => c.Title).ToList();
+
+                List<ContentInfo> contentsInfo = new List<ContentInfo>();
+                foreach (Data.Content content in contents)
+                {
+                    List<Tag> tags = (from contag in _dbContext.ContentTag
+                                      join tag in _dbContext.Tags
+                                          on contag.IdTag equals tag.Id
+                                      where contag.IdContent == content.Id
+                                      select tag).ToList();
+
+                    List<TagInfo> tagsInfo = new List<TagInfo>();
+                    foreach (Tag tag in tags)
+                    {
+                        tagsInfo.Add(new TagInfo(tag.Id, tag.Name, tag.UserId, tag.UploadDate));
+                    }
+
+                    contentsInfo.Add(new ContentInfo(content.Id,
+                                                        content.Title,
+                                                        content.Description,
+                                                        content.Link,
+                                                        content.Department,
+                                                        content.Grades != null ? content.Grades.Split(',') : new string[] { },
+                                                        content.Authors != null ? content.Authors.Split(',') : new string[] { },
+                                                        content.LicenseTypes != null ? content.LicenseTypes.Split(',') : new string[] { },
+                                                        tagsInfo,
+                                                        content.UserId,
+                                                        content.UploadDate));
+                }
+
+
+                return Ok(contentsInfo);
             }
             catch (Exception e)
             {

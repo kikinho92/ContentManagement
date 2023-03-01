@@ -27,13 +27,13 @@ export class ContentSingle extends React.Component {
                 <h5 className="card-title">{content.title} <i className="bi bi-pencil-square float-end" data-bs-toggle="modal" data-bs-target={"#content-modal-" + content.id} style={{ cursor: "pointer" }}></i></h5>
                 <div className="row">
                   <div className="col-xs-12 col-md-12">
-                    <p className="card-text">{content.link}</p>
+                    <p className="card-text"><a href={content.link} target="_blank">{content.link}</a></p>
                   </div>
                 </div>
                 <hr className="mt-1 mb-1" />
                 <div className="row">
                   <div className="col-xs-12 col-md-12">
-                    <p className="card-text">{content.description}</p>
+                    <p className="card-text">{content.description ? content.description : "-"}</p>
                   </div>
                 </div>
                 <hr className="mt-1 mb-1" />
@@ -45,7 +45,13 @@ export class ContentSingle extends React.Component {
                 <hr className="mt-1 mb-1" />
                 <div className="row">
                   <div className="col-xs-12 col-md-12">
-                    <p className="card-text">{content.licenseTypes.join(", ")}</p>
+                    <p className="card-text">{content.department ? content.department : "-"}</p>
+                  </div>
+                </div>
+                <hr className="mt-1 mb-1" />
+                <div className="row">
+                  <div className="col-xs-12 col-md-12">
+                    <p className="card-text">{content.grades.length > 0 ? content.grades.join(", ") : "-"}</p>
                   </div>
                 </div>
                 <hr className="mt-1 mb-1" />

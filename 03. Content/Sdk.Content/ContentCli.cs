@@ -49,9 +49,9 @@ namespace Sdk.Content
             HttpResponseMessage response = await _client.GetAsync($"{_base}/" +
                     $"{IContentApi.SERVICE_ROUTE}/" +
                     $"{CONTENT_LIST_PATH}"+
-                    $"?{PAGE_SIZE}={pageSize}/" +
+                    $"?{PAGE_SIZE}={pageSize}" +
                     $"&{PAGE}={page}" +
-                    $"&{TAG_ID_PATH}={tagId}/" +
+                    $"&{TAG_ID_PATH}={tagId}" +
                     $"&{GROUP_ID_PATH}={groupId}");
 
             // Provide success.
@@ -168,6 +168,27 @@ namespace Sdk.Content
             {
                 if (response.StatusCode == HttpStatusCode.NoContent) return null;
                 return await response.Content.ReadAsAsync<TagInfo>();
+            }
+            // Error.
+            throw new Exception(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task<List<ContentInfo>> SearchContents(int pageSize, int page, string search)
+        {
+            // Send request.
+            ArrangeAuthenticatedRequest();
+            HttpResponseMessage response = await _client.GetAsync($"{_base}/" +
+                    $"{IContentApi.SERVICE_ROUTE}/" +
+                    $"{SEARCH_PATH}"+
+                    $"?{PAGE_SIZE}={pageSize}" +
+                    $"&{PAGE}={page}" +
+                    $"&{SEARCH_PARAM_PATH}={search}");
+
+            // Provide success.
+            if (response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == HttpStatusCode.NoContent) return null;
+                return await response.Content.ReadAsAsync<List<ContentInfo>>();
             }
             // Error.
             throw new Exception(await response.Content.ReadAsStringAsync());

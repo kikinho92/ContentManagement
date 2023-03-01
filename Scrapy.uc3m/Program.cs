@@ -11,11 +11,11 @@ namespace Scrapy.uc3m
 {
     public class Program
     {
-        public static readonly string SERVICE_TAG = "Scrapy.u3m";
+        public static readonly string SERVICE_TAG = "Scrapy.uc3m";
         private static readonly string ROOT_URL = "https://ocw.uc3m.es/";
         private static readonly string INITIAL_URL_PATH = "course/index.php";
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             IWebDriver driver = new ChromeDriver();
             try

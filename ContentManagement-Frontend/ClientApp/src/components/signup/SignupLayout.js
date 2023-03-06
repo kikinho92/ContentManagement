@@ -62,48 +62,58 @@ export class SignupLayout extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className="container">
-          <div className="row p-3">
-            <div className="col-xs-12 col-md-12">
-              <input className="form-control" type="text" placeholder="Email" name="email" aria-label="input-email" value={this.state.email} onChange={this.handleInput} />
-            </div>
-          </div>
-          <div className="row p-3">
-            <div className="col-xs-12 col-md-12">
-              <input className="form-control" type="password" placeholder="Contraseña" name="password" aria-label="input-password" value={this.state.password} onChange={this.handleInput} />
-            </div>
-          </div>
-          <div className="row p-3">
-            <div className="col-xs-12 col-md-12">
-              <input className="form-control" type="password" placeholder="Confirmar contraseña" name="passwordConfirm" aria-label="input-passwordConfirm" value={this.state.passwordConfirm} onChange={this.handleInput} />
-            </div>
-          </div>
-          <div className="row p-3">
-            <div className="col-xs-12 col-md-12">
-              <select className="form-select" aria-label="Default select" name="group" defaultValue="-1" value={this.state.group} onChange={this.handleInput}>
-                <option value="-1">Seelccione un grupo</option>
-                {this.state.groups && this.state.groups.map(group => {
-                  return(<option key={group.id} value={group.name}>{group.name}</option>)
-                })}
-              </select>
-            </div>
-          </div>
-          <div className="row p-3">
-            <div className="col-xs-12 col-md-12">
-              <select className="form-select" aria-label="Default select" name="role" defaultValue="-1" value={this.state.role} onChange={this.handleInput}>
-                <option value="-1">Seelccione un rol</option>
-                {this.state.roles && this.state.roles.map(role => {
-                  return (<option key={role.id} value={role.name}>{role.name}</option>)
-                })}
-              </select>
-            </div>
-            <div className="row p-3">
-              <div className="col-xs-12 col-md-12">
-                <button type="button" className="btn btn-primary" onClick={this.saveUser}>Crear Usuario</button>
+        <div className="row">
+          <div className="col-md-4 offset-md-4">
+            <div className="card custom-card">
+              <div class="card-header">
+                <h4>Nuevo usuario</h4>
+              </div>
+              <div className="card-body">
+                <div className="row p-1">
+                  <div className="col-xs-12 col-md-12">
+                    <input className="form-control custom-input" type="text" placeholder="Email" name="email" aria-label="input-email" value={this.state.email} onChange={this.handleInput} />
+                  </div>
+                </div>
+                <div className="row p-1">
+                  <div className="col-xs-12 col-md-12">
+                    <input className="form-control custom-input" type="password" placeholder="Contraseña" name="password" aria-label="input-password" value={this.state.password} onChange={this.handleInput} />
+                  </div>
+                </div>
+                <div className="row p-1">
+                  <div className="col-xs-12 col-md-12">
+                    <input className="form-control custom-input" type="password" placeholder="Confirmar contraseña" name="passwordConfirm" aria-label="input-passwordConfirm" value={this.state.passwordConfirm} onChange={this.handleInput} />
+                  </div>
+                </div>
+                <div className="row p-1">
+                  <div className="col-xs-12 col-md-12">
+                    <select className="form-select custom-input" aria-label="Default select" name="group" defaultValue="-1" value={this.state.group} onChange={this.handleInput}>
+                      <option value="-1">Seelccione un grupo</option>
+                      {this.state.groups && this.state.groups.map(group => {
+                        return (<option key={group.id} value={group.name}>{group.name}</option>)
+                      })}
+                    </select>
+                  </div>
+                </div>
+                <div className="row p-1">
+                  <div className="col-xs-12 col-md-12">
+                    <select className="form-select custom-input" aria-label="Default select" name="role" defaultValue="-1" value={this.state.role} onChange={this.handleInput}>
+                      <option value="-1">Seelccione un rol</option>
+                      {this.state.roles && this.state.roles.map(role => {
+                        return (<option key={role.id} value={role.name}>{role.name}</option>)
+                      })}
+                    </select>
+                  </div>
+                </div>
+                <div className="row p-1">
+                  <div className="col-xs-12 col-md-12">
+                    <button type="button" className="btn btn-primary custom-btn-primary float-end" onClick={this.saveUser}>Crear Usuario</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        
       </React.Fragment>
     )
   }

@@ -24,7 +24,7 @@ export default class App extends Component {
         <Route exact path='/' component={SekeerLayout} />
         <Route exact path='/home' component={SekeerLayout} />
         <Route exact path='/login' component={LoginLayout} />
-        <Route exact path='/signup' component={SignupLayout}></Route>
+        <Route exact path='/signup' component={SignupLayout}/>
         <Route exact path='/contents' component={ContentLayout} />
       </Layout>
     );

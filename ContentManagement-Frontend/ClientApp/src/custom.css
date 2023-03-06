@@ -12,3 +12,64 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+/* Input css */
+.custom-input{
+  border-radius: 0 !important;
+}
+
+
+/* List css */
+.custom-list-group-item{
+  border: none !important;
+  border-bottom: var(--bs-list-group-border-width) solid var(--bs-list-group-border-color) !important;
+}
+
+/* Button css */
+.custom-btn-primary{
+  border-radius: 0 !important;
+  background: #cb0017 !important;
+  border-color: #cb0017 !important; 
+}
+
+.custom-btn-secondary{
+  border-radius: 0 !important;
+  background: #aaa !important;
+  border-color: #aaa !important;
+}
+
+/* Card css */
+
+.custom-card{
+  border-radius: 0 !important;
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: 200px;
+}
+
+.custom-urjc-image{
+  background-image: url("./images/logo_urjc_nowords.png");
+}
+
+.custom-uc3m-image{
+  background-image: url("./images/uc3m_logo.png");
+}
+
+/* Modal css */
+.custom-modal-content{
+  border-radius: 0 !important;
+}
+
+/* Nav css */
+.custom-navbar{
+  border-top: solid 5px #cb0017;
+  border-bottom: solid 5px #cb0017;
+}
+
+.custom-nav-link{
+  border-bottom: 2px solid #cb0017;
+  font-weight: bold !important;
+  margin-left: 20px;
+  margin-right: 20px;
+  min-width: 150px;
+}

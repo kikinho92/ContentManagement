@@ -381,7 +381,8 @@ namespace Service.Content.Controllers
                 {
                     List<Data.Content> contentsByTag = (from con in _dbContext.Content
                                                    join contag in _dbContext.ContentTag
-                                                     on tag.Id equals contag.IdTag
+                                                     on con.Id equals contag.IdContent
+                                                     where contag.IdTag == tag.Id
                                                    select con)
                                                     .Distinct()
                                                     .ToList();

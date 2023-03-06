@@ -24,12 +24,16 @@ export class ContentList extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className="row">
-          <div className="col-xs-12 col-md-12">
+        <div className="row pt-3">
+          {/* <div className="col-xs-12 col-md-12"> */}
             {this.state.contents.map(content => {
-              return ( <ContentSingle key={content.id} content={content} user={this.props.user} handleContent={this.props.handleContent}></ContentSingle>)
+              return (
+                <div key={content.id} className="col-xs-12 col-sm-12 col-md-6">
+                  <ContentSingle content={content} user={this.props.user} handleContent={this.props.handleContent}></ContentSingle>
+                </div>
+              )
             })}
-          </div>
+          {/* </div> */}
         </div>
 
       </React.Fragment>

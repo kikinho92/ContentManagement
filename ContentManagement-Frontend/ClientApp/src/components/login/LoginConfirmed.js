@@ -39,17 +39,13 @@ export class LoginConfirmed extends React.Component {
   render() {
     return (
       <React.Fragment>
-
-        <div className="container">
-          <div className="row">
-            <div className="col-md-4 offset-md-4">
-              <div className="card">
-                <h5 className="card-header"></h5>
-                <div className="card-body">
-                  <h5 className="card-title">Login confirmado</h5>
-                  <p className="card-text">Usuario logeado como: {this.state.userInSession}.</p>
-                  <a href="#" className="btn btn-primary" onClick={this.doLogOut}>Cerrar sesión</a>
-                </div>
+        <div className="row">
+          <div className="col-md-4 offset-md-4">
+            <div className="card custom-card">
+              <div className="card-body">
+                <h5 className="card-title">Login confirmado</h5>
+                <p className="card-text">Usuario logeado como: {this.state.userInSession}.</p>
+                <a href="#" className="btn btn-primary custom-btn-primary float-end" onClick={this.doLogOut}>Cerrar sesión</a>
               </div>
             </div>
           </div>

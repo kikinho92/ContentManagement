@@ -8,8 +8,8 @@ export class Layout extends Component {
   render() {
     return (
       <div>
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
-          <div className="container-fluid">
+        <nav className="navbar navbar-expand-lg bg-body-tertiary mb-5 pb-4 pt-4 custom-navbar">
+          <div className="container">
             <a className="navbar-brand" href="/home">
               <img src={UrjcLogo} alt="" width={150} height={57}></img>
             </a>
@@ -18,13 +18,13 @@ export class Layout extends Component {
             </button>
             <div className="collapse navbar-collapse" id="navbar-main">
               <div className="navbar-nav">
-                <a className="nav-link active" aria-current="page" href="/home">Inicio</a>
-                <a className="nav-link" href="/contents">Contenidos</a>
+                <a className="nav-link custom-nav-link active" aria-current="page" href="/home">Inicio</a>
+                <a className="nav-link custom-nav-link" href="/contents">Contenidos</a>
               </div>
             </div>
           </div>
         </nav>
-        <div className="container">
+        <div className="container mb-3">
           {this.props.children}
         </div>
       </div>

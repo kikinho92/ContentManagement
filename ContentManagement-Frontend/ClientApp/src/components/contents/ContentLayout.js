@@ -19,7 +19,7 @@ export class ContentLayout extends React.Component {
 
       contents: [],
 
-      endOfContents: null,
+      endOfContents: false,
 
       pagesLoaded: 0,
 
@@ -97,7 +97,7 @@ export class ContentLayout extends React.Component {
             <h2>{this.state.user ? this.state.user.group.name : ""}</h2>
           </div>
           <div className="col-xs-2 col-md-2">
-            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#content-modal-null">Añadir contenido</button>
+            <button type="button" className="btn btn-primary custom-btn-primary" data-bs-toggle="modal" data-bs-target="#content-modal-null" style={{width: "100%"}}>Añadir contenido</button>
           </div>
         </div>
 
@@ -105,7 +105,7 @@ export class ContentLayout extends React.Component {
 
         <div className="row mt-3">
           <div className="col-xs-12 col-md-12">
-            <button type="button" className="btn btn-primary float-end" onClick={this.loadNextPage} disabled={this.state.endOfContents}>Cargar más</button>
+            <button type="button" className="btn btn-primary float-end custom-btn-primary" onClick={this.loadNextPage} disabled={this.state.endOfContents}>Cargar más</button>
           </div>
         </div>
         

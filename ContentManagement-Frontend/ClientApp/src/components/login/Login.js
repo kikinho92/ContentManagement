@@ -43,23 +43,20 @@ export class Login extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className="container">
-          <div className="row">
-            <div className="col-md-4 offset-md-4">
-              <div className="card">
-                <h5 className="card-header"></h5>
-                <div className="card-body">
-                  <div className="mb-3">
-                    <label htmlFor="userEmail" className="form-label">Email</label>
-                    <input id="userEmail" type="email" className="form-control" placeholder="email@urjc.com" onChange={this.onInputChange} value={this.state.userEmail}></input>
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="userPassword" className="form-label">Password</label>
-                    <input id="userPassword" type="password" className="form-control" placeholder="password" onChange={this.onInputChange} value={this.state.userPassword}></input>
-                  </div>
-                  <div className="mb-3">
-                    <button type="button" className="btn btn-primary" onClick={this.doLogIn}>LogIn</button>
-                  </div>
+        <div className="row">
+          <div className="col-md-4 offset-md-4">
+            <div className="card custom-card">
+              <div className="card-body">
+                <div className="mb-3">
+                  <label htmlFor="userEmail" className="form-label">Email</label>
+                  <input id="userEmail" type="email" className="form-control" placeholder="email@urjc.com" onChange={this.onInputChange} value={this.state.userEmail}></input>
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="userPassword" className="form-label">Password</label>
+                  <input id="userPassword" type="password" className="form-control" placeholder="password" onChange={this.onInputChange} value={this.state.userPassword}></input>
+                </div>
+                <div className="mb-3">
+                  <button type="button" className="btn btn-primary custom-btn-primary float-end" onClick={this.doLogIn}>Iniciar sesión</button>
                 </div>
               </div>
             </div>

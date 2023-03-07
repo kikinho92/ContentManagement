@@ -6,6 +6,7 @@ import UserCli from '../../sdk/UserCli'
 import { ContentSingle } from './sections/ContentSingle'
 import { ContentModal } from './sections/ContentModal'
 import { ContentList } from './sections/ContentList'
+import { ContentModalExcelUpload } from './sections/ContentModalExcelUpload'
 
 const CONTENTS_PAGE_SIZE = 10
 
@@ -73,10 +74,12 @@ export class ContentLayout extends React.Component {
   }
 
   handleContent = (content, option) => {
+    console.log("Content after POST or PUT", content)
+    console.log("option", option)
     if (option === "POST") {
       this.setState(previousState => ({
         contents: [...previousState.contents, content]
-      }))
+      }), () => {console.log("contents list after post", this.state.contents)})
     } else {
       const contents = this.state.contents.map(c => {
         if (c.id === content.id) {
@@ -85,7 +88,7 @@ export class ContentLayout extends React.Component {
           return c
         }
       })
-      this.setState({ contents: contents })
+      this.setState({ contents: contents } , () => {console.log("contents list after put", this.state.contents)})
     }
   }
 
@@ -93,10 +96,16 @@ export class ContentLayout extends React.Component {
     return (
       <React.Fragment>
         <div className="row">
-          <div className="col-xs-10 col-md-10">
+          <div className="col-xs-12 col-md-8">
             <h2>{this.state.user ? this.state.user.group.name : ""}</h2>
           </div>
-          <div className="col-xs-2 col-md-2">
+          <div className="col-xs-12 col-md-2">
+            <button type="button" className="btn btn-success custom-btn-success" data-bs-toggle="modal" data-bs-target="#content-modal-excel" style={{ width: "100%" }}>
+              Carga de contenidos
+              <i className="bi bi-file-earmark-spreadsheet-fill" style={{marginLeft: "5px"}}></i>
+            </button>
+          </div>
+          <div className="col-xs-12 col-md-2">
             <button type="button" className="btn btn-primary custom-btn-primary" data-bs-toggle="modal" data-bs-target="#content-modal-null" style={{width: "100%"}}>Añadir contenido</button>
           </div>
         </div>
@@ -110,6 +119,8 @@ export class ContentLayout extends React.Component {
         </div>
         
         <ContentModal content={null} user={this.state.user} handleContent={this.handleContent}></ContentModal>
+
+        <ContentModalExcelUpload></ContentModalExcelUpload>
       </React.Fragment>
     )
   }

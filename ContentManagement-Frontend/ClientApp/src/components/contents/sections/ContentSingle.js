@@ -40,7 +40,7 @@ export class ContentSingle extends React.Component {
             default:
               break;
           }
-          this.setState({ownerLogo: logo})
+          this.setState({ ownerLogo: logo })
         }
       })
     }

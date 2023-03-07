@@ -49,11 +49,11 @@ export class Login extends React.Component {
               <div className="card-body">
                 <div className="mb-3">
                   <label htmlFor="userEmail" className="form-label">Email</label>
-                  <input id="userEmail" type="email" className="form-control" placeholder="email@urjc.com" onChange={this.onInputChange} value={this.state.userEmail}></input>
+                  <input id="userEmail" type="email" className="form-control custom-input" placeholder="email@urjc.com" onChange={this.onInputChange} value={this.state.userEmail}></input>
                 </div>
                 <div className="mb-3">
                   <label htmlFor="userPassword" className="form-label">Password</label>
-                  <input id="userPassword" type="password" className="form-control" placeholder="password" onChange={this.onInputChange} value={this.state.userPassword}></input>
+                  <input id="userPassword" type="password" className="form-control custom-input" placeholder="password" onChange={this.onInputChange} value={this.state.userPassword}></input>
                 </div>
                 <div className="mb-3">
                   <button type="button" className="btn btn-primary custom-btn-primary float-end" onClick={this.doLogIn}>Iniciar sesión</button>

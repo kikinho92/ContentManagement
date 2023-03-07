@@ -202,7 +202,19 @@ namespace Service.Content.Controllers
 
                 _logger.LogInformation($"CONTENT {newContent.Id} stored succesfully.");
 
-                return Ok(content);
+                 ContentInfo returnContent = new ContentInfo(newContent.Id,
+                                                        newContent.Title,
+                                                        newContent.Description,
+                                                        newContent.Link,
+                                                        newContent.Department,
+                                                        newContent.Grades != null ? newContent.Grades.Split(',') : new string[] { },
+                                                        newContent.Authors != null ? newContent.Authors.Split(',') : new string[] { },
+                                                        newContent.LicenseTypes != null ? newContent.LicenseTypes.Split(',') : new string[] { },
+                                                        content.tags,
+                                                        newContent.UserId,
+                                                        newContent.UploadDate);
+
+                return Ok(returnContent);
             }
             catch (Exception e)
             {

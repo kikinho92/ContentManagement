@@ -28,7 +28,6 @@ export class ContentSingle extends React.Component {
           this.setState({ userContentError: response.substring(session.indexOf(' ')) })
         } else {
           var user = response
-          console.log(user)
           var logo = "";
           switch (user.group.name.toUpperCase()) {
             case URJC:
@@ -60,38 +59,46 @@ export class ContentSingle extends React.Component {
             <div className="col-xs-12 col-md-12">
               <div className="card-body">
                 <h5 className="card-title">{content.title} <i className="bi bi-pencil-square float-end" data-bs-toggle="modal" data-bs-target={"#content-modal-" + content.id} style={{ cursor: "pointer" }}></i></h5>
-                <div className="row">
-                  <div className="col-xs-12 col-md-12">
-                    <p className="card-text"><a href={content.link} target="_blank">Link del contenido</a></p>
-                  </div>
-                </div>
                 <hr className="mt-1 mb-1" />
                 <div className="row">
                   <div className="col-xs-12 col-md-12">
-                    <p className="card-text">{content.description ? content.description : "-"}</p>
+                    <span className="custom-card-title-text">Enlace</span>
+                    <p className="card-text custom-card-text"><a href={content.link} target="_blank">Link del contenido</a></p>
                   </div>
                 </div>
-                <hr className="mt-1 mb-1" />
+                {/* <hr className="mt-1 mb-1" /> */}
                 <div className="row">
                   <div className="col-xs-12 col-md-12">
-                    <p className="card-text">{content.authors.join(", ")}</p>
+                    <span className="custom-card-title-text">Descripción</span>
+                    <p className="card-text custom-card-text">{content.description ? content.description : "-"}</p>
                   </div>
                 </div>
-                <hr className="mt-1 mb-1" />
+                {/* <hr className="mt-1 mb-1" /> */}
                 <div className="row">
                   <div className="col-xs-12 col-md-12">
-                    <p className="card-text">{content.department ? content.department : "-"}</p>
+                    <span className="custom-card-title-text">Autor/es</span>
+                    <p className="card-text custom-card-text">{content.authors.join("\r\n")}</p>
                   </div>
                 </div>
-                <hr className="mt-1 mb-1" />
+                {/* <hr className="mt-1 mb-1" /> */}
                 <div className="row">
                   <div className="col-xs-12 col-md-12">
-                    <p className="card-text">{content.grades.length > 0 ? content.grades.join(", ") : "-"}</p>
+                    <span className="custom-card-title-text">Departamento</span>
+                    <p className="card-text custom-card-text">{content.department ? content.department : "-"}</p>
                   </div>
                 </div>
-                <hr className="mt-1 mb-1" />
+                {/* <hr className="mt-1 mb-1" /> */}
                 <div className="row">
                   <div className="col-xs-12 col-md-12">
+                    <span className="custom-card-title-text">Titulación/es</span>
+                    <p className="card-text">{content.grades.length > 0 ? content.grades.join("\r\n") : "-"}</p>
+                  </div>
+                </div>
+                {/* <hr className="mt-1 mb-1" /> */}
+                <div className="row">
+                  <div className="col-xs-12 col-md-12">
+                    <span className="custom-card-title-text">Etiquetas</span>
+                    <br></br>
                     {content.tags && content.tags.map(tag => {
                       return (<span key={tag.name} className="badge text-bg-success mx-1">{tag.name}</span>)
                     })}

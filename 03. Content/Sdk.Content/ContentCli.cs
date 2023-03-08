@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -85,6 +86,12 @@ namespace Sdk.Content
 
         public async Task<ContentInfo> PostContent(ContentInfo content)
         {
+
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+            // Pass the handler to httpclient(from you are calling api)
+            _client = new HttpClient(clientHandler);
            // Send request.
             ArrangeAuthenticatedRequest();
             StringContent data = new StringContent(JsonSerializer.Serialize<ContentInfo>(content), Encoding.UTF8, "application/json");
@@ -192,6 +199,29 @@ namespace Sdk.Content
             }
             // Error.
             throw new Exception(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task<List<ContentInfo>> UploadContents(string userid, string path)
+        {
+            using (MultipartFormDataContent content = new MultipartFormDataContent())
+            {
+                // Send request.
+                ArrangeAuthenticatedRequest();
+                content.Add(new StreamContent(File.OpenRead(path)), "files", Path.GetFileName(path));
+
+                HttpResponseMessage response = await _client.PostAsync($"{_base}/" +
+                        $"{IContentApi.SERVICE_ROUTE}/" +
+                        $"{UPLOAD_PATH}?" +
+                        $"{USER_ID_PATH}=" + userid, content);
+
+                // Provide success.
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadAsAsync<List<ContentInfo>>();
+                }
+                // Error.
+                throw new Exception(await response.Content.ReadAsStringAsync());
+            }
         }
 
         /// <summary>

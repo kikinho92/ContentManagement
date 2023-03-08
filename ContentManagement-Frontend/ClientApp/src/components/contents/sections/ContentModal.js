@@ -171,8 +171,6 @@ export class ContentModal extends React.Component {
 
   handleSaveContent = () => {
 
-    console.log("contentToSave", this.state.content)
-
     if (this.state.content.id === null) {
       ContentCli.PostContent(this.state.content).then(response => {
         if (response !== null && response.toString().startsWith("ERROR")) {

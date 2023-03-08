@@ -20,7 +20,7 @@ export class Layout extends Component {
             <div className="collapse navbar-collapse" id="navbar-main">
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <a className="nav-link custom-nav-link active" aria-current="page" href="/home">Inicio</a>
+                  <a className="nav-link custom-nav-link" aria-current="page" href="/home">Inicio</a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link custom-nav-link" href="/contents">Contenidos</a>

@@ -67,8 +67,18 @@ namespace Api.Content
         /// Get contents filtered by a search
         /// </summary>
         /// <param name="search">partial or complete string to search in content info</param>
-        Task<List<ContentInfo>>SearchContents(int pageSize, int page, string search);
+        Task<List<ContentInfo>> SearchContents(int pageSize, int page, string search);
         const string SEARCH_PATH = "search";
         const string SEARCH_PARAM_PATH = "search";
+
+        /// <summary>
+        /// Adds new content into collection of contents for the calling user by excel file.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        Task<List<ContentInfo>> UploadContents(string userid, string path);
+        const string UPLOAD_PATH = "upload";
+        const string USER_ID_PATH = "userid";
+
     }
 }

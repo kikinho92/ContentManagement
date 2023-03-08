@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Api.Content;
 using Api.User;
 using Library.Common;
 using Microsoft.AspNetCore.Builder;
@@ -15,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Sdk.Content;
 using Sdk.User;
 using Service.Auth;
 using Service.Content.Data;
@@ -47,6 +49,11 @@ namespace Service.Content
             UserCli user = new UserCli(CommonConstants.SERVICE_LOCAL_URL_USER, null);
             user.UseSession(JwtHelper.GenerateJwtToken(Program.SERVICE_TAG, Program.SERVICE_TAG, Program.SERVICE_TAG));
             services.AddSingleton<IUserApi>(user);
+
+            //Content client library. To make external call authenticated with internal-inter-service token
+            ContentCli content = new ContentCli(CommonConstants.SERVICE_LOCAL_URL_CONTENT, null);
+            content.UseSession(JwtHelper.GenerateJwtToken(Program.SERVICE_TAG, Program.SERVICE_TAG, Program.SERVICE_TAG));
+            services.AddSingleton<IContentApi>(content);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

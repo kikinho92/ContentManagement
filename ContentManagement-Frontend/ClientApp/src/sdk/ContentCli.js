@@ -19,6 +19,9 @@ export default class ContentCli {
   static get TAG_PATH() { return "tag" }
   static get SEARCH_PATH() { return "search" }
   static get SEARCH_PARAM_PATH() { return "search" }
+  static get UPLOAD_PATH() { return "upload" }
+  static get USER_ID_PATH() { return "userid" }
+  
 
 
   static get prefix() { return (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') ? 'https://localhost:9003/' : window.location.protocol + '//' + window.location.host + '/api/' }
@@ -136,5 +139,17 @@ export default class ContentCli {
     var body = null
   
     return AuthCli.Fetch(this.prefix + path, verb, body)
+  }
+
+  /**
+   * Adds new content into collection of contents for the calling user by excel file.
+   * @param {multi-part formData} body 
+   * @returns 
+   */
+  static async UploadContents(userid, body) {
+    var verb = "POST"
+    var path = this.SERVICE_ROUTE + "/" + this.UPLOAD_PATH + "?" + this.USER_ID_PATH + "=" + userid
+  
+    return AuthCli.Fetch(this.prefix + path, verb, body, true)
   }
 }

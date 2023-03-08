@@ -12,10 +12,6 @@ export class ContentList extends React.Component {
     }
   }
 
-  /* componentDidMount() {
-    this.setState({ contents: this.props.contents }, () => {console.log("contents-contentlist", this.state.contents)})
-  } */
-
   componentDidUpdate(prevProps) {
     if (prevProps === this.props) return;
     this.setState({ contents: this.props.contents })
@@ -24,7 +20,7 @@ export class ContentList extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className="row pt-3">
+        <div className="row pt-3 mt-5">
           {/* <div className="col-xs-12 col-md-12"> */}
             {this.state.contents.map(content => {
               return (

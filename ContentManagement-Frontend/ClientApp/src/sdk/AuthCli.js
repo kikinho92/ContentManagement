@@ -115,13 +115,23 @@ export default class AuthCli {
    * Builds the request options for each API request.
    * @returns 
    */
-  static getOptionsRequest(verb, body) {
+  static getOptionsRequest(verb, body, multipart) {
     var jwtToken = window.localStorage.getItem(this.jwtToken)
     var culture = window.localStorage.getItem('culture')
 
     if (culture === null || culture === '') culture = 'en'
-        
-    if (body === null && jwtToken === null) {
+
+    if (multipart) {
+      return {
+        method: verb,
+        headers: {
+          'Authorization': 'Bearer ' + jwtToken,
+          'culture': culture
+        },
+        body: body
+      }
+    }  
+    else if (body === null && jwtToken === null) {
       return {
         method: verb,
         headers: {
@@ -166,14 +176,14 @@ export default class AuthCli {
    * retried when the authentication header expires.
    * @returns 
    */
-  static async Fetch(path, verb, body) {
-    return fetch(path, this.getOptionsRequest(verb, body))
+  static async Fetch(path, verb, body, multipart) {
+    return fetch(path, this.getOptionsRequest(verb, body, multipart))
       .then(async (response) => {
         if (response.status === 401) {
           console.log("Refreshing session...")
           await this.RefreshSessionAsync()
           console.log("Calling service...", verb, " - ", path)
-          return fetch(path, this.getOptionsRequest(verb, body)).then((response) => {
+          return fetch(path, this.getOptionsRequest(verb, body, multipart)).then((response) => {
             // Failed to refresh session, goes to login screen
             if (response.status === 401) {
               window.location.href = 'login'

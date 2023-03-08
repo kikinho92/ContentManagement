@@ -1,50 +1,52 @@
 01. Auth/Api.Auth/bin/
 01. Auth/Api.Auth/obj/
-
 01. Auth/Sdk.Auth/bin/
 01. Auth/Sdk.Auth/obj/
-
 01. Auth/Service.Auth/bin/
 01. Auth/Service.Auth/obj/
-
 01. Auth/Test.Service.Auth/bin/
 01. Auth/Test.Service.Auth/obj/
 
 
 02. User/Api.User/bin/
 02. User/Api.User/obj/
-
 02. User/Sdk.User/bin/
 02. User/Sdk.User/obj/
-
 02. User/Service.User/bin/
 02. User/Service.User/obj/
-
 02. User/Test.Service.User/bin/
 02. User/Test.Service.User/obj/
 
 
 03. Content/Api.Content/bin/
 03. Content/Api.Content/obj/
-
 03. Content/Sdk.Content/bin/
 03. Content/Sdk.Content/obj/
-
 03. Content/Service.Content/bin/
 03. Content/Service.Content/obj/
-
 03. Content/Test.Service.Content/bin/
 03. Content/Test.Service.Content/obj/
 
 
 04. Integration/Api.Integration/bin/
 04. Integration/Api.Integration/obj/
-
 04. Integration/Sdk.Integration/bin/
 04. Integration/Sdk.Integration/obj/
-
 04. Integration/Service.Integration/bin/
 04. Integration/Service.Integration/obj/
-
 04. Integration/Test.Service.Integration/bin/
 04. Integration/Test.Service.Integration/obj/
+
+ContentManagement-Frontend/bin/
+ContentManagement-Frontend/obj/
+
+Library.Common/bin/
+Library.Common/obj/
+
+Scrapy.uc3m/bin/
+Scrapy.uc3m/obj/
+
+Scrapy.urjc/bin/
+Scrapy.urjc/obj/
+
+Logs/

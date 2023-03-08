@@ -55,7 +55,6 @@ export class ContentLayout extends React.Component {
       if (response !== null && response.toString().startsWith("ERROR")) {
         this.setState({ contentErrorMessage: response.substring(response.indexOf(' - ')) })
       } else {
-        console.log("contents", response)
         if (response.length > 0) {
           this.setState(previousState => ({
             contents: [...previousState.contents, ...response],
@@ -74,12 +73,11 @@ export class ContentLayout extends React.Component {
   }
 
   handleContent = (content, option) => {
-    console.log("Content after POST or PUT", content)
-    console.log("option", option)
+
     if (option === "POST") {
       this.setState(previousState => ({
         contents: [...previousState.contents, content]
-      }), () => {console.log("contents list after post", this.state.contents)})
+      }))
     } else {
       const contents = this.state.contents.map(c => {
         if (c.id === content.id) {
@@ -88,8 +86,14 @@ export class ContentLayout extends React.Component {
           return c
         }
       })
-      this.setState({ contents: contents } , () => {console.log("contents list after put", this.state.contents)})
+      this.setState({ contents: contents })
     }
+  }
+
+  handleMultipleContents = (contents) => {
+    contents.forEach(content => {
+      this.setState({ contents: [...this.state.contents, content]})
+    });
   }
 
   render() {
@@ -120,7 +124,7 @@ export class ContentLayout extends React.Component {
         
         <ContentModal content={null} user={this.state.user} handleContent={this.handleContent}></ContentModal>
 
-        <ContentModalExcelUpload></ContentModalExcelUpload>
+        <ContentModalExcelUpload handleMultipleContents={this.handleMultipleContents} user={this.state.user}></ContentModalExcelUpload>
       </React.Fragment>
     )
   }

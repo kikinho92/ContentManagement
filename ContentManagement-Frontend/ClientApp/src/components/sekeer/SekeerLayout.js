@@ -85,7 +85,7 @@ export class SekeerLayout extends React.Component {
         <div className="row">
           <div className="col-md-12">
 
-            <div className="row mt-5">
+            <div className="row mt-4">
               <div className="col-md-12 mx-auto">
                 <div className="input-group">
                   <input className="form-control custom-input custom-input-seeker border-end-0 border" type="search" id="sekeer" name="currentSearch" placeholder="Busqueda de contenido..." list="datalistContents" value={this.state.currentSearch} onChange={this.handleOnInputChange} />

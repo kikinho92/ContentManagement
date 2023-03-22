@@ -22,14 +22,14 @@ namespace Scrapy.urjc
             _driver = driver;
         }
 
-        public string[] GetCoursesUrls(string initalUrl)
+        public string[] GetCoursesUrls(string initialUrl)
         {
             List<string> coursesUrls = new List<string>();
             try
             {
-                if (string.IsNullOrEmpty(initalUrl)) return null;
+                if (string.IsNullOrEmpty(initialUrl)) return null;
 
-                _driver.Navigate().GoToUrl(initalUrl);
+                _driver.Navigate().GoToUrl(initialUrl);
 
                 bool endOfPages = false;
                 do

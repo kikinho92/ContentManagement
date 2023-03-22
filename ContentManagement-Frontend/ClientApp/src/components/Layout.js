@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import UrjcLogo from '../images/urjc_logo.png'
+import OcaLogo from '../images/oca_logo.png'
 
 export class Layout extends Component {
   static displayName = Layout.name;
@@ -9,10 +9,10 @@ export class Layout extends Component {
     return (
       <div>
 
-        <nav className="navbar navbar-expand-lg bg-body-tertiary mb-5 pb-4 pt-4 custom-navbar">
+        <nav className="navbar navbar-expand-lg bg-body-tertiary mb-5 custom-navbar">
           <div className="container">
             <a className="navbar-brand" href="/home">
-              <img src={UrjcLogo} alt="" width={150} height={57}></img>
+              <img src={OcaLogo} alt="" width={100}></img>
             </a>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-main" aria-controls="navbar-main" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>

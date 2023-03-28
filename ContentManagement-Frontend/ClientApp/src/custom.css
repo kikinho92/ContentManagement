@@ -69,6 +69,10 @@ code {
   background-image: url("./images/uc3m_logo.png");
 }
 
+.custom-uah-image{
+  background-image: url("./images/uah_logo.png");
+}
+
 .custom-card-title-text{
   font-size: 14px;
   font-weight: bold;

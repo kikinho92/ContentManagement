@@ -64,6 +64,18 @@
             "problemMatcher": "$msCompile"
         },
         {
+            "label": "build-app-scrapy.uah",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Scrapy.uah/Scrapy.uah.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
             "label": "build-service-auth",
             "command": "dotnet",
             "type": "process",

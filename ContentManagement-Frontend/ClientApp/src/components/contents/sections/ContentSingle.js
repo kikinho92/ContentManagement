@@ -6,6 +6,7 @@ import UserCli from "../../../sdk/UserCli";
 
 const URJC = "UNIVERSIDAD REY JUAN CARLOS (MÓSTOLES)"
 const UC3M = "UNIVERSIDAD CARLOS III (LEGANÉS)"
+const UAH = "UNIVERSIDAD DE ALCALÁ"
 
 export class ContentSingle extends React.Component {
   constructor(props) {
@@ -36,6 +37,8 @@ export class ContentSingle extends React.Component {
             case UC3M:
               logo = "custom-uc3m-image"
               break;
+            case UAH:
+              logo = "custom-uah-image"
             default:
               break;
           }

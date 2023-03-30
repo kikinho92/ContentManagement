@@ -17,7 +17,7 @@ export class Layout extends Component {
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-main" aria-controls="navbar-main" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>
-            <div className="collapse navbar-collapse" id="navbar-main">
+            <div className="collapse navbar-collapse custom-responsive-nav" id="navbar-main">
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
                   <a className="nav-link custom-nav-link" aria-current="page" href="/home">Inicio</a>

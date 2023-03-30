@@ -80,7 +80,10 @@ code {
 
 .custom-card-text{
   white-space: pre;
-  margin-left: 20px;
+}
+
+.custom-card-break-text{
+  white-space: break-spaces;
 }
 
 /* Modal css */
@@ -100,6 +103,14 @@ code {
   margin-left: 20px;
   margin-right: 20px;
   min-width: 150px;
+}
+
+.custom-responsive-nav{
+  z-index: 1;
+  background: white;
+  position: relative;
+  top: 13px;
+  width: 100%;
 }
 
 /* Footer css */

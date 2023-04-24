@@ -30,10 +30,9 @@ export class LoginConfirmed extends React.Component {
   }
 
   doLogOut = async () => {
-    const { handleLogin } = this.props
     await AuthCli.LogOutAsync()
 
-    handleLogin(false)
+    this.props.handleLogin(false)
   }
     
   render() {

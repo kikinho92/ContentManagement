@@ -23,8 +23,6 @@ export class Login extends React.Component {
   }
 
   doLogIn = () => {
-    const { handleLogin } = this.props
-
     this.setState({ isLoading: true })
     
     AuthCli.LogInAsync({
@@ -35,7 +33,7 @@ export class Login extends React.Component {
         this.setState({ loginErrorMessage: data.substring(data.indexOf(' - ')) })
       } else {
         console.log("login correcto")
-        handleLogin(true)
+        this.props.handleLogin(true)
       }
     })
   }

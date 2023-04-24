@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router';
+import { Redirect, Route, Switch } from 'react-router';
 import { Layout } from './components/Layout';
 
 import './custom.css'
@@ -7,6 +7,8 @@ import { LoginLayout } from './components/login/LoginLayout';
 import { SignupLayout } from './components/signup/SignupLayout';
 import { ContentLayout } from './components/contents/ContentLayout';
 import { SekeerLayout } from './components/sekeer/SekeerLayout';
+import { GroupsLayout } from './components/groups/GroupsLayout';
+import { Logout } from './components/login/Logout';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -14,18 +16,27 @@ export default class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentSession: null
+      session: null
     }
+  }
+
+  handleSession = (session) => {
+    console.log("session APP", session)
+    this.setState({ session: session })
   }
 
   render () {
     return (
-      <Layout>
-        <Route exact path='/' component={SekeerLayout} />
-        <Route exact path='/home' component={SekeerLayout} />
-        <Route exact path='/login' component={LoginLayout} />
-        <Route exact path='/signup' component={SignupLayout}/>
-        <Route exact path='/contents' component={ContentLayout} />
+      <Layout session={this.state.session}>
+        <Switch>
+          <Redirect exact from="/" to="/home"/>
+          <Route path="/home" render={(props) => (<SekeerLayout {...props} />)} />
+          <Route path="/login" render={(props) => (<LoginLayout {...props} handleSession={this.handleSession} />)} />
+          <Route path="/logout" render={(props) => (<Logout {...props} />)} />
+          <Route path="/signup" render={(props) => (<SignupLayout {...props} />)} />
+          <Route path="/group" render={(props) => (<GroupsLayout {...props} />)} />
+          <Route path="/contents" render={(props) => (<ContentLayout {...props} />)} />
+        </Switch>
       </Layout>
     );
   }

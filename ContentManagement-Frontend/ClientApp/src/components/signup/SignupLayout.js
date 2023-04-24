@@ -51,7 +51,7 @@ export class SignupLayout extends React.Component {
       group: this.state.group
     }).then(response => {
       if (response) {
-        this.setState({ signupErrorMessage: data.substring(data.indexOf(' - ')) })
+        this.setState({ signupErrorMessage: response.substring(response.indexOf(' - ')) })
       } else {
         console.log("Alta correcta")
         window.location.href = 'login'
@@ -65,7 +65,7 @@ export class SignupLayout extends React.Component {
         <div className="row">
           <div className="col-md-4 offset-md-4">
             <div className="card custom-card">
-              <div class="card-header">
+              <div className="card-header">
                 <h4>Nuevo usuario</h4>
               </div>
               <div className="card-body">
@@ -86,8 +86,8 @@ export class SignupLayout extends React.Component {
                 </div>
                 <div className="row p-1">
                   <div className="col-xs-12 col-md-12">
-                    <select className="form-select custom-input" aria-label="Default select" name="group" defaultValue="-1" value={this.state.group} onChange={this.handleInput}>
-                      <option value="-1">Seelccione un grupo</option>
+                    <select className="form-select custom-input" aria-label="Default select" name="group" value={this.state.group} onChange={this.handleInput}>
+                      <option value="-1">Seleccione un grupo</option>
                       {this.state.groups && this.state.groups.map(group => {
                         return (<option key={group.id} value={group.name}>{group.name}</option>)
                       })}
@@ -96,8 +96,8 @@ export class SignupLayout extends React.Component {
                 </div>
                 <div className="row p-1">
                   <div className="col-xs-12 col-md-12">
-                    <select className="form-select custom-input" aria-label="Default select" name="role" defaultValue="-1" value={this.state.role} onChange={this.handleInput}>
-                      <option value="-1">Seelccione un rol</option>
+                    <select className="form-select custom-input" aria-label="Default select" name="role" value={this.state.role} onChange={this.handleInput}>
+                      <option value="-1">Seleccione un rol</option>
                       {this.state.roles && this.state.roles.map(role => {
                         return (<option key={role.id} value={role.name}>{role.name}</option>)
                       })}

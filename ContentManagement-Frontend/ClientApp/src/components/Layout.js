@@ -1,9 +1,34 @@
 import React, { Component } from 'react';
 
 import OcaLogo from '../images/oca_logo.png'
+import AuthCli from '../sdk/AuthCli';
 
 export class Layout extends Component {
   static displayName = Layout.name;
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      session: null
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.session) {
+      this.setState({ session: this.props.session })
+    } 
+    else {
+      AuthCli.GetSessionInfoAsync().then(async session => {
+        console.log(session)
+        if (session) this.setState({ session: session })
+      })
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps === this.props) return
+    this.setState({ session: this.props.session })
+  }
 
   render() {
     return (
@@ -33,7 +58,12 @@ export class Layout extends Component {
                     <li><a className="dropdown-item" href="/login">Log in</a></li>
                     <li><a className="dropdown-item" href="/logout">Log out</a></li>
                     <li><hr className="dropdown-divider" /></li>
-                    <li><a className="dropdown-item" href="/signup">Crear usuario</a></li>
+                    {this.state.session && this.state.session.role === "SUPERUSER" &&
+                      <li><a className="dropdown-item" href="/signup">Crear usuario</a></li>
+                    }
+                    {this.state.session && this.state.session.role === "SUPERUSER" &&
+                      <li><a className="dropdown-item" href="/group">Crear grupo</a></li>
+                    }
                   </ul>
                 </li>
               </ul>

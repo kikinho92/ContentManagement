@@ -86,12 +86,14 @@ export class ContentSingle extends React.Component {
                   </div>
                 </div>
                 {/* <hr className="mt-1 mb-1" /> */}
-                <div className="row">
-                  <div className="col-xs-12 col-md-12">
-                    <span className="custom-card-title-text">Departamento</span>
-                    <p className="card-text custom-card-text ms-3 custom-card-break-text">{content.department ? content.department : "-"}</p>
+                {content.department &&
+                  <div className="row">
+                    <div className="col-xs-12 col-md-12">
+                      <span className="custom-card-title-text">Departamento</span>
+                      <p className="card-text custom-card-text ms-3 custom-card-break-text">{content.department ? content.department : "-"}</p>
+                    </div>
                   </div>
-                </div>
+                }
                 {/* <hr className="mt-1 mb-1" /> */}
                 <div className="row">
                   <div className="col-xs-12 col-md-12">

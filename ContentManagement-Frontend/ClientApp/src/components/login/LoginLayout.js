@@ -31,6 +31,13 @@ export class LoginLayout extends React.Component {
 
   handleLogin = (isConfirmed) => {
     this.setState({ isConfirmed: isConfirmed })
+    AuthCli.GetSessionInfoAsync().then(async session => {
+      if (session !== null && session.toString().startsWith("[ERROR")) {
+        this.setState({ loginErrorMessage: session.substring(session.indexOf(' ')) })
+      } else {
+        this.props.handleSession(session)
+      }
+    })
   }
 
   render() {

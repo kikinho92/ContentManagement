@@ -5,8 +5,8 @@ services:
   frontend:
     image: contentmanagement/react
     build:
-      context: ContentManagement-Frontend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ContentManagement-Frontend/Dockerfile
     environment: 
       - AuthUrl=http://auth-api
       - UserUrl=http://user-api

@@ -148,3 +148,13 @@ code {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+/* For mobile phones: */
+@media only screen and (max-width: 768px) {
+ 
+  .custom-responsive-nav{
+    border-bottom: solid 1px gray;
+    border-left: solid 1px gray;
+    border-right: solid 1px gray;
+  }
+}

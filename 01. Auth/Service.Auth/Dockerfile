@@ -33,6 +33,9 @@ COPY ["04. Integration/Test.Service.Integration/Test.Service.Integration.csproj"
 COPY ["Library.Common/Library.Common.csproj", "Library.Common/"]
 COPY ["ContentManagement-Frontend/ContentManagement-Frontend.csproj", "ContentManagement-Frontend/"]
 
+#COPY ["01. Auth/Service.Auth/wait-for-it.sh", "01. Auth/Service.Auth/"]
+#RUN chmod +x "01. Auth/Service.Auth/wait-for-it.sh"
+
 RUN dotnet restore "01. Auth/Service.Auth/Service.Auth.csproj"  
 COPY . .
 
@@ -43,6 +46,9 @@ FROM build AS publish
 RUN dotnet publish "Service.Auth.csproj" -c Release -o /app/publish  
 FROM base AS final  
 WORKDIR /app  
-COPY --from=publish /app/publish .  
-ENTRYPOINT ["dotnet", "Service.Auth.dll"]
+COPY --from=publish /app/publish .
 
+COPY wait-for-it.sh wait-for-it.sh 
+RUN chmod +x wait-for-it.sh
+
+ENTRYPOINT ["./wait-for-it.sh", "sqlserver:1433", "-t", "120", "--", "dotnet", "Service.Auth.dll"]

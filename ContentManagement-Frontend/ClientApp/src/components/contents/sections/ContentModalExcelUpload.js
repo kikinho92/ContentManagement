@@ -24,7 +24,6 @@ export class ContentModalExcelUpload extends React.Component {
         this.setState({ uploadContentError: response.substring(response.indexOf(' - ')) })
       } else {
         this.props.handleMultipleContents(response)
-        new bootstrap.Modal(document.getElementById('content-modal-excel'), options).hide()
       }
     })
   }

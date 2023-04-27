@@ -22,9 +22,7 @@ export default class UserCli {
   static get ROLE_ID_PATH() { return "roleId" }
   static get ROLE_NAME() { return "groupName" }
 
-
-  static get prefix() { return (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') ? 'https://localhost:9002/' : window.location.protocol + '//' + window.location.host + '/api/' }
-
+  static get prefix() {return ('http://localhost:8002/')}
   /**
    * Provides detailed information about all the users. In case of groupId is not null, it will be provide the user that belong to the group.
    * @param {string} groupId Unique internal identifier of the group

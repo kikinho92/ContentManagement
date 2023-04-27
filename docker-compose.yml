@@ -1,75 +1,80 @@
 version: '3.4'
 
-services: 
+networks:
+  contentmanagement-network:
 
+services: 
   frontend:
-    image: contentmanagement/react
+    image: contentmanagement/frontend
     build:
       context: .
       dockerfile: ContentManagement-Frontend/Dockerfile
-    environment: 
-      - AuthUrl=http://auth-api
-      - UserUrl=http://user-api
-      - ContentUrl=http://content-api
-      - IntegrationUrl=http://integration-api
     ports:
       - "8005:80"
-    depends_on: 
-      - auth-api
-      - user-api
-      - content-api
-      - integration-api
+    networks:
+      - contentmanagement-network
+    depends_on:
+      - sqlserver
   auth-api:
     image: contentmanagement/auth-api
     build:
       context: .
       dockerfile: 01. Auth/Service.Auth/Dockerfile
     environment:
-      - ConnectionString=Data Source=192.168.1.8,58868\\SQLEXPRESS;Initial Catalog=CONTENT_MANAGEMENT;User=kikinho92;Password=Kikinho92#sqlserver;MultipleActiveResultSets=True;Application Name=EntityFramework
+      - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "8001:80"
+      - "8001:8001"
+    networks:
+      - contentmanagement-network
     depends_on:
-      - user-api
-      - content-api
-      - integration-api
+      - sqlserver
   user-api:
     image: contentmanagement/user-api
     build:
       context: .
       dockerfile: 02. User/Service.User/Dockerfile
     environment:
-      - ConnectionString=Data Source=192.168.1.8,58868\\SQLEXPRESS;Initial Catalog=CONTENT_MANAGEMENT;User=kikinho92;Password=Kikinho92#sqlserver;MultipleActiveResultSets=True;Application Name=EntityFramework
+      - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "8002:80"
+      - "8002:8002"
+    networks:
+      - contentmanagement-network
     depends_on:
-      - auth-api
-      - content-api
-      - integration-api
+      - sqlserver
   content-api:
     image: contentmanagement/content-api
     build:
       context: .
       dockerfile: 03. Content/Service.Content/Dockerfile
     environment:
-      - ConnectionString=Data Source=192.168.1.8,58868\\SQLEXPRESS;Initial Catalog=CONTENT_MANAGEMENT;User=kikinho92;Password=Kikinho92#sqlserver;MultipleActiveResultSets=True;Application Name=EntityFramework
+      - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "8003:80"
+      - "8003:8003"
+    networks:
+      - contentmanagement-network
     depends_on:
-      - auth-api
-      - user-api
-      - integration-api
+      - sqlserver
   integration-api:
     image: contentmanagement/integration-api
     build:
       context: .
       dockerfile: 04. Integration/Service.Integration/Dockerfile
     environment:
-      - ConnectionString=Data Source=192.168.1.8,58868\\SQLEXPRESS;Initial Catalog=CONTENT_MANAGEMENT;User=kikinho92;Password=Kikinho92#sqlserver;MultipleActiveResultSets=True;Application Name=EntityFramework
+      - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "8004:80"
+      - "8004:8004"
+    networks:
+      - contentmanagement-network
     depends_on:
-      - auth-api
-      - user-api
-      - content-api
+      - sqlserver
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - SA_PASSWORD=Tfg.1234
+      - ACCEPT_EULA=Y
+    networks:
+      contentmanagement-network:
+    ports:
+    - "1433:1433"
 
     

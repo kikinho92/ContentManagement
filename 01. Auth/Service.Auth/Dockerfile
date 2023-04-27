@@ -1,7 +1,11 @@
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+
+RUN sed -i 's/TLSv1.2/TLSv1/g' /etc/ssl/openssl.cnf
+
+EXPOSE 8001
+
+ENV ASPNETCORE_URLS=http://+:8001
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src

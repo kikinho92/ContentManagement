@@ -22,10 +22,7 @@ export default class ContentCli {
   static get UPLOAD_PATH() { return "upload" }
   static get USER_ID_PATH() { return "userid" }
   
-
-
-  static get prefix() { return (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') ? 'https://localhost:9003/' : window.location.protocol + '//' + window.location.host + '/api/' }
-  
+  static get prefix() {return ('http://localhost:8003/')}
   /**
    * Provides detailed information about all the content. In case of tagId and group is not null, it will be provide the content that belong to the tag and group
    * @param {*} tagId Unique internal identifier of the tag

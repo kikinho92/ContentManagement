@@ -5,8 +5,8 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
 //Bootstrap css & js
-import './bootstrap-5.2.3-dist/css/bootstrap.min.css'
-import './bootstrap-5.2.3-dist/js/bootstrap.min.js'
+/* import './bootstrap-5.2.3-dist/css/bootstrap.min.css'
+import './bootstrap-5.2.3-dist/js/bootstrap.min.js' */
 
 import 'bootstrap-icons/font/bootstrap-icons.css';
 

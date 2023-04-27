@@ -26,23 +26,26 @@ export class ContentSingle extends React.Component {
     if (this.props.content) {
       UserCli.GetUser(this.props.content.userid).then(response => {
         if (response !== null && response.toString().startsWith("[ERROR")) {
-          this.setState({ userContentError: response.substring(session.indexOf(' ')) })
+          this.setState({ userContentError: response.substring(response.indexOf(' ')) })
         } else {
           var user = response
           var logo = "";
-          switch (user.group.name.toUpperCase()) {
-            case URJC:
-              logo = "custom-urjc-image"
-              break;
-            case UC3M:
-              logo = "custom-uc3m-image"
-              break;
-            case UAH:
-              logo = "custom-uah-image"
-            default:
-              break;
+          if (user && user.group) {
+            switch (user.group.name.toUpperCase()) {
+              case URJC:
+                logo = "custom-urjc-image"
+                break;
+              case UC3M:
+                logo = "custom-uc3m-image"
+                break;
+              case UAH:
+                logo = "custom-uah-image"
+                break;
+              default:
+                break;
+            }
+            this.setState({ ownerLogo: logo })
           }
-          this.setState({ ownerLogo: logo })
         }
       })
     }
@@ -61,12 +64,16 @@ export class ContentSingle extends React.Component {
             </div> */}
             <div className="col-xs-12 col-md-12">
               <div className="card-body">
-                <h5 className="card-title">{content.title} <i className="bi bi-pencil-square float-end" data-bs-toggle="modal" data-bs-target={"#content-modal-" + content.id} style={{ cursor: "pointer" }}></i></h5>
+                <h5 className="card-title">{content.title}
+                  {this.props.user && 
+                    <i className="bi bi-pencil-square float-end" data-bs-toggle="modal" data-bs-target={"#content-modal-" + content.id} style={{ cursor: "pointer" }}></i>
+                  }
+                </h5>
                 <hr className="mt-1 mb-1" />
                 <div className="row">
                   <div className="col-xs-12 col-md-12">
                     <span className="custom-card-title-text">Enlace</span>
-                    <p className="card-text custom-card-text ms-3"><a href={content.link} target="_blank">Link del contenido</a></p>
+                    <p className="card-text custom-card-text ms-3"><a href={content.link} target="_blank" rel="">Link del contenido</a></p>
                   </div>
                 </div>
                 {/* <hr className="mt-1 mb-1" /> */}
@@ -82,7 +89,7 @@ export class ContentSingle extends React.Component {
                 <div className="row">
                   <div className="col-xs-12 col-md-12">
                     <span className="custom-card-title-text">Autor/es</span>
-                    <p className="card-text custom-card-text ms-3">{content.authors.join("\r\n")}</p>
+                    <p className="card-text custom-card-text ms-3">{content.authors ? content.authors.join("\r\n") : "-"}</p>
                   </div>
                 </div>
                 {/* <hr className="mt-1 mb-1" /> */}
@@ -98,7 +105,7 @@ export class ContentSingle extends React.Component {
                 <div className="row">
                   <div className="col-xs-12 col-md-12">
                     <span className="custom-card-title-text">Titulación/es</span>
-                    <p className="card-text ms-3">{content.grades.length > 0 ? content.grades.join("\r\n") : "-"}</p>
+                    <p className="card-text ms-3">{content.grades ? content.grades.join("\r\n") : "-"}</p>
                   </div>
                 </div>
                 {/* <hr className="mt-1 mb-1" /> */}

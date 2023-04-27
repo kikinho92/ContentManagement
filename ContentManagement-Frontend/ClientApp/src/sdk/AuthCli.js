@@ -16,7 +16,7 @@ export default class AuthCli {
   static get jwtToken() { return "jwtToken" }
   static get jwtRefresh() { return "jwtRefresh" }
 
-  static get prefix() {return (!process.env.NODE_ENV || process.env.NODE_ENV  === 'development') ? 'https://localhost:9001/' : window.location.protocol + '//' + window.location.host + '/api/'}
+  static get prefix() {return ('http://localhost:8001/')}
 
 
   /**
@@ -102,7 +102,7 @@ export default class AuthCli {
     var body = window.localStorage.getItem(this.jwtRefresh)
 
     return fetch(this.prefix + path, this.getOptionsRequest(verb, body))
-      .then(response => response.status === 204 ? null : response.status == 200 ? response.json() : null)
+      .then(response => response.status === 204 ? null : response.status === 200 ? response.json() : null)
       .then(response => {
         if (response == null) return;
 

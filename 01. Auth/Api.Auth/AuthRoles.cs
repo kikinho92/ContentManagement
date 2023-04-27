@@ -1,5 +1,5 @@
-namespace Api.Auth{
-
+namespace Api.Auth
+{
     /// <summary>
     /// There are the hard-coded roles available in the system
     /// </summary>

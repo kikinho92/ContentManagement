@@ -46,7 +46,7 @@ export class ContentModal extends React.Component {
 
           ContentCli.GetTags(this.state.user.group.id).then(response => {
             if (response !== null && response.toString().startsWith("[ERROR")) {
-              this.setState({ tagsErrorMessage: response.substring(session.indexOf(' ')) })
+              this.setState({ tagsErrorMessage: response.substring(response.indexOf(' ')) })
             } else {
               this.setState({ tags: response })
             }
@@ -93,7 +93,7 @@ export class ContentModal extends React.Component {
 
   addItemList = (event) => {
     var name = event.target.name
-    if (event.target.tagName.toUpperCase() == "I") {
+    if (event.target.tagName.toUpperCase() === "I") {
       name = event.target.parentElement.name
     }
 

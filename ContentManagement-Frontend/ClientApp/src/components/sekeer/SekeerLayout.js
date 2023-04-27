@@ -58,7 +58,7 @@ export class SekeerLayout extends React.Component {
     this.setState({ pagesLoaded: 0, contents: [] }, () => {
       ContentCli.SearchContents(CONTENTS_PAGE_SIZE, this.state.pagesLoaded, this.state.currentSearch).then(response => {
         if (response !== null && response.toString().startsWith("[ERROR")) {
-          this.setState({ contentsErrorMessage: response.substring(session.indexOf(' ')) })
+          this.setState({ contentsErrorMessage: response.substring(response.indexOf(' ')) })
         } else {
           if (response.length > 0) {
             this.setState(previousState => ({

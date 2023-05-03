@@ -30,14 +30,9 @@ namespace ContentManagement_Frontend
                 configuration.RootPath = "ClientApp/build";
             });
 
-            //Allow requests from any base URL for debuf purposes.
-            services.AddCors(options =>
-            {
-                options.AddPolicy(name: "CustomCorsPolicy",
-                                policy =>
-                                {
-                                    policy.WithOrigins("http://localhost:8005","http://10.96.249.12:8005","https://localhost:8005","https://10.96.249.12:8005");
-                                });
+            //Allow requests from any base URL for debug purposes
+            services.AddCors(options =>{
+                options.AddDefaultPolicy(builder => { builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod(); });
             });
 
             //Lets the controller know the external URL used to reach it
@@ -62,7 +57,7 @@ namespace ContentManagement_Frontend
             }
             
             //Allow requests from any base URL for debug purposes
-            app.UseCors("CustomCorsPolicy");
+            app.UseCors();
             app.UseForwardedHeaders();
 
             app.UseHttpsRedirection();

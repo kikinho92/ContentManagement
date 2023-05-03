@@ -122,11 +122,10 @@ namespace Service.Auth
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Service.Auth v1"));
-
-                //Allow requests from any base URL for debug purposes
-                app.UseCors();
             }
 
+            //Allow requests from any base URL for debug purposes
+            app.UseCors();
             //Lets the controller know the external URL used to reach it
             app.UseForwardedHeaders();
             //app.UseHttpsRedirection();

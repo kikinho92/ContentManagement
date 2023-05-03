@@ -1,0 +1,66 @@
+version: '3.4'
+
+networks:
+  contentmanagement-network:
+
+services: 
+  frontend:
+    image: kikinho92/contentmanangement-frontend:latest
+    ports:
+      - "8005:80"
+    networks:
+      - contentmanagement-network
+    depends_on:
+      - sqlserver
+  auth-api:
+    image: kikinho92/contentmanangement-auth-api:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
+    ports:
+      - "8001:8001"
+    networks:
+      - contentmanagement-network
+    depends_on:
+      - sqlserver
+  user-api:
+    image: kikinho92/contentmanangement-user-api:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
+    ports:
+      - "8002:8002"
+    networks:
+      - contentmanagement-network
+    depends_on:
+      - sqlserver
+  content-api:
+    image: kikinho92/contentmanangement-content-api:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
+    ports:
+      - "8003:8003"
+    entrypoint: ["./wait-for-it.sh", "sqlserver:1433", "-t", "120", "--", "dotnet", "Service.Content.dll"]
+    networks:
+      - contentmanagement-network
+    depends_on:
+      - sqlserver
+  integration-api:
+    image: kikinho92/contentmanangement-integration-api:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
+    ports:
+      - "8004:8004"
+    networks:
+      - contentmanagement-network
+    depends_on:
+      - sqlserver
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - SA_PASSWORD=Tfg.1234
+      - ACCEPT_EULA=Y
+    networks:
+      contentmanagement-network:
+    ports:
+    - "1433:1433"
+
+    

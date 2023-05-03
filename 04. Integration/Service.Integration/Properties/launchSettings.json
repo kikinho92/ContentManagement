@@ -26,6 +26,16 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
+      "Service.Integration.Staging": {
+        "commandName": "Project",
+        "dotnetRunMessages": true,
+        "launchBrowser": true,
+        "launchUrl": "swagger",
+        "applicationUrl": "https://localhost:9004;http://localhost:8004",
+        "environmentVariables": {
+          "ASPNETCORE_ENVIRONMENT": "Staging"
+        }
+      },
       "Docker": {
         "commandName": "Docker",
         "launchBrowser": true,

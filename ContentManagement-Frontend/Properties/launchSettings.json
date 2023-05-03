@@ -24,6 +24,14 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
+    "ContentManagement_Frontend.Staging": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:9005;http://localhost:8005",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Staging"
+      }
+    },
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,

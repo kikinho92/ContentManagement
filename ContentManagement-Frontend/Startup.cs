@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +29,17 @@ namespace ContentManagement_Frontend
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+             //Allow requests from any base URL for debuf purposes.
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder => { builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod(); });
+            });
+
+            //Lets the controller know the external URL used to reach it
+            services.Configure<ForwardedHeadersOptions>(options => {
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +55,9 @@ namespace ContentManagement_Frontend
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            
+            //Allow requests from any base URL for debug purposes
+            app.UseCors();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

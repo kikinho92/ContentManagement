@@ -22,7 +22,12 @@ export default class UserCli {
   static get ROLE_ID_PATH() { return "roleId" }
   static get ROLE_NAME() { return "groupName" }
 
-  static get prefix() {return ('http://localhost:8002/')}
+  static get prefix() {
+    let protocol = window.location.protocol
+    let host = window.location.host.includes(':') ? window.location.host.split(':')[0] : window.location.host
+    return protocol + '//' + host + ':8002/'
+  }
+
   /**
    * Provides detailed information about all the users. In case of groupId is not null, it will be provide the user that belong to the group.
    * @param {string} groupId Unique internal identifier of the group

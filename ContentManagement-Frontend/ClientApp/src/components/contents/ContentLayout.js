@@ -35,7 +35,6 @@ export class ContentLayout extends React.Component {
       } else {
         console.log("session", session)
         UserCli.GetUser(session.userId).then(response => {
-          console.log("user", response)
           if (response !== null && response.toString().startsWith("ERROR")) {
             this.setState({ contentErrorMessage: response.substring(response.indexOf(' - ')) })
           } else {

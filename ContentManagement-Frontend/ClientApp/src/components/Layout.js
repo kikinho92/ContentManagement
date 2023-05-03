@@ -19,7 +19,6 @@ export class Layout extends Component {
     } 
     else {
       AuthCli.GetSessionInfoAsync().then(async session => {
-        console.log(session)
         if (session) this.setState({ session: session })
       })
     }

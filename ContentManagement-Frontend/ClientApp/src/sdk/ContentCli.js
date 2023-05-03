@@ -22,7 +22,12 @@ export default class ContentCli {
   static get UPLOAD_PATH() { return "upload" }
   static get USER_ID_PATH() { return "userid" }
   
-  static get prefix() {return ('http://localhost:8003/')}
+  static get prefix() {
+    let protocol = window.location.protocol
+    let host = window.location.host.includes(':') ? window.location.host.split(':')[0] : window.location.host
+    return protocol + '//' + host + ':8003/'
+  }
+
   /**
    * Provides detailed information about all the content. In case of tagId and group is not null, it will be provide the content that belong to the tag and group
    * @param {*} tagId Unique internal identifier of the tag
@@ -63,8 +68,6 @@ export default class ContentCli {
     var verb = "POST"
     var path = this.SERVICE_ROUTE + "/" + this.CONTENT_PATH
     var body = content
-
-    console.log("content", content)
   
     return AuthCli.Fetch(this.prefix + path, verb, body)
   }

@@ -21,7 +21,6 @@ export default class App extends Component {
   }
 
   handleSession = (session) => {
-    console.log("session APP", session)
     this.setState({ session: session })
   }
 

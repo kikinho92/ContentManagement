@@ -19,7 +19,6 @@ export class LoginLayout extends React.Component {
   checkCurrentSession = async () => {
     
     await AuthCli.GetSessionInfoAsync().then(async session => {
-      console.log("session", session)
       if (!session) {
         this.setState({loginErrorMessage: session.substring(session.indexOf(' '))})
       } else {

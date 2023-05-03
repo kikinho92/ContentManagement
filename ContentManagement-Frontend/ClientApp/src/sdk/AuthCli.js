@@ -16,8 +16,11 @@ export default class AuthCli {
   static get jwtToken() { return "jwtToken" }
   static get jwtRefresh() { return "jwtRefresh" }
 
-  static get prefix() {return ('http://localhost:8001/')}
-
+  static get prefix() {
+    let protocol = window.location.protocol
+    let host = window.location.host.includes(':') ? window.location.host.split(':')[0] : window.location.host
+    return protocol + '//' + host + ':8001/'
+  }
 
   /**
    * Admin is calling to register a new user providing the initial crentials

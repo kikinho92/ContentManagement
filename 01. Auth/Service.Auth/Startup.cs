@@ -105,7 +105,7 @@ namespace Service.Auth
 
             //Allow requests from any base URL for debug purposes
             services.AddCors(options =>{
-                options.AddDefaultPolicy(builder => { builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod(); });
+                options.AddDefaultPolicy(builder => { builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials(); });
             });
 
             //Lets the controller know the external URL used to reach it

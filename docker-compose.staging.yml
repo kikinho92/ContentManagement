@@ -13,7 +13,7 @@ services:
     depends_on:
       - sqlserver
   auth-api:
-    image: kikinho92/auth:latest
+    image: kikinho92/auth:v.1
     environment:
       - ASPNETCORE_ENVIRONMENT=Staging
     ports:

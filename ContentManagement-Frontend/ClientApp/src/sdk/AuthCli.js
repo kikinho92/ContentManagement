@@ -129,7 +129,6 @@ export default class AuthCli {
         method: verb,
         headers: {
           'Authorization': 'Bearer ' + jwtToken,
-          'Access-Control-Allow-Origin': '*',
           'culture': culture
         },
         body: body
@@ -140,7 +139,6 @@ export default class AuthCli {
         method: verb,
         headers: {
           'Content-type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
           'culture': culture
         }
       }
@@ -150,7 +148,6 @@ export default class AuthCli {
         headers: {
           'Content-type': 'application/json',
           'Authorization': 'Bearer ' + jwtToken,
-          'Access-Control-Allow-Origin': '*',
           'culture': culture
         }
       }
@@ -159,7 +156,6 @@ export default class AuthCli {
         method: verb,
         headers: {
           'Content-type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
           'culture': culture
         },
         body: JSON.stringify(body)
@@ -170,7 +166,6 @@ export default class AuthCli {
         headers: {
           'Content-type': 'application/json',
           'Authorization': 'Bearer ' + jwtToken,
-          'Access-Control-Allow-Origin': '*',
           'culture': culture
         },
         body: JSON.stringify(body)

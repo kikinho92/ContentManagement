@@ -31,10 +31,7 @@ namespace ContentManagement_Frontend
             });
 
              //Allow requests from any base URL for debuf purposes.
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(builder => { builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod(); });
-            });
+            services.AddCors(c => { c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin()); });
 
             //Lets the controller know the external URL used to reach it
             services.Configure<ForwardedHeadersOptions>(options => {
@@ -57,7 +54,7 @@ namespace ContentManagement_Frontend
             }
             
             //Allow requests from any base URL for debug purposes
-            app.UseCors();
+            app.UseCors(cors => cors.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

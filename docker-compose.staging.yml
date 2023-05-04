@@ -5,7 +5,7 @@ networks:
 
 services: 
   frontend:
-    image: kikinho92/frontend
+    image: kikinho92/frontend:v1
     ports:
       - "8005:80"
     networks:
@@ -13,7 +13,7 @@ services:
     depends_on:
       - sqlserver
   auth-api:
-    image: kikinho92/auth-api
+    image: kikinho92/auth-api:v1
     environment:
       - ASPNETCORE_ENVIRONMENT=Staging
     ports:
@@ -23,7 +23,7 @@ services:
     depends_on:
       - sqlserver
   user-api:
-    image: kikinho92/user-api
+    image: kikinho92/user-api:v1
     environment:
       - ASPNETCORE_ENVIRONMENT=Staging
     ports:
@@ -33,18 +33,17 @@ services:
     depends_on:
       - sqlserver
   content-api:
-    image: kikinho92/content-api
+    image: kikinho92/content-api:v1
     environment:
       - ASPNETCORE_ENVIRONMENT=Staging
     ports:
       - "8003:8003"
-    entrypoint: ["./wait-for-it.sh", "sqlserver:1433", "-t", "120", "--", "dotnet", "Service.Content.dll"]
     networks:
       - contentmanagement-network
     depends_on:
       - sqlserver
   integration-api:
-    image: kikinho92/integration-api
+    image: kikinho92/integration-api:v1
     environment:
       - ASPNETCORE_ENVIRONMENT=Staging
     ports:

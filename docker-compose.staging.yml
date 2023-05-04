@@ -5,7 +5,7 @@ networks:
 
 services: 
   frontend:
-    image: kikinho92/frontend:v1
+    image: kikinho92/frontend:v0.1
     ports:
       - "8005:80"
     networks:
@@ -13,7 +13,7 @@ services:
     depends_on:
       - sqlserver
   auth-api:
-    image: kikinho92/auth-api:v3
+    image: kikinho92/auth-api:v0.1
     environment:
       - ASPNETCORE_ENVIRONMENT=Staging
     ports:
@@ -23,7 +23,7 @@ services:
     depends_on:
       - sqlserver
   user-api:
-    image: kikinho92/user-api:v1
+    image: kikinho92/user-api:v0.1
     environment:
       - ASPNETCORE_ENVIRONMENT=Staging
     ports:
@@ -33,7 +33,7 @@ services:
     depends_on:
       - sqlserver
   content-api:
-    image: kikinho92/content-api:v2
+    image: kikinho92/content-api:v0.1
     environment:
       - ASPNETCORE_ENVIRONMENT=Staging
     ports:
@@ -43,7 +43,7 @@ services:
     depends_on:
       - sqlserver
   integration-api:
-    image: kikinho92/integration-api:v1
+    image: kikinho92/integration-api:v0.1
     environment:
       - ASPNETCORE_ENVIRONMENT=Staging
     ports:

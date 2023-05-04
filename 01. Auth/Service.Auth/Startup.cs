@@ -33,6 +33,8 @@ namespace Service.Auth
 
         public IConfiguration Configuration { get; }
 
+        private readonly string customCorsPolicy = "customCorsPolicy";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -104,8 +106,23 @@ namespace Service.Auth
             });
 
             //Allow requests from any base URL for debug purposes
-            services.AddCors(options =>{
+            /*services.AddCors(options =>{
                 options.AddDefaultPolicy(builder => { builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials(); });
+            } );*/
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: customCorsPolicy,
+                                policy  =>
+                                {
+                                    policy.WithOrigins("http://10.96.249.12",
+                                                        "http://10.96.249.12:8005",
+                                                        "http://localhost",
+                                                        "http://localhost:8005")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod()
+                                            .AllowCredentials();
+                                });
             });
 
             //Lets the controller know the external URL used to reach it
@@ -125,7 +142,7 @@ namespace Service.Auth
             }
 
             //Allow requests from any base URL for debug purposes
-            app.UseCors();
+            app.UseCors(customCorsPolicy);
             //Lets the controller know the external URL used to reach it
             app.UseForwardedHeaders();
             //app.UseHttpsRedirection();

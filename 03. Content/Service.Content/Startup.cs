@@ -35,9 +35,6 @@ namespace Service.Content
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            bool isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIROMENT") == "Development";
-            bool isStaging = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIROMENT") == "Staging";
-            
             //Database connection inizialization.
             string connectionString = Configuration.GetConnectionString("ContentDatabase");
             services.AddDbContext<ContentDbContext>(options => options.UseSqlServer(connectionString));
@@ -49,14 +46,12 @@ namespace Service.Content
             dbContext.Database.Migrate();
 
             //User client library. To make external call authenticated with internal-inter-service token
-            string userApiUrl = isStaging ? CommonConstantsStaging.SERVICE_LOCAL_URL_USER : CommonConstants.SERVICE_LOCAL_URL_USER;
-            UserCli user = new UserCli(userApiUrl, null);
+            UserCli user = new UserCli(CommonConstants.SERVICE_LOCAL_URL_USER, null);
             user.UseSession(JwtHelper.GenerateJwtToken(Program.SERVICE_TAG, Program.SERVICE_TAG, Program.SERVICE_TAG));
             services.AddSingleton<IUserApi>(user);
 
             //Content client library. To make external call authenticated with internal-inter-service token
-            string contentApiUrl = isStaging ? CommonConstantsStaging.SERVICE_LOCAL_URL_CONTENT : CommonConstants.SERVICE_LOCAL_URL_CONTENT;
-            ContentCli content = new ContentCli(contentApiUrl, null);
+            ContentCli content = new ContentCli(CommonConstants.SERVICE_LOCAL_URL_CONTENT, null);
             content.UseSession(JwtHelper.GenerateJwtToken(Program.SERVICE_TAG, Program.SERVICE_TAG, Program.SERVICE_TAG));
             services.AddSingleton<IContentApi>(content);
 

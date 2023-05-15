@@ -33,9 +33,6 @@ COPY ["04. Integration/Test.Service.Integration/Test.Service.Integration.csproj"
 COPY ["Library.Common/Library.Common.csproj", "Library.Common/"]
 COPY ["ContentManagement-Frontend/ContentManagement-Frontend.csproj", "ContentManagement-Frontend/"]
 
-#COPY ["01. Auth/Service.Auth/wait-for-it.sh", "01. Auth/Service.Auth/"]
-#RUN chmod +x "01. Auth/Service.Auth/wait-for-it.sh"
-
 RUN dotnet restore "01. Auth/Service.Auth/Service.Auth.csproj"  
 COPY . .
 

@@ -50,7 +50,6 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "8003:8003"
-    entrypoint: ["./wait-for-it.sh", "sqlserver:1433", "-t", "120", "--", "dotnet", "Service.Content.dll"]
     networks:
       - contentmanagement-network
     depends_on:

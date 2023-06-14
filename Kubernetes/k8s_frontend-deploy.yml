@@ -2,41 +2,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: contentmanangement-react
+  name: frontend
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: contentmanangement-react
+        app: frontend
     spec:
       containers:
-      - name: contentmanangement-react
-        image: kikinho92/contentmanangement-react:latest
+      - name: frontend
+        image: kikinho92/frontend:k8s
         ports:
         - containerPort: 8005
-        env:
-        - name: ASPNETCORE_URLS
-          value: http://*:8005
-        - name: AuthUrl
-          value: http://auth-api
-        - name: UserUrl
-          value: http://user-api
-        - name: ContentUrl
-          value: http://content-api
-        - name: IntegrationUrl
-          value: http://integration-api
   selector:
     matchLabels:
-      app: contentmanangement-react
+      app: frontend
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: contentmanangement-react
+  name: frontend-service
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - port: 8005
   selector:
-    app: contentmanangement-react
+    app: frontend

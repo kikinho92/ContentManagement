@@ -8,27 +8,27 @@ spec:
   template:
     metadata:
       labels:
-        app: contentmanangement-content-api
+        app: content-api
     spec:
       containers:
-      - name: contentmanangement-content-api
-        image: kikinho92/contentmanangement-content-api:latest
+      - name: content-api
+        image: kikinho92/content-api:k8s
         ports:
         - containerPort: 8003
         env:
-        - name: ASPNETCORE_URLS
-          value: http://*:8003
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
   selector:
     matchLabels:
-      app: contentmanangement-content-api
+      app: content-api
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: contentmanangement-content-api
+  name: content-service
 spec:
   type: ClusterIP
   ports:
   - port: 8003
   selector:
-    app: contentmanangement-content-api
+    app: content-api

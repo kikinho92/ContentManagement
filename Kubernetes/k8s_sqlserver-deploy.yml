@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqlserver
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sqlserver
+    spec:
+      containers:
+      - name: sqlserver
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        env:
+        - name: SA_PASSWORD
+          value: Tfg.1234
+        - name: ACCEPT_EULA
+          value: "Y"
+        ports:
+        - containerPort: 1433 
+  selector:
+    matchLabels:
+      app: sqlserver
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqlserver-service
+spec:
+  type: ClusterIP
+  ports:
+  - port: 1433
+  selector:
+    app: sqlserver

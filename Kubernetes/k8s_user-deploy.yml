@@ -8,27 +8,27 @@ spec:
   template:
     metadata:
       labels:
-        app: contentmanangement-user-api
+        app: user-api
     spec:
       containers:
-      - name: contentmanangement-user-api
-        image: kikinho92/contentmanangement-user-api:latest
+      - name: user-api
+        image: kikinho92/user-api:k8s
         ports:
         - containerPort: 8002
         env:
-        - name: ASPNETCORE_URLS
-          value: http://*:8002
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
   selector:
     matchLabels:
-      app: contentmanangement-user-api
+      app: user-api
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: contentmanangement-user-api
+  name: user-service
 spec:
   type: ClusterIP
   ports:
   - port: 8002
   selector:
-    app: contentmanangement-user-api
+    app: user

@@ -8,27 +8,27 @@ spec:
   template:
     metadata:
       labels:
-        app: contentmanangement-integration-api
+        app: integration-api
     spec:
       containers:
       - name: integration-api
-        image: kikinho92/contentmanangement-integration-api:latest
+        image: kikinho92/integration-api:k8s
         ports:
         - containerPort: 8004
         env:
-        - name: ASPNETCORE_URLS
-          value: http://*:8004
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
   selector:
     matchLabels:
-      app: contentmanangement-integration-api
+      app: integration-api
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: contentmanangement-integration-api
+  name: integration-service
 spec:
   type: ClusterIP
   ports:
   - port: 8004
   selector:
-    app: contentmanangement-integration-api
+    app: integration

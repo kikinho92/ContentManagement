@@ -8,27 +8,27 @@ spec:
   template:
     metadata:
       labels:
-        app: contentmanangement-auth-api
+        app: auth-api
     spec:
       containers:
-      - name: contentmanangement-auth-api
-        image: kikinho92/contentmanangement-auth-api:latest
+      - name: auth-api
+        image: kikinho92/auth-api:k8s
         ports:
         - containerPort: 8001
         env:
-        - name: ASPNETCORE_URLS
-          value: http://*:8001
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
   selector:
     matchLabels:
-      app: contentmanangement-auth-api
+      app: auth-api
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: contentmanangement-auth-api
+  name: auth-service
 spec:
   type: ClusterIP
   ports:
   - port: 8001
   selector:
-    app: contentmanangement-auth-api
+    app: auth-api

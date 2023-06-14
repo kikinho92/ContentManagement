@@ -1,0 +1,59 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oca-app
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: oca-app
+    spec:
+      containers:
+      - name: auth-api
+        image: kikinho92/auth-api:k8s
+        ports:
+        - containerPort: 8001
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
+      - name: user-api
+        image: kikinho92/user-api:k8s
+        ports:
+        - containerPort: 8002
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
+      - name: content-api
+        image: kikinho92/content-api:k8s
+        ports:
+        - containerPort: 8003
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
+      - name: integration-api
+        image: kikinho92/integration-api:k8s
+        ports:
+        - containerPort: 8004
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
+      - name: frontend
+        image: kikinho92/frontend:k8s
+        ports:
+        - containerPort: 8005
+  selector:
+    matchLabels:
+      app: oca-app
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: oca-app-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8005
+  selector:
+    app: oca-app-service
